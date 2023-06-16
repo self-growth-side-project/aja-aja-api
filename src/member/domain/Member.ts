@@ -1,4 +1,4 @@
-import { BaseTimeEntity } from './BaseTimeEntity';
+import { BaseTimeEntity } from '../../global/common/domain/BaseTimeEntity';
 
 export class Member extends BaseTimeEntity {
   private readonly email: string;
