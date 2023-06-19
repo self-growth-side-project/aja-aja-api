@@ -1,10 +1,11 @@
 import { Member } from '../../../src/member/domain/Member';
 import { StringUtil } from '../../../src/global/util/string.util';
+import { MemberRole } from '../../../src/member/domain/MemberRole';
 
 describe('Member', () => {
   let signUpMember: Member;
   beforeEach(async () => {
-    signUpMember = await Member.signUp(
+    signUpMember = await Member.signUpMember(
       'developerkgh@gmail.com',
       'a1234567!',
       mockPasswordEncrypter,
@@ -20,9 +21,9 @@ describe('Member', () => {
     },
   };
 
-  describe('signUp()', () => {
+  describe('signUpMember()', () => {
     it('회원 객체가 정상적으로 생성되는지 확인', async () => {
-      const member: Member = await Member.signUp(
+      const member: Member = await Member.signUpMember(
         'developerkgh@gmail.com',
         'a1234567!',
         mockPasswordEncrypter,
@@ -33,6 +34,10 @@ describe('Member', () => {
 
     it('회원의 비밀번호가 암호화가 잘되는지 확인', async () => {
       expect(signUpMember.password).toBe('!7654321a');
+    });
+
+    it('회원의 role 이 MEMBER 인지 확인', async () => {
+      expect(signUpMember.role).toBe(MemberRole.MEMBER);
     });
   });
   describe('isMatchPassword()', () => {
