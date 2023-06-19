@@ -15,19 +15,12 @@ export class Member extends BaseTimeEntity {
     this._role = role;
   }
 
-  public static async signUpMember(
-    email: string,
-    password: string,
-    encrypter: PasswordEncrypter,
-  ): Promise<Member> {
+  public static async signUpMember(email: string, password: string, encrypter: PasswordEncrypter): Promise<Member> {
     password = await encrypter.hash(password);
     return new Member(email, password, MemberRole.MEMBER);
   }
 
-  public async isMatchPassword(
-    password: string,
-    encrypter: PasswordEncrypter,
-  ): Promise<boolean> {
+  public async isMatchPassword(password: string, encrypter: PasswordEncrypter): Promise<boolean> {
     return await encrypter.match(password, this._password);
   }
 
