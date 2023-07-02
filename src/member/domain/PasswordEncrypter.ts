@@ -1,5 +1,5 @@
 interface PasswordEncrypter {
-  hash(password: string): Promise<string>;
+  hash(password: string): Promise<string | null>;
 
-  match(password: string, hashedPassword: string): Promise<boolean>;
+  match(password: string, hashedPassword: string | null): Promise<boolean>;
 }

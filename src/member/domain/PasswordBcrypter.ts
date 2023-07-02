@@ -1,11 +1,15 @@
 import { BcryptUtil } from '../../global/util/bcrypt.util';
 
 export class PasswordBcrypter implements PasswordEncrypter {
-  async hash(password: string): Promise<string> {
+  async hash(password: string): Promise<string | null> {
     return await BcryptUtil.hash(password);
   }
 
-  async match(password: string, hashedPassword: string): Promise<boolean> {
+  async match(password: string, hashedPassword: string | null): Promise<boolean> {
+    if (!hashedPassword) {
+      return password === hashedPassword;
+    }
+
     return await BcryptUtil.match(password, hashedPassword);
   }
 }

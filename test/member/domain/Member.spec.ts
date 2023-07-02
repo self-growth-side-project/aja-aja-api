@@ -9,7 +9,7 @@ describe('Member', () => {
   });
 
   const mockPasswordEncrypter: PasswordEncrypter = {
-    async hash(password: string): Promise<string> {
+    async hash(password: string): Promise<string | null> {
       return StringUtil.reverse(password);
     },
     async match(password: string, hashedPassword: string): Promise<boolean> {
