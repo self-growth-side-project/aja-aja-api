@@ -2,6 +2,8 @@ import { BaseTimeEntity } from '../../global/common/domain/BaseTimeEntity';
 import { MemberRole } from './MemberRole';
 
 export class Member extends BaseTimeEntity {
+  private readonly _id: number;
+
   private readonly _email: string;
 
   private readonly _password: string | null;
@@ -22,6 +24,10 @@ export class Member extends BaseTimeEntity {
 
   public async isMatchPassword(password: string, encrypter: PasswordEncrypter): Promise<boolean> {
     return await encrypter.match(password, this._password);
+  }
+
+  get id(): number {
+    return this._id;
   }
 
   get email(): string {
