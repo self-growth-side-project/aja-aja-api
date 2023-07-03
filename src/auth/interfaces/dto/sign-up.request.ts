@@ -1,5 +1,5 @@
 import { IsEmail, IsNotEmpty } from 'class-validator';
-import { IsPassword } from '../../../global/common/validator/password.validator';
+import { IsPassword } from '../../../global/common/decorator/validator.decorator';
 import { SignUpServiceDto } from '../../application/dto/sign-up.service.dto';
 
 export class SignUpRequest {

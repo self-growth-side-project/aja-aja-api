@@ -1,15 +1,19 @@
+import { LocalDateTime } from '@js-joda/core';
+import { LocalDateTimeToString } from '../decorator/transformer.decorator';
+
 export class BaseResponse<T> {
   code: number;
   message: string;
   data: T;
-  timestamp: Date;
+  @LocalDateTimeToString()
+  timestamp: LocalDateTime;
 
   public static successBaseResponse<U>(data: U): BaseResponse<U> {
     const response = new BaseResponse<U>();
     response.code = 200;
     response.message = 'OK';
     response.data = data;
-    response.timestamp = new Date();
+    response.timestamp = LocalDateTime.now();
 
     return response;
   }
@@ -19,7 +23,7 @@ export class BaseResponse<T> {
     response.code = code;
     response.message = message;
     response.data = data;
-    response.timestamp = new Date();
+    response.timestamp = LocalDateTime.now();
 
     return response;
   }
@@ -29,7 +33,7 @@ export class BaseResponse<T> {
     response.code = 200;
     response.message = 'OK';
     response.data = {};
-    response.timestamp = new Date();
+    response.timestamp = LocalDateTime.now();
 
     return response;
   }
