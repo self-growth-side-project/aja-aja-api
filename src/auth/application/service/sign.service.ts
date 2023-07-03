@@ -1,8 +1,9 @@
-import { HttpException, Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { SignUpServiceDto } from '../dto/sign-up.service.dto';
 import { Member } from '../../../member/domain/Member';
 import { PasswordBcrypter } from '../../domain/PasswordBcrypter';
 import { MemberCommandRepository } from '../../../member/domain/repository/member-command.repository';
+import { ConflictException } from '../../../global/exception/conflict.exception';
 
 @Injectable()
 export class SignService {
@@ -18,7 +19,7 @@ export class SignService {
 
     const isExist = await this.memberCommandRepository.existByEmail(member.email);
     if (isExist) {
-      throw new HttpException('중복일 수 없습니다.', 400);
+      throw new ConflictException(ConflictException.ErrorCodes.DUPLICATE_EMAIL);
     }
 
     return await this.memberCommandRepository.save(member);
