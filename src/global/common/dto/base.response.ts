@@ -5,7 +5,9 @@ export class BaseResponse<T> {
   public static readonly SUCCESS_CODE = 200;
 
   code: number;
+
   message: string;
+
   data: T;
 
   @LocalDateTimeToString()

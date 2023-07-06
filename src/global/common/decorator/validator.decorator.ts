@@ -4,6 +4,7 @@ import {
   ValidatorConstraint,
   ValidatorConstraintInterface,
 } from 'class-validator';
+import { ValidationMessage } from '../constant/validation.message';
 
 @ValidatorConstraint({ async: true })
 export class IsPasswordConstraint implements ValidatorConstraintInterface {
@@ -13,7 +14,7 @@ export class IsPasswordConstraint implements ValidatorConstraintInterface {
   }
 
   defaultMessage() {
-    return '영문+숫자+기호 조합으로 8자 이상 입력해 주세요.';
+    return ValidationMessage.password.isPassword;
   }
 }
 

@@ -1,19 +1,19 @@
-import { ArgumentsHost, Catch, ExceptionFilter, HttpException } from '@nestjs/common';
+import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus } from '@nestjs/common';
 import { BaseResponse } from '../common/dto/base.response';
 import { instanceToPlain } from 'class-transformer';
 
-@Catch(HttpException)
-export class HttpExceptionFilter implements ExceptionFilter {
+@Catch()
+export class GlobalExceptionFilter implements ExceptionFilter {
   catch(exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse();
 
-    const status = exception.getStatus();
+    const status = exception instanceof HttpException ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
 
     const baseResponse = BaseResponse.errorBaseResponse(
-      exception['response'].code,
+      exception['response'].code ?? status,
       exception['response'].message,
-      exception['response'].data,
+      exception['response'].data ?? {},
     );
 
     response.status(status).json(instanceToPlain(baseResponse));
