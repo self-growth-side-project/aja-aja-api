@@ -1,7 +1,7 @@
 export class ErrorCode {
   private readonly _code: number;
-
   private readonly _message: string;
+
   private constructor(code: number, message: string) {
     this._code = code;
     this._message = message;

@@ -1,5 +1,5 @@
 import { BaseException } from './base.exception';
-import { ErrorCode } from './error.code';
+import { ErrorCode } from './ErrorCode';
 import { HttpStatus } from '@nestjs/common';
 
 export class BadRequestException extends BaseException {
