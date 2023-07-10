@@ -12,4 +12,8 @@ export class MemberRole extends EnumType<MemberRole>() {
   get code(): string {
     return this._code;
   }
+
+  get name(): string {
+    return this._name;
+  }
 }

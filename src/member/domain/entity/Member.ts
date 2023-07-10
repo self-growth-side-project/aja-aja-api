@@ -1,5 +1,5 @@
-import { BaseTimeEntity } from '../../global/common/domain/BaseTimeEntity';
-import { MemberRole } from './MemberRole';
+import { BaseTimeEntity } from '../../../global/common/domain/BaseTimeEntity';
+import { MemberRole } from '../enum/MemberRole';
 
 export class Member extends BaseTimeEntity {
   private readonly _id: number | undefined;

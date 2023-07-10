@@ -1,6 +1,6 @@
-import { Member } from '../../../src/member/domain/Member';
-import { StringUtil } from '../../../src/global/util/string.util';
-import { MemberRole } from '../../../src/member/domain/MemberRole';
+import { Member } from '../../../../src/member/domain/entity/Member';
+import { StringUtil } from '../../../../src/global/util/string.util';
+import { MemberRole } from '../../../../src/member/domain/enum/MemberRole';
 
 describe('Member', () => {
   let signUpMember: Member;

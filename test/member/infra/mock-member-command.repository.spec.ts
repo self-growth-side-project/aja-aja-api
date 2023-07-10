@@ -1,6 +1,6 @@
-import { Member } from '../../../src/member/domain/Member';
+import { Member } from '../../../src/member/domain/entity/Member';
 import { MockMemberCommandRepository } from '../../../src/member/infra/mock-member-command.repository';
-import { MemberRole } from '../../../src/member/domain/MemberRole';
+import { MemberRole } from '../../../src/member/domain/enum/MemberRole';
 
 describe('MockMemberCommandRepository', () => {
   let member1: Member;

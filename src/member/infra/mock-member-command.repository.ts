@@ -1,5 +1,5 @@
 import { MemberCommandRepository } from '../domain/repository/member-command.repository';
-import { Member } from '../domain/Member';
+import { Member } from '../domain/entity/Member';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
