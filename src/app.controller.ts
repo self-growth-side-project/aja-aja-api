@@ -1,12 +1,11 @@
-import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
+import { Controller, Get, Version } from '@nestjs/common';
+import { BaseResponse } from './global/common/dto/base.response';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
-
+  @Version('1')
   @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  checkHealth(): BaseResponse<string> {
+    return BaseResponse.successBaseResponse('AJA-AJA API SERVER IS RUNNING...');
   }
 }

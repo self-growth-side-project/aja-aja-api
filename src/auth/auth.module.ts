@@ -2,18 +2,11 @@ import { Module } from '@nestjs/common';
 import { SignController } from './interfaces/controller/sign.controller';
 import { SignService } from './application/service/sign.service';
 import { PasswordBcrypter } from './domain/PasswordBcrypter';
-import { MockMemberCommandRepository } from '../member/infra/mock-member-command.repository';
+import { MemberModule } from '../member/member.module';
 
 @Module({
-  imports: [],
+  imports: [MemberModule],
   controllers: [SignController],
-  providers: [
-    SignService,
-    PasswordBcrypter,
-    {
-      provide: 'MemberCommandRepository',
-      useClass: MockMemberCommandRepository,
-    },
-  ],
+  providers: [SignService, PasswordBcrypter],
 })
 export class AuthModule {}

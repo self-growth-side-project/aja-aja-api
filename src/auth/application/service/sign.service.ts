@@ -10,7 +10,7 @@ export class SignService {
   constructor(
     private readonly passwordBcrypter: PasswordBcrypter,
 
-    @Inject('MemberCommandRepository')
+    @Inject('MockMemberCommandRepository')
     private readonly memberCommandRepository: MemberCommandRepository,
   ) {}
 
