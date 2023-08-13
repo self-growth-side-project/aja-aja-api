@@ -1,14 +1,21 @@
 import { BaseTimeEntity } from '../../../global/common/domain/BaseTimeEntity';
 import { MemberRole } from '../enum/MemberRole';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { MemberRoleTransformer } from '../transformer/MemberRoleTransformer';
 
+@Entity()
 export class Member extends BaseTimeEntity {
-  private readonly _id: number | undefined;
+  @PrimaryGeneratedColumn({ name: 'id', type: 'int', unsigned: true })
+  public readonly id: number | undefined;
 
-  private readonly _email: string;
+  @Column({ name: 'email', type: 'varchar', length: 320 })
+  public readonly email: string;
 
-  private readonly _password: string | null;
+  @Column({ name: 'password', type: 'varchar', length: 60 })
+  public readonly password: string | null;
 
-  private readonly _role: MemberRole;
+  @Column({ name: 'role', type: 'varchar', length: 10, transformer: new MemberRoleTransformer() })
+  public readonly role: MemberRole;
 
   private constructor(email: string, password: string | null, role: MemberRole);
 
@@ -16,10 +23,10 @@ export class Member extends BaseTimeEntity {
 
   private constructor(email: string, password: string | null, role: MemberRole, id?: number | undefined) {
     super();
-    this._email = email;
-    this._password = password;
-    this._role = role;
-    this._id = id;
+    this.email = email;
+    this.password = password;
+    this.role = role;
+    this.id = id;
   }
 
   public static of(email: string, password: string | null, role: MemberRole): Member;
@@ -36,22 +43,6 @@ export class Member extends BaseTimeEntity {
   }
 
   public async isMatchPassword(password: string, encrypter: PasswordEncrypter): Promise<boolean> {
-    return await encrypter.match(password, this._password);
-  }
-
-  get id(): number | undefined {
-    return this._id;
-  }
-
-  get email(): string {
-    return this._email;
-  }
-
-  get password(): string | null {
-    return this._password;
-  }
-
-  get role(): MemberRole {
-    return this._role;
+    return await encrypter.match(password, this.password);
   }
 }

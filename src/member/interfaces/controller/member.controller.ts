@@ -10,7 +10,6 @@ export class MemberController {
   @Version('1')
   @Get('/members/login-id-duplication')
   async checkLoginIdDuplication(@Query() request: CheckLoginIdRequest): Promise<BaseResponse<boolean>> {
-    await this.memberService.checkLoginIdDuplication(request.toServiceDto());
-    return BaseResponse.successBaseResponse(true);
+    return BaseResponse.successBaseResponse(await this.memberService.checkLoginIdDuplication(request.toServiceDto()));
   }
 }

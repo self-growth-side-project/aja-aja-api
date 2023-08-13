@@ -1,22 +1,24 @@
 import { Module } from '@nestjs/common';
 import { MemberController } from './interfaces/controller/member.controller';
 import { MemberService } from './application/service/member.service';
-import { MockMemberCommandRepository } from './infra/mock-member-command.repository';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Member } from './domain/entity/Member';
+import { TypeormMemberCommandRepository } from './infra/typeorm-member-command.repository';
 
 @Module({
-  imports: [],
+  imports: [TypeOrmModule.forFeature([Member])],
   controllers: [MemberController],
   providers: [
     MemberService,
     {
-      provide: 'MockMemberCommandRepository',
-      useClass: MockMemberCommandRepository,
+      provide: 'MemberCommandRepository',
+      useClass: TypeormMemberCommandRepository,
     },
   ],
   exports: [
     {
-      provide: 'MockMemberCommandRepository',
-      useClass: MockMemberCommandRepository,
+      provide: 'MemberCommandRepository',
+      useClass: TypeormMemberCommandRepository,
     },
   ],
 })

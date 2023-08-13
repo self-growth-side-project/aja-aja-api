@@ -1,5 +1,4 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
 export const TypeOrmConfig = (): TypeOrmModuleOptions => ({
   type: 'mysql',
@@ -9,8 +8,7 @@ export const TypeOrmConfig = (): TypeOrmModuleOptions => ({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
   entities: [__dirname + '/../../**/*.{js,ts}'],
-  logging: false,
-  synchronize: false,
+  logging: true,
+  synchronize: true,
   timezone: '+00:00',
-  namingStrategy: new SnakeNamingStrategy(),
 });
