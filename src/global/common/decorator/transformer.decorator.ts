@@ -1,18 +1,18 @@
 import { Transform } from 'class-transformer';
 import { TimeUtil } from '../../util/time.util';
 
-export function LocalDateTimeToString() {
+export function FromLocalDateTime() {
   return Transform(({ value }) => TimeUtil.toString(value), { toPlainOnly: true });
 }
 
-export function LocalDateTimeFromString() {
+export function ToLocalDateTime() {
   return Transform(({ value }) => TimeUtil.toLocalDateTimeBy(value), { toClassOnly: true });
 }
 
-export function LocalDateToString() {
+export function FromLocalDate() {
   return Transform(({ value }) => TimeUtil.toString(value), { toPlainOnly: true });
 }
 
-export function StringToLocalDate() {
+export function ToLocalDate() {
   return Transform(({ value }) => TimeUtil.toLocalDateBy(value), { toClassOnly: true });
 }

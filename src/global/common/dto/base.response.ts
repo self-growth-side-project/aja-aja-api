@@ -1,5 +1,5 @@
 import { LocalDateTime } from '@js-joda/core';
-import { LocalDateTimeToString } from '../decorator/transformer.decorator';
+import { FromLocalDateTime } from '../decorator/transformer.decorator';
 
 export class BaseResponse<T> {
   public static readonly SUCCESS_CODE = 200;
@@ -10,7 +10,7 @@ export class BaseResponse<T> {
 
   data: T;
 
-  @LocalDateTimeToString()
+  @FromLocalDateTime()
   timestamp: LocalDateTime;
 
   public static successBaseResponse<U>(data: U): BaseResponse<U> {
