@@ -1,7 +1,7 @@
-/*
 import { EmailService } from '../../common/domain/infra/email.service';
-import { ConflictException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { MailerService } from '@nestjs-modules/mailer';
+import { InternalServerException } from '../../exception/internal-server.exception';
 
 @Injectable()
 export class NodeMailerService implements EmailService {
@@ -13,14 +13,10 @@ export class NodeMailerService implements EmailService {
         //from: 'noreplay@gmail.com',
         subject: subject,
         text: content,
-        //html: '<b>Hello World</b>',
       })
-      .then(result => {
-        console.log(result);
-      })
-      .catch(error => {
-        new ConflictException(error);
+      .catch(e => {
+        console.log(e);
+        throw new InternalServerException(InternalServerException.ErrorCodes.FAILED_TO_SEND_EMAIL);
       });
   }
 }
-*/

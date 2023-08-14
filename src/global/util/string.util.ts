@@ -22,4 +22,12 @@ export class StringUtil {
 
     return value.replace(StringUtil.HYPHEN_REGEXP, '');
   }
+
+  public static fromNumber(value: number): string | null {
+    if (!value) {
+      return null;
+    }
+
+    return value.toString();
+  }
 }

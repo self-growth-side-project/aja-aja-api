@@ -1,5 +1,5 @@
 import { ValueTransformer } from 'typeorm';
-import { MemberRole } from '../enum/MemberRole';
+import { MemberRole } from '../../domain/enum/MemberRole';
 
 export class MemberRoleTransformer implements ValueTransformer {
   to(entityValue: MemberRole): string | null {

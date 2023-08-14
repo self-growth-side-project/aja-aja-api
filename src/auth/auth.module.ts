@@ -7,9 +7,13 @@ import { JwtTokenService } from './application/service/jwt-token.service';
 import { getJwtConfig } from '../global/config/jwt.config';
 import { AuthController } from './interfaces/controller/auth.controller';
 import { AuthService } from './application/service/auth.service';
+import { EmailModule } from '../global/infra/email/email.module';
+import { TypeormAuthCodeCommandRepository } from './infra/typeorm-auth-code-command.repository';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthCode } from './domain/entity/AuthCode';
 
 @Module({
-  imports: [MemberModule, getJwtConfig()],
+  imports: [TypeOrmModule.forFeature([AuthCode]), MemberModule, EmailModule, getJwtConfig()],
   controllers: [SignController, AuthController],
   providers: [
     SignService,
@@ -19,6 +23,10 @@ import { AuthService } from './application/service/auth.service';
     {
       provide: 'PasswordEncrypter',
       useClass: PasswordBcrypter,
+    },
+    {
+      provide: 'AuthCodeCommandRepository',
+      useClass: TypeormAuthCodeCommandRepository,
     },
   ],
 })

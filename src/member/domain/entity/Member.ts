@@ -1,12 +1,12 @@
 import { BaseTimeEntity } from '../../../global/common/domain/entity/BaseTimeEntity';
 import { MemberRole } from '../enum/MemberRole';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { MemberRoleTransformer } from '../transformer/MemberRoleTransformer';
+import { MemberRoleTransformer } from '../../infra/transformer/MemberRoleTransformer';
 
 @Entity()
 export class Member extends BaseTimeEntity {
   @PrimaryGeneratedColumn({ name: 'id', type: 'int', unsigned: true })
-  public readonly id: number | undefined;
+  public readonly id: number;
 
   @Column({ name: 'email', type: 'varchar', length: 320 })
   public readonly email: string;
@@ -19,14 +19,16 @@ export class Member extends BaseTimeEntity {
 
   private constructor(email: string, password: string | null, role: MemberRole);
 
-  private constructor(email: string, password: string | null, role: MemberRole, id?: number | undefined);
+  private constructor(email: string, password: string | null, role: MemberRole, id?: number);
 
-  private constructor(email: string, password: string | null, role: MemberRole, id?: number | undefined) {
+  private constructor(email: string, password: string | null, role: MemberRole, id?: number) {
     super();
     this.email = email;
     this.password = password;
     this.role = role;
-    this.id = id;
+    if (id) {
+      this.id = id;
+    }
   }
 
   public static of(email: string, password: string | null, role: MemberRole): Member;
