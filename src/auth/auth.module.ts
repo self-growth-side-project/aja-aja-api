@@ -5,12 +5,15 @@ import { PasswordBcrypter } from './domain/PasswordBcrypter';
 import { MemberModule } from '../member/member.module';
 import { JwtTokenService } from './application/service/jwt-token.service';
 import { getJwtConfig } from '../global/config/jwt.config';
+import { AuthController } from './interfaces/controller/auth.controller';
+import { AuthService } from './application/service/auth.service';
 
 @Module({
   imports: [MemberModule, getJwtConfig()],
-  controllers: [SignController],
+  controllers: [SignController, AuthController],
   providers: [
     SignService,
+    AuthService,
     PasswordBcrypter,
     JwtTokenService,
     {
