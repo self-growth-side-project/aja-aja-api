@@ -10,7 +10,6 @@ export class NodeMailerService implements EmailService {
     this.mailerService
       .sendMail({
         to: to,
-        //from: 'noreplay@gmail.com',
         subject: subject,
         text: content,
       })
