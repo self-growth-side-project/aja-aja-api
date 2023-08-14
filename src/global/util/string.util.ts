@@ -1,4 +1,6 @@
 export class StringUtil {
+  private static readonly HYPHEN_REGEXP = new RegExp('-', 'g');
+
   public static isEmpty(value: string | null | undefined): boolean {
     return !value || value.trim() === '';
   }
@@ -11,5 +13,13 @@ export class StringUtil {
     value = value as string;
 
     return value.split('').reverse().join('');
+  }
+
+  public static removeAllHyphens(value: string): string | null {
+    if (!value) {
+      return null;
+    }
+
+    return value.replace(StringUtil.HYPHEN_REGEXP, '');
   }
 }

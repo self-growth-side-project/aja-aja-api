@@ -24,4 +24,8 @@ export class MockMemberCommandRepository implements MemberCommandRepository {
     MockMemberCommandRepository.membersPool.clear();
     MockMemberCommandRepository.lastId = 0;
   }
+
+  async findByEmail(email: string): Promise<Member | null> {
+    return Array.from(MockMemberCommandRepository.membersPool.values()).find(member => member.email === email) || null;
+  }
 }

@@ -22,4 +22,8 @@ export class TypeormMemberCommandRepository implements MemberCommandRepository {
   async existByEmail(email: string): Promise<boolean> {
     return await this.memberRepository.exist({ where: { email: email } });
   }
+
+  async findByEmail(email: string): Promise<Member | null> {
+    return await this.memberRepository.findOne({ where: { email: email } });
+  }
 }

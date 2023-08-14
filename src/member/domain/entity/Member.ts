@@ -19,7 +19,7 @@ export class Member extends BaseTimeEntity {
 
   private constructor(email: string, password: string | null, role: MemberRole);
 
-  private constructor(email: string, password: string | null, role: MemberRole, id?: number);
+  private constructor(email: string, password: string | null, role: MemberRole, id?: number | undefined);
 
   private constructor(email: string, password: string | null, role: MemberRole, id?: number | undefined) {
     super();
