@@ -9,7 +9,7 @@ import { TypeOrmConfig } from './global/config/type-orm.config';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ envFilePath: `env/.env.${process.env.NODE_ENV?.toLowerCase()}` }),
+    ConfigModule.forRoot({ envFilePath: `env/.env.${process.env.NODE_ENV}` }),
     TypeOrmModule.forRootAsync({
       useFactory: TypeOrmConfig,
     }),
