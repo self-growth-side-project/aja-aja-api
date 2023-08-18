@@ -47,4 +47,8 @@ export class Member extends BaseTimeEntity {
   public async isMatchPassword(password: string, encrypter: PasswordEncrypter): Promise<boolean> {
     return await encrypter.match(password, this.password);
   }
+
+  public isEqualToEmail(email: string): boolean {
+    return this.email === email;
+  }
 }

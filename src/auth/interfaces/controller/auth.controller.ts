@@ -3,6 +3,7 @@ import { BaseResponse } from '../../../global/common/dto/base.response';
 import { SendCodeResetPasswordRequest } from '../dto/request/send-code-reset-password.request';
 import { AuthService } from '../../application/service/auth.service';
 import { VerifyCodeResetPasswordRequest } from '../dto/request/verify-code-reset-password.request';
+import { VerifyCodeResetPasswordResponse } from '../dto/response/verify-code-reset-password.response';
 
 @Controller('/auths')
 export class AuthController {
@@ -17,8 +18,13 @@ export class AuthController {
 
   @Version('1')
   @Post('/codes/reset-password/verifications')
-  async verifyAuthCodeByResetPassword(@Body() request: VerifyCodeResetPasswordRequest): Promise<BaseResponse<Void>> {
-    console.log(request);
-    return BaseResponse.voidBaseResponse();
+  async verifyAuthCodeByResetPassword(
+    @Body() request: VerifyCodeResetPasswordRequest,
+  ): Promise<BaseResponse<VerifyCodeResetPasswordResponse>> {
+    return BaseResponse.successBaseResponse(
+      VerifyCodeResetPasswordResponse.fromEntity(
+        await this.authService.verifyAuthCodeByResetPassword(request.toServiceDto()),
+      ),
+    );
   }
 }

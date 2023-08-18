@@ -1,8 +1,19 @@
-import { convert, DateTimeFormatter, LocalDate, LocalDateTime, nativeJs } from '@js-joda/core';
+import {
+  convert,
+  DateTimeFormatter,
+  LocalDate,
+  LocalDateTime,
+  LocalTime,
+  nativeJs,
+  ZonedDateTime,
+  ZoneId,
+} from '@js-joda/core';
 
 export class TimeUtil {
   private static DATE_FORMATTER = DateTimeFormatter.ofPattern('yyyy-MM-dd');
   private static DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern('yyyy-MM-dd HH:mm:ss');
+  private static UTC_ZONE_ID = ZoneId.of('UTC');
+  private static KST_ZONE_ID = ZoneId.of('Asia/Seoul');
 
   static toString(value: LocalDate | LocalDateTime): string | null {
     if (!value) {
@@ -51,5 +62,17 @@ export class TimeUtil {
     }
 
     return LocalDateTime.parse(strDate, TimeUtil.DATE_TIME_FORMATTER);
+  }
+
+  static getStartOfTodayInKSTAsUTC(): LocalDateTime {
+    return ZonedDateTime.of(LocalDateTime.of(LocalDate.now(TimeUtil.KST_ZONE_ID), LocalTime.MIN), TimeUtil.KST_ZONE_ID)
+      .withZoneSameInstant(TimeUtil.UTC_ZONE_ID)
+      .toLocalDateTime();
+  }
+
+  static getEndOfTodayInKSTAsUTC(): LocalDateTime {
+    return ZonedDateTime.of(LocalDateTime.of(LocalDate.now(TimeUtil.KST_ZONE_ID), LocalTime.MAX), TimeUtil.KST_ZONE_ID)
+      .withZoneSameInstant(TimeUtil.UTC_ZONE_ID)
+      .toLocalDateTime();
   }
 }

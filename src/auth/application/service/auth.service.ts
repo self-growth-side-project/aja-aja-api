@@ -5,7 +5,9 @@ import { EmailService } from '../../../global/common/domain/infra/email.service'
 import { AuthCodeCommandRepository } from '../../domain/repository/auth-code-command.repository';
 import { AuthCode } from '../../domain/entity/AuthCode';
 import { MemberCommandRepository } from '../../../member/domain/repository/member-command.repository';
-import { AuthCodeType } from '../../domain/enum/AuthCodeType';
+import { VerifyCodeResetPasswordServiceDto } from '../dto/verify-code-reset-password.service.dto';
+import { BadRequestException } from '../../../global/exception/bad-request.exception';
+import { TimeUtil } from '../../../global/util/time.util';
 
 @Injectable()
 export class AuthService {
@@ -27,10 +29,10 @@ export class AuthService {
       throw new NotFoundException(NotFoundException.ErrorCodes.NOT_FOUND_MEMBER);
     }
 
-    const foundAuthCode = await this.authCodeCommandRepository.findByMemberIdAndType(
-      foundMember.id,
-      AuthCodeType.RESET_PASSWORD_EMAIL_AUTH_CODE,
-    );
+    console.log(TimeUtil.getStartOfTodayInKSTAsUTC());
+    console.log(TimeUtil.getEndOfTodayInKSTAsUTC());
+
+    const foundAuthCode = null;
 
     if (foundAuthCode) {
       await this.authCodeCommandRepository.remove(foundAuthCode);
@@ -41,5 +43,32 @@ export class AuthService {
     await this.authCodeCommandRepository.save(authCode);
 
     this.emailService.send('developerkgh@gmail.com', '인증번호', authCode.code);
+  }
+
+  async verifyAuthCodeByResetPassword(dto: VerifyCodeResetPasswordServiceDto): Promise<AuthCode> {
+    const foundAuthCode: AuthCode | null = await this.authCodeCommandRepository.findByCode(dto.code);
+
+    if (!foundAuthCode) {
+      throw new BadRequestException(BadRequestException.ErrorCodes.FAILED_TO_VERIFY_AUTH_CODE);
+    }
+
+    foundAuthCode.verify(dto.email);
+
+    await this.authCodeCommandRepository.remove(foundAuthCode);
+
+    /*    const foundToken = await this.authCodeCommandRepository.findByMemberIdAndType(
+      foundAuthCode.member.id,
+      AuthCodeType.RESET_PASSWORD_TOKEN,
+    );*/
+
+    const foundToken = null;
+
+    if (foundToken) {
+      await this.authCodeCommandRepository.remove(foundToken);
+    }
+
+    const token = AuthCode.createResetPasswordToken(foundAuthCode.member);
+
+    return await this.authCodeCommandRepository.save(token);
   }
 }
