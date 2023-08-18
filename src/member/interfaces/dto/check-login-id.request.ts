@@ -1,13 +1,13 @@
 import { IsEmail, IsNotEmpty } from 'class-validator';
 import { ValidationMessage } from '../../../global/common/constant/validation.message';
-import { CheckLoginIdServiceDto } from '../../application/dto/check-login-id.service.dto';
+import { CheckEmailDuplicationServiceDto } from '../../application/dto/check-email-duplication-service.dto';
 
-export class CheckLoginIdRequest {
+export class CheckEmailDuplicationRequest {
   @IsNotEmpty({ message: ValidationMessage.email.isEmpty })
   @IsEmail({}, { message: ValidationMessage.email.isEmail })
-  loginId: string;
+  email: string;
 
-  public toServiceDto(): CheckLoginIdServiceDto {
-    return CheckLoginIdServiceDto.of(this.loginId);
+  public toServiceDto(): CheckEmailDuplicationServiceDto {
+    return CheckEmailDuplicationServiceDto.of(this.email);
   }
 }

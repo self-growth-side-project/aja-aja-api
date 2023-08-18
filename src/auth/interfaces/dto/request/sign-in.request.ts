@@ -6,12 +6,12 @@ import { SignInServiceDto } from '../../../application/dto/sign-in.service.dto';
 export class SignInRequest {
   @IsNotEmpty({ message: ValidationMessage.email.isEmpty })
   @IsEmail({}, { message: ValidationMessage.email.isEmail })
-  public loginId!: string;
+  public email!: string;
 
   @IsPassword()
   public password!: string;
 
   public toServiceDto(): SignInServiceDto {
-    return SignInServiceDto.of(this.loginId, this.password);
+    return SignInServiceDto.of(this.email, this.password);
   }
 }

@@ -5,9 +5,9 @@ import { SendCodeResetPasswordServiceDto } from '../../../application/dto/send-c
 export class SendCodeResetPasswordRequest {
   @IsNotEmpty({ message: ValidationMessage.email.isEmpty })
   @IsEmail({}, { message: ValidationMessage.email.isEmail })
-  public loginId!: string;
+  public email!: string;
 
   public toServiceDto(): SendCodeResetPasswordServiceDto {
-    return SendCodeResetPasswordServiceDto.of(this.loginId);
+    return SendCodeResetPasswordServiceDto.of(this.email);
   }
 }

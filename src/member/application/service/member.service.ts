@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { CheckLoginIdServiceDto } from '../dto/check-login-id.service.dto';
+import { CheckEmailDuplicationServiceDto } from '../dto/check-email-duplication-service.dto';
 import { MemberCommandRepository } from '../../domain/repository/member-command.repository';
 
 @Injectable()
@@ -9,7 +9,7 @@ export class MemberService {
     private readonly memberCommandRepository: MemberCommandRepository,
   ) {}
 
-  async checkLoginIdDuplication(dto: CheckLoginIdServiceDto): Promise<boolean> {
-    return await this.memberCommandRepository.existByEmail(dto.loginId);
+  async checkEmailDuplication(dto: CheckEmailDuplicationServiceDto): Promise<boolean> {
+    return await this.memberCommandRepository.existByEmail(dto.email);
   }
 }

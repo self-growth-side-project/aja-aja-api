@@ -1,8 +1,8 @@
 import { Body, Controller, Post, Version } from '@nestjs/common';
-import { SignUpRequest } from '../dto/request/sign-up.request';
 import { BaseResponse } from '../../../global/common/dto/base.response';
 import { SendCodeResetPasswordRequest } from '../dto/request/send-code-reset-password.request';
 import { AuthService } from '../../application/service/auth.service';
+import { VerifyCodeResetPasswordRequest } from '../dto/request/verify-code-reset-password.request';
 
 @Controller('/auths')
 export class AuthController {
@@ -17,7 +17,7 @@ export class AuthController {
 
   @Version('1')
   @Post('/codes/reset-password/verifications')
-  async verifyAuthCodeByResetPassword(@Body() request: SignUpRequest): Promise<BaseResponse<Void>> {
+  async verifyAuthCodeByResetPassword(@Body() request: VerifyCodeResetPasswordRequest): Promise<BaseResponse<Void>> {
     console.log(request);
     return BaseResponse.voidBaseResponse();
   }
