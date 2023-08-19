@@ -8,6 +8,7 @@ import { RandomUtil } from '../../../global/util/random.util';
 import { StringUtil } from '../../../global/util/string.util';
 import { InternalServerException } from '../../../global/exception/internal-server.exception';
 import { BadRequestException } from '../../../global/exception/bad-request.exception';
+import { BooleanTransformer } from '../../../global/common/domain/transformer/boolean.transformer';
 
 @Entity()
 export class AuthCode {
@@ -30,8 +31,11 @@ export class AuthCode {
   @Column({ name: 'expires_at', type: 'timestamp', transformer: new LocalDateTimeTransformer() })
   public readonly expiresAt: LocalDateTime;
 
+  @Column({ name: 'is_verified', type: 'tinyint', default: false, transformer: new BooleanTransformer() })
+  public isVerified: boolean;
+
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', transformer: new LocalDateTimeTransformer() })
-  createdAt: LocalDateTime;
+  public createdAt: LocalDateTime;
 
   @BeforeInsert()
   protected beforeInsert() {
@@ -70,6 +74,10 @@ export class AuthCode {
   }
 
   public verify(email: string): void {
+    if (this.isVerified) {
+      throw new BadRequestException(BadRequestException.ErrorCodes.FAILED_TO_VERIFY_AUTH_CODE);
+    }
+
     if (!this.isEqualToEmail(email)) {
       throw new BadRequestException(BadRequestException.ErrorCodes.FAILED_TO_VERIFY_AUTH_CODE);
     }
@@ -77,6 +85,8 @@ export class AuthCode {
     if (LocalDateTime.now().isAfter(this.expiresAt)) {
       throw new BadRequestException(BadRequestException.ErrorCodes.FAILED_TO_VERIFY_AUTH_CODE);
     }
+
+    this.isVerified = true;
   }
 
   private isEqualToEmail(email: string): boolean {

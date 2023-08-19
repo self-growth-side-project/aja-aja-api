@@ -9,6 +9,7 @@ import { VerifyCodeResetPasswordServiceDto } from '../dto/verify-code-reset-pass
 import { BadRequestException } from '../../../global/exception/bad-request.exception';
 import { AuthCodeType } from '../../domain/enum/AuthCodeType';
 import { TooManyRequestsException } from '../../../global/exception/too-many-requests.exception';
+import { Member } from '../../../member/domain/entity/Member';
 
 @Injectable()
 export class AuthService {
@@ -24,7 +25,7 @@ export class AuthService {
   ) {}
 
   async sendCodeToResetPassword(dto: SendCodeResetPasswordServiceDto): Promise<void> {
-    const foundMember = await this.memberCommandRepository.findByEmail(dto.email);
+    const foundMember: Member | null = await this.memberCommandRepository.findByEmail(dto.email);
 
     if (!foundMember) {
       throw new NotFoundException(NotFoundException.ErrorCodes.NOT_FOUND_MEMBER);
@@ -57,18 +58,7 @@ export class AuthService {
 
     foundAuthCode.verify(dto.email);
 
-    await this.authCodeCommandRepository.remove(foundAuthCode);
-
-    /*    const foundToken = await this.authCodeCommandRepository.findByMemberIdAndType(
-      foundAuthCode.member.id,
-      AuthCodeType.RESET_PASSWORD_TOKEN,
-    );*/
-
-    const foundToken = null;
-
-    if (foundToken) {
-      await this.authCodeCommandRepository.remove(foundToken);
-    }
+    await this.authCodeCommandRepository.save(foundAuthCode);
 
     const token = AuthCode.createResetPasswordToken(foundAuthCode.member);
 
