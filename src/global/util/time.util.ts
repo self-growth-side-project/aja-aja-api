@@ -8,6 +8,7 @@ import {
   ZonedDateTime,
   ZoneId,
 } from '@js-joda/core';
+import '@js-joda/timezone';
 
 export class TimeUtil {
   private static DATE_FORMATTER = DateTimeFormatter.ofPattern('yyyy-MM-dd');

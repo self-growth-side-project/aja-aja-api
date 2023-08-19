@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { AuthCodeCommandRepository } from '../domain/repository/auth-code-command.repository';
 import { AuthCode } from '../domain/entity/AuthCode';
 import { AuthCodeType } from '../domain/enum/AuthCodeType';
+import { TimeUtil } from '../../global/util/time.util';
 
 @Injectable()
 export class TypeormAuthCodeCommandRepository implements AuthCodeCommandRepository {
@@ -17,17 +18,16 @@ export class TypeormAuthCodeCommandRepository implements AuthCodeCommandReposito
   }
 
   async findAllByMemberIdAndTypeAndCreatedAtToday(memberId: number, type: AuthCodeType): Promise<AuthCode[]> {
-    //const startOfToday = LocalDateTime.of(LocalDate.now(), LocalTime.MIN);
-    //const endOfToday = LocalDateTime.of(LocalDate.now(), LocalTime.MAX);
-    /*    return await this.authCodeRepository.find({
+    const from = TimeUtil.getStartOfTodayInKSTAsUTC();
+    const to = TimeUtil.getEndOfTodayInKSTAsUTC();
+
+    return await this.authCodeRepository.find({
       where: {
         'member.id': memberId,
         type: type,
-        createdAt: Between(startOfToday, endOfToday),
+        createdAt: Between(from, to),
       },
-    });*/
-    console.log(memberId, type);
-    return [];
+    } as any);
   }
 
   async findByCode(code: string): Promise<AuthCode | null> {

@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@js-joda/core": "^5.5.3",
+    "@js-joda/timezone": "^2.18.0",
     "@nestjs-modules/mailer": "^1.9.1",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^3.0.0",

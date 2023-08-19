@@ -7,7 +7,8 @@ import { AuthCode } from '../../domain/entity/AuthCode';
 import { MemberCommandRepository } from '../../../member/domain/repository/member-command.repository';
 import { VerifyCodeResetPasswordServiceDto } from '../dto/verify-code-reset-password.service.dto';
 import { BadRequestException } from '../../../global/exception/bad-request.exception';
-import { TimeUtil } from '../../../global/util/time.util';
+import { AuthCodeType } from '../../domain/enum/AuthCodeType';
+import { TooManyRequestsException } from '../../../global/exception/too-many-requests.exception';
 
 @Injectable()
 export class AuthService {
@@ -29,13 +30,15 @@ export class AuthService {
       throw new NotFoundException(NotFoundException.ErrorCodes.NOT_FOUND_MEMBER);
     }
 
-    console.log(TimeUtil.getStartOfTodayInKSTAsUTC());
-    console.log(TimeUtil.getEndOfTodayInKSTAsUTC());
+    const foundAuthCode = await this.authCodeCommandRepository.findAllByMemberIdAndTypeAndCreatedAtToday(
+      foundMember.id,
+      AuthCodeType.RESET_PASSWORD_EMAIL_AUTH_CODE,
+    );
 
-    const foundAuthCode = null;
-
-    if (foundAuthCode) {
-      await this.authCodeCommandRepository.remove(foundAuthCode);
+    if (foundAuthCode.length === 10) {
+      throw new TooManyRequestsException(
+        TooManyRequestsException.ErrorCodes.RESET_PASSWORD_EMAIL_REQUEST_LIMIT_EXCEEDED,
+      );
     }
 
     const authCode = AuthCode.createResetPasswordEmailAuthCode(foundMember);
