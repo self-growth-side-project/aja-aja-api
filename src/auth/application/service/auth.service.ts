@@ -10,6 +10,7 @@ import { BadRequestException } from '../../../global/exception/bad-request.excep
 import { AuthCodeType } from '../../domain/enum/AuthCodeType';
 import { TooManyRequestsException } from '../../../global/exception/too-many-requests.exception';
 import { Member } from '../../../member/domain/entity/member.entity';
+import { Transactional } from '../../../global/common/decorator/transactional.decorator';
 
 @Injectable()
 export class AuthService {
@@ -17,13 +18,14 @@ export class AuthService {
     @Inject('MemberCommandRepository')
     private readonly memberCommandRepository: MemberCommandRepository,
 
-    @Inject('AuthCodeCommandRepository')
+    @Inject(AuthCodeCommandRepository)
     private readonly authCodeCommandRepository: AuthCodeCommandRepository,
 
     @Inject('EmailService')
     private readonly emailService: EmailService,
   ) {}
 
+  @Transactional()
   async sendCodeToResetPassword(dto: SendCodeResetPasswordServiceDto): Promise<void> {
     const foundMember: Member | null = await this.memberCommandRepository.findByEmail(dto.email);
 

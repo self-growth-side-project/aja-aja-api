@@ -10,9 +10,10 @@ import { InternalServerException } from '../../../global/exception/internal-serv
 import { BadRequestException } from '../../../global/exception/bad-request.exception';
 import { BooleanTransformer } from '../../../global/common/domain/transformer/boolean.transformer';
 import { BigintTransformer } from '../../../global/common/domain/transformer/bigint.transformer';
+import { BaseEntity } from '../../../global/common/domain/entity/base.entity';
 
 @Entity()
-export class AuthCode {
+export class AuthCode extends BaseEntity {
   private static readonly RESET_PASSWORD_EMAIL_AUTH_CODE_EXPIRATION = 30;
   private static readonly RESET_PASSWORD_TOKEN_EXPIRATION = 10;
 
@@ -45,6 +46,7 @@ export class AuthCode {
   }
 
   private constructor(member: Member, type: AuthCodeType, code: string, expiresAt: LocalDateTime) {
+    super();
     this.member = member;
     this.type = type;
     this.code = code;

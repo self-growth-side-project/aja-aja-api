@@ -11,6 +11,8 @@ import { EmailModule } from '../global/infra/email/email.module';
 import { TypeormAuthCodeCommandRepository } from './infra/typeorm-auth-code-command.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthCode } from './domain/entity/auth-code.entity';
+import { AuthCodeCommandRepository } from './domain/repository/auth-code-command.repository';
+import { TransactionManager } from '../global/util/transaction-manager.util';
 
 @Module({
   imports: [TypeOrmModule.forFeature([AuthCode]), MemberModule, EmailModule, getJwtConfig()],
@@ -20,12 +22,13 @@ import { AuthCode } from './domain/entity/auth-code.entity';
     AuthService,
     PasswordBcrypter,
     JwtTokenService,
+    TransactionManager,
     {
       provide: 'PasswordEncrypter',
       useClass: PasswordBcrypter,
     },
     {
-      provide: 'AuthCodeCommandRepository',
+      provide: AuthCodeCommandRepository,
       useClass: TypeormAuthCodeCommandRepository,
     },
   ],

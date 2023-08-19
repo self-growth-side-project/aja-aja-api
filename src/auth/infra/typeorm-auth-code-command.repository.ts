@@ -1,27 +1,25 @@
 import { Injectable } from '@nestjs/common';
-import { Between, Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
+import { Between, EntityTarget } from 'typeorm';
 import { AuthCodeCommandRepository } from '../domain/repository/auth-code-command.repository';
 import { AuthCode } from '../domain/entity/auth-code.entity';
 import { AuthCodeType } from '../domain/enum/AuthCodeType';
 import { TimeUtil } from '../../global/util/time.util';
+import { BaseTypeormRepository } from '../../global/common/domain/infra/base-typeorm.repository';
 
 @Injectable()
-export class TypeormAuthCodeCommandRepository implements AuthCodeCommandRepository {
-  constructor(
-    @InjectRepository(AuthCode)
-    private readonly authCodeRepository: Repository<AuthCode>,
-  ) {}
-
-  async save(authCode: AuthCode): Promise<AuthCode> {
-    return await this.authCodeRepository.save(authCode);
+export class TypeormAuthCodeCommandRepository
+  extends BaseTypeormRepository<AuthCode>
+  implements AuthCodeCommandRepository
+{
+  getName(): EntityTarget<AuthCode> {
+    return AuthCode.name;
   }
 
   async findAllByMemberIdAndTypeAndCreatedAtToday(memberId: number, type: AuthCodeType): Promise<AuthCode[]> {
     const from = TimeUtil.getStartOfTodayInKSTAsUTC();
     const to = TimeUtil.getEndOfTodayInKSTAsUTC();
 
-    return await this.authCodeRepository.find({
+    return await this.getRepository().find({
       where: {
         'member.id': memberId,
         type: type,
@@ -31,10 +29,6 @@ export class TypeormAuthCodeCommandRepository implements AuthCodeCommandReposito
   }
 
   async findByCode(code: string): Promise<AuthCode | null> {
-    return await this.authCodeRepository.findOne({ where: { code: code } } as any);
-  }
-
-  async remove(authCode: AuthCode): Promise<void> {
-    await this.authCodeRepository.remove(authCode);
+    return await this.getRepository().findOne({ where: { code: code } } as any);
   }
 }

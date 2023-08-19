@@ -1,4 +1,4 @@
-import { BaseTimeEntity } from '../../../global/common/domain/entity/BaseTimeEntity';
+import { BaseTimeEntity } from '../../../global/common/domain/entity/base-time.entity';
 import { MemberRole } from '../enum/MemberRole';
 import { Column, Entity, Generated, PrimaryColumn } from 'typeorm';
 import { MemberRoleTransformer } from '../../infra/transformer/MemberRoleTransformer';
