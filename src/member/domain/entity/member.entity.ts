@@ -1,11 +1,13 @@
 import { BaseTimeEntity } from '../../../global/common/domain/entity/BaseTimeEntity';
 import { MemberRole } from '../enum/MemberRole';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Generated, PrimaryColumn } from 'typeorm';
 import { MemberRoleTransformer } from '../../infra/transformer/MemberRoleTransformer';
+import { BigintTransformer } from '../../../global/common/domain/transformer/bigint.transformer';
 
 @Entity()
 export class Member extends BaseTimeEntity {
-  @PrimaryGeneratedColumn({ name: 'id', type: 'int', unsigned: true })
+  @Generated('increment')
+  @PrimaryColumn({ name: 'id', type: 'bigint', unsigned: true, transformer: new BigintTransformer() })
   public readonly id: number;
 
   @Column({ name: 'email', type: 'varchar', length: 320 })

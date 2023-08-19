@@ -1,4 +1,4 @@
-import { BeforeInsert, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { BeforeInsert, Column, Entity, Generated, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
 import { LocalDateTimeTransformer } from '../../../global/common/domain/transformer/local-date-time.transformer';
 import { LocalDateTime } from '@js-joda/core';
 import { Member } from '../../../member/domain/entity/member.entity';
@@ -9,13 +9,15 @@ import { StringUtil } from '../../../global/util/string.util';
 import { InternalServerException } from '../../../global/exception/internal-server.exception';
 import { BadRequestException } from '../../../global/exception/bad-request.exception';
 import { BooleanTransformer } from '../../../global/common/domain/transformer/boolean.transformer';
+import { BigintTransformer } from '../../../global/common/domain/transformer/bigint.transformer';
 
 @Entity()
 export class AuthCode {
   private static readonly RESET_PASSWORD_EMAIL_AUTH_CODE_EXPIRATION = 30;
   private static readonly RESET_PASSWORD_TOKEN_EXPIRATION = 10;
 
-  @PrimaryGeneratedColumn({ name: 'id', type: 'int', unsigned: true })
+  @Generated('increment')
+  @PrimaryColumn({ name: 'id', type: 'bigint', unsigned: true, transformer: new BigintTransformer() })
   public readonly id: number;
 
   @ManyToOne(() => Member, { onDelete: 'CASCADE', eager: true })
