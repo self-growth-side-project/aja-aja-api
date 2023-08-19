@@ -1,4 +1,4 @@
-import { Member } from '../../../../src/member/domain/entity/Member';
+import { Member } from '../../../../src/member/domain/entity/member.entity';
 import { StringUtil } from '../../../../src/global/util/string.util';
 import { MemberRole } from '../../../../src/member/domain/enum/MemberRole';
 

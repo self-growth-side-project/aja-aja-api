@@ -1,5 +1,5 @@
 import { MemberCommandRepository } from '../domain/repository/member-command.repository';
-import { Member } from '../domain/entity/Member';
+import { Member } from '../domain/entity/member.entity';
 import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';

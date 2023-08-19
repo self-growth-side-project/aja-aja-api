@@ -10,7 +10,7 @@ import { AuthService } from './application/service/auth.service';
 import { EmailModule } from '../global/infra/email/email.module';
 import { TypeormAuthCodeCommandRepository } from './infra/typeorm-auth-code-command.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthCode } from './domain/entity/AuthCode';
+import { AuthCode } from './domain/entity/auth-code.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([AuthCode]), MemberModule, EmailModule, getJwtConfig()],

@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { SignUpServiceDto } from '../dto/sign-up.service.dto';
-import { Member } from '../../../member/domain/entity/Member';
+import { Member } from '../../../member/domain/entity/member.entity';
 import { PasswordBcrypter } from '../../domain/PasswordBcrypter';
 import { MemberCommandRepository } from '../../../member/domain/repository/member-command.repository';
 import { ConflictException } from '../../../global/exception/conflict.exception';

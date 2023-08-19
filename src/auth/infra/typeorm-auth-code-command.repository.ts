@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Between, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AuthCodeCommandRepository } from '../domain/repository/auth-code-command.repository';
-import { AuthCode } from '../domain/entity/AuthCode';
+import { AuthCode } from '../domain/entity/auth-code.entity';
 import { AuthCodeType } from '../domain/enum/AuthCodeType';
 import { TimeUtil } from '../../global/util/time.util';
 

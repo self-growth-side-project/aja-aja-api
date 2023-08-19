@@ -3,13 +3,13 @@ import { SendCodeResetPasswordServiceDto } from '../dto/send-code-reset-password
 import { NotFoundException } from '../../../global/exception/not-found.exception';
 import { EmailService } from '../../../global/common/domain/infra/email.service';
 import { AuthCodeCommandRepository } from '../../domain/repository/auth-code-command.repository';
-import { AuthCode } from '../../domain/entity/AuthCode';
+import { AuthCode } from '../../domain/entity/auth-code.entity';
 import { MemberCommandRepository } from '../../../member/domain/repository/member-command.repository';
 import { VerifyCodeResetPasswordServiceDto } from '../dto/verify-code-reset-password.service.dto';
 import { BadRequestException } from '../../../global/exception/bad-request.exception';
 import { AuthCodeType } from '../../domain/enum/AuthCodeType';
 import { TooManyRequestsException } from '../../../global/exception/too-many-requests.exception';
-import { Member } from '../../../member/domain/entity/Member';
+import { Member } from '../../../member/domain/entity/member.entity';
 
 @Injectable()
 export class AuthService {

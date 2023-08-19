@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Member } from '../../../member/domain/entity/Member';
+import { Member } from '../../../member/domain/entity/member.entity';
 import { JwtService } from '@nestjs/jwt';
 import { TokenPayloadServiceDto } from '../dto/token-payload.service.dto';
 import { NotFoundException } from '../../../global/exception/not-found.exception';

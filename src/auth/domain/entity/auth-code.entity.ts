@@ -1,7 +1,7 @@
 import { BeforeInsert, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { LocalDateTimeTransformer } from '../../../global/common/domain/transformer/local-date-time.transformer';
 import { LocalDateTime } from '@js-joda/core';
-import { Member } from '../../../member/domain/entity/Member';
+import { Member } from '../../../member/domain/entity/member.entity';
 import { AuthCodeTypeTransformer } from '../../infra/transformer/MemberRoleTransformer';
 import { AuthCodeType } from '../enum/AuthCodeType';
 import { RandomUtil } from '../../../global/util/random.util';

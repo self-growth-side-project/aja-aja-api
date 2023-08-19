@@ -3,7 +3,7 @@ import { MemberQueryRepository } from '../domain/repository/member-query.reposit
 import { MemberCondition } from '../domain/repository/dto/member.condition';
 import { MemberServiceDto } from '../application/dto/member.service.dto';
 import { Repository, SelectQueryBuilder } from 'typeorm';
-import { Member } from '../domain/entity/Member';
+import { Member } from '../domain/entity/member.entity';
 import { plainToInstance } from 'class-transformer';
 import { InjectRepository } from '@nestjs/typeorm';
 

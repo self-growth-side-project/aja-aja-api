@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { MemberController } from './interfaces/controller/member.controller';
 import { MemberService } from './application/service/member.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Member } from './domain/entity/Member';
+import { Member } from './domain/entity/member.entity';
 import { TypeormMemberCommandRepository } from './infra/typeorm-member-command.repository';
 import { TypeormMemberQueryRepository } from './infra/typeorm-member-query.repository';
 
