@@ -12,7 +12,6 @@ import { TypeormAuthCodeCommandRepository } from './infra/typeorm-auth-code-comm
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthCode } from './domain/entity/auth-code.entity';
 import { AuthCodeCommandRepository } from './domain/repository/auth-code-command.repository';
-import { PasswordEncrypter } from './domain/PasswordEncrypter';
 
 @Module({
   imports: [TypeOrmModule.forFeature([AuthCode]), MemberModule, EmailModule, getJwtConfig()],
@@ -22,10 +21,6 @@ import { PasswordEncrypter } from './domain/PasswordEncrypter';
     AuthService,
     PasswordBcrypter,
     JwtTokenService,
-    {
-      provide: PasswordEncrypter,
-      useClass: PasswordBcrypter,
-    },
     {
       provide: AuthCodeCommandRepository,
       useClass: TypeormAuthCodeCommandRepository,

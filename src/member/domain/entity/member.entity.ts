@@ -15,7 +15,7 @@ export class Member extends BaseTimeEntity {
   public readonly email: string;
 
   @Column({ name: 'password', type: 'varchar', length: 60 })
-  public readonly password: string | null;
+  public password: string | null;
 
   @Column({ name: 'role', type: 'varchar', length: 10, transformer: new MemberRoleTransformer() })
   public readonly role: MemberRole;
@@ -53,5 +53,9 @@ export class Member extends BaseTimeEntity {
 
   public isEqualToEmail(email: string): boolean {
     return this.email === email;
+  }
+
+  public async resetPassword(password: string, encrypter: PasswordEncrypter): Promise<void> {
+    this.password = await encrypter.hash(password);
   }
 }

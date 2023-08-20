@@ -1,9 +1,10 @@
-import { Body, Controller, Post, Version } from '@nestjs/common';
+import { Body, Controller, Patch, Post, Version } from '@nestjs/common';
 import { BaseResponse } from '../../../global/common/dto/base.response';
 import { SendCodeResetPasswordRequest } from '../dto/request/send-code-reset-password.request';
 import { AuthService } from '../../application/service/auth.service';
 import { VerifyCodeResetPasswordRequest } from '../dto/request/verify-code-reset-password.request';
 import { VerifyCodeResetPasswordResponse } from '../dto/response/verify-code-reset-password.response';
+import { ResetPasswordRequest } from '../dto/request/reset-password.request';
 
 @Controller('/auths')
 export class AuthController {
@@ -26,5 +27,12 @@ export class AuthController {
         await this.authService.verifyAuthCodeByResetPassword(request.toServiceDto()),
       ),
     );
+  }
+
+  @Version('1')
+  @Patch('/reset-password')
+  async resetPassword(@Body() request: ResetPasswordRequest): Promise<BaseResponse<Void>> {
+    await this.authService.resetPassword(request.toServiceDto());
+    return BaseResponse.voidBaseResponse();
   }
 }

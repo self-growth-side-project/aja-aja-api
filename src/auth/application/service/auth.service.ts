@@ -11,6 +11,8 @@ import { AuthCodeType } from '../../domain/enum/AuthCodeType';
 import { TooManyRequestsException } from '../../../global/exception/too-many-requests.exception';
 import { Member } from '../../../member/domain/entity/member.entity';
 import { Transactional } from '../../../global/common/decorator/transactional.decorator';
+import { ResetPasswordServiceDto } from '../dto/reset-password.service.dto';
+import { PasswordEncrypter } from '../../domain/PasswordEncrypter';
 
 @Injectable()
 export class AuthService {
@@ -23,6 +25,9 @@ export class AuthService {
 
     @Inject(EmailService)
     private readonly emailService: EmailService,
+
+    @Inject(PasswordEncrypter)
+    private readonly passwordEncrypter: PasswordEncrypter,
   ) {}
 
   @Transactional()
@@ -66,5 +71,22 @@ export class AuthService {
     const token = AuthCode.createResetPasswordToken(foundAuthCode.member);
 
     return await this.authCodeCommandRepository.save(token);
+  }
+
+  @Transactional()
+  async resetPassword(dto: ResetPasswordServiceDto): Promise<void> {
+    const foundToken: AuthCode | null = await this.authCodeCommandRepository.findByCode(dto.token);
+
+    if (!foundToken) {
+      throw new BadRequestException(BadRequestException.ErrorCodes.FAILED_TO_VERIFY_AUTH_CODE);
+    }
+
+    foundToken.verify(dto.email);
+
+    await this.authCodeCommandRepository.save(foundToken);
+
+    await foundToken.member.resetPassword(dto.password, this.passwordEncrypter);
+
+    await this.memberCommandRepository.save(foundToken.member);
   }
 }
