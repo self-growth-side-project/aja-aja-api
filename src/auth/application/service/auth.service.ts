@@ -15,13 +15,13 @@ import { Transactional } from '../../../global/common/decorator/transactional.de
 @Injectable()
 export class AuthService {
   constructor(
-    @Inject('MemberCommandRepository')
+    @Inject(MemberCommandRepository)
     private readonly memberCommandRepository: MemberCommandRepository,
 
     @Inject(AuthCodeCommandRepository)
     private readonly authCodeCommandRepository: AuthCodeCommandRepository,
 
-    @Inject('EmailService')
+    @Inject(EmailService)
     private readonly emailService: EmailService,
   ) {}
 

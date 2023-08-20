@@ -5,6 +5,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Member } from './domain/entity/member.entity';
 import { TypeormMemberCommandRepository } from './infra/typeorm-member-command.repository';
 import { TypeormMemberQueryRepository } from './infra/typeorm-member-query.repository';
+import { MemberCommandRepository } from './domain/repository/member-command.repository';
+import { MemberQueryRepository } from './domain/repository/member-query.repository';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Member])],
@@ -12,21 +14,21 @@ import { TypeormMemberQueryRepository } from './infra/typeorm-member-query.repos
   providers: [
     MemberService,
     {
-      provide: 'MemberCommandRepository',
+      provide: MemberCommandRepository,
       useClass: TypeormMemberCommandRepository,
     },
     {
-      provide: 'MemberQueryRepository',
+      provide: MemberQueryRepository,
       useClass: TypeormMemberQueryRepository,
     },
   ],
   exports: [
     {
-      provide: 'MemberCommandRepository',
+      provide: MemberCommandRepository,
       useClass: TypeormMemberCommandRepository,
     },
     {
-      provide: 'MemberQueryRepository',
+      provide: MemberQueryRepository,
       useClass: TypeormMemberQueryRepository,
     },
   ],

@@ -9,6 +9,6 @@ export const TypeOrmConfig = (): TypeOrmModuleOptions => ({
   database: process.env.DB_DATABASE,
   entities: [__dirname + '/../../**/*.{js,ts}'],
   logging: true,
-  synchronize: false,
+  synchronize: true,
   timezone: '+00:00',
 });

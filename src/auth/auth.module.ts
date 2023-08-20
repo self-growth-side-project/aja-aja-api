@@ -13,6 +13,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthCode } from './domain/entity/auth-code.entity';
 import { AuthCodeCommandRepository } from './domain/repository/auth-code-command.repository';
 import { TransactionManager } from '../global/util/transaction-manager.util';
+import { PasswordEncrypter } from './domain/PasswordEncrypter';
 
 @Module({
   imports: [TypeOrmModule.forFeature([AuthCode]), MemberModule, EmailModule, getJwtConfig()],
@@ -24,7 +25,7 @@ import { TransactionManager } from '../global/util/transaction-manager.util';
     JwtTokenService,
     TransactionManager,
     {
-      provide: 'PasswordEncrypter',
+      provide: PasswordEncrypter,
       useClass: PasswordBcrypter,
     },
     {

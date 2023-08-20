@@ -8,6 +8,7 @@ import { SignInServiceDto } from '../dto/sign-in.service.dto';
 import { TokenServiceDto } from '../dto/token.service.dto';
 import { JwtTokenService } from './jwt-token.service';
 import { UnauthorizedException } from '../../../global/exception/unauthorized.exception';
+import { PasswordEncrypter } from '../../domain/PasswordEncrypter';
 
 @Injectable()
 export class SignService {
@@ -15,10 +16,10 @@ export class SignService {
     private readonly passwordBcrypter: PasswordBcrypter,
     private readonly jwtTokenService: JwtTokenService,
 
-    @Inject('MemberCommandRepository')
+    @Inject(MemberCommandRepository)
     private readonly memberCommandRepository: MemberCommandRepository,
 
-    @Inject('PasswordEncrypter')
+    @Inject(PasswordEncrypter)
     private readonly passwordEncrypter: PasswordEncrypter,
   ) {}
 

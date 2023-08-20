@@ -11,4 +11,4 @@ export interface AuthCodeCommandRepository {
   remove(authCode: AuthCode): Promise<void>;
 }
 
-export const AuthCodeCommandRepository = 'AuthCodeCommandRepository';
+export const AuthCodeCommandRepository = Symbol('AuthCodeCommandRepository');

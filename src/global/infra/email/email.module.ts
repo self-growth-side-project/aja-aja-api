@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { NodeMailerService } from './node-mailer.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { EmailService } from '../../common/domain/infra/email.service';
 
 @Module({
   imports: [
@@ -25,13 +26,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
   ],
   providers: [
     {
-      provide: 'EmailService',
+      provide: EmailService,
       useClass: NodeMailerService,
     },
   ],
   exports: [
     {
-      provide: 'EmailService',
+      provide: EmailService,
       useClass: NodeMailerService,
     },
   ],

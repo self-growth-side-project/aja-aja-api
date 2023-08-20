@@ -9,3 +9,5 @@ export interface MemberCommandRepository {
 
   findByEmail(email: string): Promise<Member | null>;
 }
+
+export const MemberCommandRepository = Symbol('MemberCommandRepository');

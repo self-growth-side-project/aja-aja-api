@@ -5,7 +5,7 @@ import { MemberCommandRepository } from '../../domain/repository/member-command.
 @Injectable()
 export class MemberService {
   constructor(
-    @Inject('MemberCommandRepository')
+    @Inject(MemberCommandRepository)
     private readonly memberCommandRepository: MemberCommandRepository,
   ) {}
 
