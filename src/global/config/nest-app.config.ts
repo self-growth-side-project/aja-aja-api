@@ -33,4 +33,7 @@ export function setNestApp<T extends INestApplication>(app: T) {
 
   // API 버전 관리 활성화. URL 기반 버전 관리 사용.
   app.enableVersioning({ type: VersioningType.URI });
+
+  //Graceful ShutDown
+  app.enableShutdownHooks();
 }

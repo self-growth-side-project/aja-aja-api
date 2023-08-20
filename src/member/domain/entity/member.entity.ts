@@ -3,6 +3,7 @@ import { MemberRole } from '../enum/MemberRole';
 import { Column, Entity, Generated, PrimaryColumn } from 'typeorm';
 import { MemberRoleTransformer } from '../../infra/transformer/MemberRoleTransformer';
 import { BigintTransformer } from '../../../global/common/domain/transformer/bigint.transformer';
+import { PasswordEncrypter } from '../../../auth/domain/PasswordEncrypter';
 
 @Entity()
 export class Member extends BaseTimeEntity {
