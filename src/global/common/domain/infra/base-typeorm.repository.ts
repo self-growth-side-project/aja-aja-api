@@ -17,8 +17,12 @@ export abstract class BaseTypeormRepository<T extends BaseEntity> {
     return this.getRepository().findOne(findOption);
   }
 
-  async remove(t: T | T[]): Promise<void> {
-    await this.getRepository().remove(Array.isArray(t) ? t : [t]);
+  async remove(t: T): Promise<void> {
+    await this.getRepository().remove(t);
+  }
+
+  async count(): Promise<number> {
+    return await this.getRepository().count();
   }
 
   protected getRepository(): Repository<T> {

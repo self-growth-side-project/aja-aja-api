@@ -51,6 +51,7 @@ export class AuthService {
     this.emailService.send('developerkgh@gmail.com', '인증번호', authCode.code);
   }
 
+  @Transactional()
   async verifyAuthCodeByResetPassword(dto: VerifyCodeResetPasswordServiceDto): Promise<AuthCode> {
     const foundAuthCode: AuthCode | null = await this.authCodeCommandRepository.findByCode(dto.code);
 

@@ -1,29 +1,20 @@
 import { MemberCommandRepository } from '../domain/repository/member-command.repository';
 import { Member } from '../domain/entity/member.entity';
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
+import { BaseTypeormRepository } from '../../global/common/domain/infra/base-typeorm.repository';
+import { EntityTarget } from 'typeorm';
 
 @Injectable()
-export class TypeormMemberCommandRepository implements MemberCommandRepository {
-  constructor(
-    @InjectRepository(Member)
-    private readonly memberRepository: Repository<Member>,
-  ) {}
-
-  async count(): Promise<number> {
-    return this.memberRepository.count();
-  }
-
-  async save(member: Member): Promise<Member> {
-    return this.memberRepository.save(member);
+export class TypeormMemberCommandRepository extends BaseTypeormRepository<Member> implements MemberCommandRepository {
+  getName(): EntityTarget<Member> {
+    return Member.name;
   }
 
   async existByEmail(email: string): Promise<boolean> {
-    return await this.memberRepository.exist({ where: { email: email } });
+    return await this.getRepository().exist({ where: { email: email } });
   }
 
   async findByEmail(email: string): Promise<Member | null> {
-    return await this.memberRepository.findOne({ where: { email: email } });
+    return await this.getRepository().findOne({ where: { email: email } });
   }
 }
