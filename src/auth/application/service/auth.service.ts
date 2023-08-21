@@ -13,10 +13,15 @@ import { Member } from '../../../member/domain/entity/member.entity';
 import { Transactional } from '../../../global/common/decorator/transactional.decorator';
 import { ResetPasswordServiceDto } from '../dto/reset-password.service.dto';
 import { PasswordEncrypter } from '../../domain/PasswordEncrypter';
+import { RefreshTokenServiceDto } from '../dto/refresh-token.service.dto';
+import { TokenServiceDto } from '../dto/token.service.dto';
+import { JwtTokenService } from './jwt-token.service';
 
 @Injectable()
 export class AuthService {
   constructor(
+    private readonly jwtTokenService: JwtTokenService,
+
     @Inject(MemberCommandRepository)
     private readonly memberCommandRepository: MemberCommandRepository,
 
@@ -88,5 +93,15 @@ export class AuthService {
     await foundToken.member.resetPassword(dto.password, this.passwordEncrypter);
 
     await this.memberCommandRepository.save(foundToken.member);
+  }
+
+  @Transactional()
+  async refreshToken(dto: RefreshTokenServiceDto): Promise<TokenServiceDto> {
+    const member = await this.jwtTokenService.verifyRefreshToken(dto.refreshToken);
+
+    return TokenServiceDto.of(
+      await this.jwtTokenService.createAccessToken(member),
+      await this.jwtTokenService.createRefreshToken(member),
+    );
   }
 }

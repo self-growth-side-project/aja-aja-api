@@ -7,6 +7,7 @@ import { RandomUtil } from '../../../global/util/random.util';
 import { RefreshToken } from '../../domain/entity/refresh-token.entity';
 import { RefreshTokenCommandRepository } from '../../domain/repository/refresh-token-command.repository';
 import { RefreshTokenEncrypter } from '../../domain/RefreshTokenEncrypter';
+import { UnauthorizedException } from '../../../global/exception/unauthorized.exception';
 
 @Injectable()
 export class JwtTokenService {
@@ -35,6 +36,12 @@ export class JwtTokenService {
       throw new NotFoundException(NotFoundException.ErrorCodes.NOT_FOUND_MEMBER);
     }
 
+    const foundToken = await this.refreshTokenCommandRepository.findOneByMemberId(member.id);
+
+    if (foundToken) {
+      await this.refreshTokenCommandRepository.remove(foundToken);
+    }
+
     const refreshToken = RefreshToken.create(member, this.jwtService);
 
     const token = refreshToken.token;
@@ -44,5 +51,33 @@ export class JwtTokenService {
     await this.refreshTokenCommandRepository.save(refreshToken);
 
     return token;
+  }
+
+  public async verifyRefreshToken(token: string): Promise<Member> {
+    let decodedRefreshToken = null;
+
+    try {
+      decodedRefreshToken = this.jwtService.verify(token, { secret: process.env.JWT_REFRESH_TOKEN_SECRET_KEY });
+    } catch (e) {
+      throw new UnauthorizedException(UnauthorizedException.ErrorCodes.INVALID_TOKEN);
+    }
+
+    const memberId = decodedRefreshToken.memberId;
+
+    const foundRefreshToken = await this.refreshTokenCommandRepository.findOneByMemberId(memberId);
+
+    if (!foundRefreshToken) {
+      throw new UnauthorizedException(UnauthorizedException.ErrorCodes.INVALID_TOKEN);
+    }
+
+    const isMatched = await this.refreshTokenEncrypter.match(token, foundRefreshToken.token);
+
+    if (!isMatched) {
+      throw new UnauthorizedException(UnauthorizedException.ErrorCodes.INVALID_TOKEN);
+    }
+
+    await this.refreshTokenCommandRepository.remove(foundRefreshToken);
+
+    return foundRefreshToken.member;
   }
 }

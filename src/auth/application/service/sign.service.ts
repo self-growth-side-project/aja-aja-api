@@ -15,6 +15,7 @@ import { Transactional } from '../../../global/common/decorator/transactional.de
 export class SignService {
   constructor(
     private readonly passwordBcrypter: PasswordBcrypter,
+
     private readonly jwtTokenService: JwtTokenService,
 
     @Inject(MemberCommandRepository)

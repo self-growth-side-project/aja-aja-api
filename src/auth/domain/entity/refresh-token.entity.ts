@@ -1,4 +1,4 @@
-import { BeforeInsert, Column, Entity, Generated, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
+import { BeforeInsert, Column, Entity, Generated, JoinColumn, ManyToOne, PrimaryColumn, Unique } from 'typeorm';
 import { LocalDateTimeTransformer } from '../../../global/common/domain/transformer/local-date-time.transformer';
 import { LocalDateTime } from '@js-joda/core';
 import { Member } from '../../../member/domain/entity/member.entity';
@@ -11,6 +11,7 @@ import { InternalServerException } from '../../../global/exception/internal-serv
 import { NumberUtil } from '../../../global/util/number.util';
 import { RefreshTokenEncrypter } from '../RefreshTokenEncrypter';
 
+@Unique('UK_member_id', ['member'])
 @Entity()
 export class RefreshToken extends BaseEntity {
   @Generated('increment')

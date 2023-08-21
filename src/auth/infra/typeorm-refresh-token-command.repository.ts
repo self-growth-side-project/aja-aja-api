@@ -12,4 +12,12 @@ export class TypeormRefreshTokenCommandRepository
   getName(): EntityTarget<RefreshToken> {
     return RefreshToken.name;
   }
+
+  async findOneByMemberId(memberId: number): Promise<RefreshToken | null> {
+    return await this.getRepository().findOne({
+      where: {
+        'member.id': memberId,
+      },
+    } as any);
+  }
 }
