@@ -5,6 +5,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfig } from '../type-orm.config';
 import { PasswordEncrypter } from '../../../auth/domain/PasswordEncrypter';
 import { PasswordBcrypter } from '../../../auth/domain/PasswordBcrypter';
+import { RefreshTokenEncrypter } from '../../../auth/domain/RefreshTokenEncrypter';
+import { RefreshTokenBcrypter } from '../../../auth/domain/RefreshTokenBcrypter';
 
 const modules = [
   TypeOrmTransactionModule,
@@ -22,12 +24,20 @@ const modules = [
       provide: PasswordEncrypter,
       useClass: PasswordBcrypter,
     },
+    {
+      provide: RefreshTokenEncrypter,
+      useClass: RefreshTokenBcrypter,
+    },
   ],
   exports: [
     ...modules,
     {
       provide: PasswordEncrypter,
       useClass: PasswordBcrypter,
+    },
+    {
+      provide: RefreshTokenEncrypter,
+      useClass: RefreshTokenBcrypter,
     },
   ],
 })

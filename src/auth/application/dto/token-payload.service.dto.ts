@@ -3,17 +3,17 @@ import { MemberRole } from '../../../member/domain/enum/MemberRole';
 export class TokenPayloadServiceDto {
   readonly id: string;
   readonly memberId: number;
-  readonly email: string;
-  readonly role: string;
+  readonly email?: string;
+  readonly role?: string;
 
-  constructor(id: string, memberId: number, email: string, role: MemberRole) {
+  constructor(id: string, memberId: number, email?: string, role?: MemberRole) {
     this.id = id;
     this.memberId = memberId;
     this.email = email;
-    this.role = role.enumName;
+    this.role = role?.enumName;
   }
 
-  toPlain(): { id: string; memberId: number; email: string; role: string } {
+  toPlain(): { id: string; memberId: number; email?: string; role?: string } {
     return {
       id: this.id,
       memberId: this.memberId,

@@ -12,6 +12,8 @@ import { TypeormAuthCodeCommandRepository } from './infra/typeorm-auth-code-comm
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthCode } from './domain/entity/auth-code.entity';
 import { AuthCodeCommandRepository } from './domain/repository/auth-code-command.repository';
+import { RefreshTokenCommandRepository } from './domain/repository/refresh-token-command.repository';
+import { TypeormRefreshTokenCommandRepository } from './infra/typeorm-refresh-token-command.repository';
 
 @Module({
   imports: [TypeOrmModule.forFeature([AuthCode]), MemberModule, EmailModule, getJwtConfig()],
@@ -24,6 +26,10 @@ import { AuthCodeCommandRepository } from './domain/repository/auth-code-command
     {
       provide: AuthCodeCommandRepository,
       useClass: TypeormAuthCodeCommandRepository,
+    },
+    {
+      provide: RefreshTokenCommandRepository,
+      useClass: TypeormRefreshTokenCommandRepository,
     },
   ],
 })
