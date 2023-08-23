@@ -21,7 +21,7 @@ export class AuthCode extends BaseEntity {
   @PrimaryColumn({ name: 'id', type: 'bigint', unsigned: true, transformer: new BigintTransformer() })
   public readonly id: number;
 
-  @ManyToOne(() => Member, { onDelete: 'CASCADE', eager: true })
+  @ManyToOne(() => Member, { eager: true, createForeignKeyConstraints: false })
   @JoinColumn({ name: 'member_id' })
   public readonly member: Member;
 
