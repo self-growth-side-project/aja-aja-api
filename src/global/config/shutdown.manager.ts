@@ -1,6 +1,6 @@
 import { Injectable, OnApplicationShutdown } from '@nestjs/common';
 import { destroyNamespace, getNamespace } from 'cls-hooked';
-import { NAMESPACE_AJA_AJA } from '../common/constant/namespace';
+import { NAMESPACE_AJA_AJA } from '../common/constant/namespace.code';
 import { DataSource } from 'typeorm';
 
 @Injectable()

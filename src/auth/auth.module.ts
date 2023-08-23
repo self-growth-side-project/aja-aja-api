@@ -14,6 +14,8 @@ import { AuthCode } from './domain/entity/auth-code.entity';
 import { AuthCodeCommandRepository } from './domain/repository/auth-code-command.repository';
 import { RefreshTokenCommandRepository } from './domain/repository/refresh-token-command.repository';
 import { TypeormRefreshTokenCommandRepository } from './infra/typeorm-refresh-token-command.repository';
+import { JwtAuthGuard } from './guard/jwt-auth.guard';
+import { JwtStrategy } from './guard/strategy/jwt.strategy';
 
 @Module({
   imports: [TypeOrmModule.forFeature([AuthCode]), MemberModule, EmailModule, getJwtConfig()],
@@ -31,6 +33,9 @@ import { TypeormRefreshTokenCommandRepository } from './infra/typeorm-refresh-to
       provide: RefreshTokenCommandRepository,
       useClass: TypeormRefreshTokenCommandRepository,
     },
+    JwtAuthGuard,
+    JwtStrategy,
   ],
+  exports: [JwtAuthGuard],
 })
 export class AuthModule {}

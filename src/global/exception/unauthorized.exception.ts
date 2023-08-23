@@ -9,6 +9,7 @@ export class UnauthorizedException extends BaseException {
       401001,
       '로그인이 되지 않았습니다.\n' + '아이디와 비밀번호 다시 한번 확인해주세요.',
     ),
+    NO_AUTH_TOKEN: ErrorCode.create(401002, '헤더에 토큰이 없습니다.'),
   };
 
   constructor(errorCode: ErrorCode, data?: any) {
