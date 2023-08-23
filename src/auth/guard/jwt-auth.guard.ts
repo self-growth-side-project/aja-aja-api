@@ -26,6 +26,14 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
       throw new UnauthorizedException(UnauthorizedException.ErrorCodes.INVALID_TOKEN);
     }
 
+    if (message === 'invalid signature') {
+      throw new UnauthorizedException(UnauthorizedException.ErrorCodes.INVALID_TOKEN);
+    }
+
+    if (message) {
+      throw new UnauthorizedException(UnauthorizedException.ErrorCodes.INVALID_TOKEN);
+    }
+
     if (err) {
       throw err;
     }
