@@ -1,0 +1,37 @@
+name: aja-aja-api CI/CD
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout source code
+      uses: actions/checkout@v2
+
+    - name: Use Node v18.17.1
+      uses: actions/setup-node@v2
+      with:
+        node-version: '18.17.1'
+
+    - name: Install Dependencies
+      run: yarn install
+
+    - name: Build
+      run: yarn run build
+
+    - name: Deploy to EC2
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: |
+          cd /home/ubuntu/aja-aja-api
+          git pull origin main
+          yarn install
+          yarn run build
+          yarn reload:prod
