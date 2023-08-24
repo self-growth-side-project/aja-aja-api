@@ -17,6 +17,9 @@ jobs:
       with:
         node-version: '18.17.1'
 
+    - name: Remove yarn.lock
+      run: rm -f yarn.lock
+
     - name: Install Dependencies
       run: yarn install
 
