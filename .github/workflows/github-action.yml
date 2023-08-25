@@ -17,8 +17,8 @@ jobs:
       with:
         node-version: '18.17.1'
 
-    - name: Remove yarn.lock
-      run: rm -f yarn.lock
+    #- name: Remove yarn.lock
+     # run: rm -f yarn.lock
 
     - name: Install Dependencies
       run: yarn install
@@ -65,5 +65,6 @@ jobs:
           yarn reload:prod
 
     - name: Remove Github Actions IP From Security Group
+      if: always()
       run: |
         aws ec2 revoke-security-group-ingress --group-id ${{ secrets.AWS_SG_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
