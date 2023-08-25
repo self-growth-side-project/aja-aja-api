@@ -57,13 +57,8 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
           echo "Checking if yarn is installed..."
-          which yarn
-          echo "Current PATH: $PATH"
-          cd /home/ubuntu/aja-aja-api
-          git pull origin main
-          yarn install
-          yarn run build
-          yarn reload:prod
+          yarn_location=$(which yarn)
+          echo "Yarn is located at: $yarn_location"
 
     - name: Remove Github Actions IP From Security Group
       run: |
