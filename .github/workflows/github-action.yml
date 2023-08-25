@@ -56,7 +56,6 @@ jobs:
         username: ${{ secrets.EC2_USERNAME }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
-          source /home/ubuntu/.bashrc
           cd /home/ubuntu/aja-aja-api
           git pull origin main
           yarn install
