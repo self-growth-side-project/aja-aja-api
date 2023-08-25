@@ -35,6 +35,11 @@ jobs:
       contents: read
 
     steps:
+    - name: Use Node v18.17.1
+      uses: actions/setup-node@v2
+      with:
+        node-version: '18.17.1'
+
     - name: Get Github Actions IP
       id: ip
       uses: haythem/public-ip@v1.2
