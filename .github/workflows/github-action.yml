@@ -57,8 +57,13 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
           echo "Checking if yarn is installed..."
-          yarn_location=$(which yarn)
+          yarn_location=/home/ubuntu/.nvm/versions/node/v18.17.1/bin/yarn  # 실제 'yarn' 경로를 입력했습니다.
           echo "Yarn is located at: $yarn_location"
+          cd /home/ubuntu/aja-aja-api
+          git pull origin main
+          $yarn_location install
+          $yarn_location run build
+          $yarn_location reload:prod
 
     - name: Remove Github Actions IP From Security Group
       run: |
