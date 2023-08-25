@@ -58,6 +58,8 @@ jobs:
         script: |
           cd /home/ubuntu/aja-aja-api
           git pull origin main
+          export NVM_DIR=~/.nvm
+          source ~/.nvm/nvm.sh
           yarn install
           yarn run build
           yarn reload:prod
