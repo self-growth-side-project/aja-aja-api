@@ -35,11 +35,6 @@ jobs:
       contents: read
 
     steps:
-    - name: Use Node v18.17.1
-      uses: actions/setup-node@v2
-      with:
-        node-version: '18.17.1'
-
     - name: Get Github Actions IP
       id: ip
       uses: haythem/public-ip@v1.2
@@ -61,8 +56,10 @@ jobs:
         username: ${{ secrets.EC2_USERNAME }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
+          echo "Checking if yarn is installed..."
+          which yarn
+          echo "Current PATH: $PATH"
           cd /home/ubuntu/aja-aja-api
-          npm install -g yarn
           git pull origin main
           yarn install
           yarn run build
