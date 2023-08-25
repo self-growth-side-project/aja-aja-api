@@ -56,6 +56,10 @@ jobs:
         username: ${{ secrets.EC2_USERNAME }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
+          echo "==== Showing Current User ===="
+          whoami
+          echo "==== Showing Environment Variables ===="
+          env
           cd /home/ubuntu/aja-aja-api
           git pull origin main
           export NVM_DIR=~/.nvm
