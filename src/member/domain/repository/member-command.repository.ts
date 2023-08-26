@@ -5,6 +5,8 @@ export interface MemberCommandRepository {
 
   count(): Promise<number>;
 
+  findById(id: number): Promise<Member | null>;
+
   existByEmail(email: string): Promise<boolean>;
 
   findByEmail(email: string): Promise<Member | null>;
