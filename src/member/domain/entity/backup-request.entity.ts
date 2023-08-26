@@ -2,8 +2,8 @@ import { Column, Entity, Generated, JoinColumn, ManyToOne, PrimaryColumn } from 
 import { BigintTransformer } from '../../../global/common/domain/transformer/bigint.transformer';
 import { Member } from './member.entity';
 import { BaseAuditEntity } from '../../../global/common/domain/entity/base-audit.entity';
-import { BackupStatus } from '../enum/BackupStatus';
-import { BackupStatusTransformer } from '../../infra/transformer/BackupStatusTransformer';
+import { BackupRequestStatus } from '../enum/BackupRequestStatus';
+import { BackupRequestStatusTransformer } from '../../infra/transformer/BackupRequestStatusTransformer';
 
 @Entity()
 export class BackupRequest extends BaseAuditEntity {
@@ -15,6 +15,15 @@ export class BackupRequest extends BaseAuditEntity {
   @JoinColumn({ name: 'member_id' })
   public readonly member: Member;
 
-  @Column({ type: 'varchar', length: 10, transformer: new BackupStatusTransformer() })
-  public readonly role: BackupStatus;
+  @Column({ type: 'varchar', length: 10, transformer: new BackupRequestStatusTransformer() })
+  public readonly status: BackupRequestStatus;
+
+  private constructor(member: Member, status: BackupRequestStatus) {
+    super();
+    this.member = member;
+    this.status = status;
+  }
+  public static createPendingRequest(member: Member): BackupRequest {
+    return new BackupRequest(member, BackupRequestStatus.PENDING);
+  }
 }

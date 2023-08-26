@@ -1,9 +1,9 @@
 import { Enum, EnumType } from 'ts-jenum';
 
 @Enum('code')
-export class BackupStatus extends EnumType<BackupStatus>() {
-  static readonly PENDING = new BackupStatus('PENDING', '보류 중');
-  static readonly COMPLETE = new BackupStatus('COMPLETE', '완료');
+export class BackupRequestStatus extends EnumType<BackupRequestStatus>() {
+  static readonly PENDING = new BackupRequestStatus('PENDING', '보류 중');
+  static readonly COMPLETE = new BackupRequestStatus('COMPLETE', '완료');
 
   private constructor(
     readonly _code: string,

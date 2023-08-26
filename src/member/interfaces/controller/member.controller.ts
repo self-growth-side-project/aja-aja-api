@@ -15,6 +15,7 @@ import { ResetMyPasswordRequest } from '../dto/reset-my-password.request';
 export class MemberController {
   constructor(
     private readonly memberService: MemberService,
+
     @Inject(MemberQueryRepository)
     private readonly memberQueryRepository: MemberQueryRepository,
   ) {}
@@ -54,6 +55,7 @@ export class MemberController {
   @UseGuards(JwtAuthGuard)
   @Post('/me/backups')
   async requestToBackup(): Promise<BaseResponse<Void>> {
+    await this.memberService.requestToBackup();
     return BaseResponse.voidBaseResponse();
   }
 }
