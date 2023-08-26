@@ -1,5 +1,7 @@
 import { Exclude, Expose } from 'class-transformer';
 import { NumberUtil } from '../../../global/util/number.util';
+import { EnumResponse } from '../../../global/common/dto/request/enum.response';
+import { MemberRole } from '../../domain/enum/MemberRole';
 
 export class MemberResponse {
   @Exclude({ toPlainOnly: true }) private readonly _id: string;
@@ -25,7 +27,7 @@ export class MemberResponse {
   }
 
   @Expose()
-  get role(): string {
-    return this._role;
+  get role(): EnumResponse<MemberRole> | null {
+    return EnumResponse.of(MemberRole.findCode(this._role));
   }
 }

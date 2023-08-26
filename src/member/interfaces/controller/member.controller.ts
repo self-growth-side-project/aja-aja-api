@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Inject, Patch, Post, Query, UseGuards, Version } from '@nestjs/common';
-import { BaseResponse } from '../../../global/common/dto/base.response';
+import { BaseResponse } from '../../../global/common/dto/response/base.response';
 import { MemberService } from '../../application/service/member.service';
 import { CheckEmailDuplicationRequest } from '../dto/check-email-duplication.request';
 import { CheckEmailDuplicationResponse } from '../dto/check-email-duplication.response';

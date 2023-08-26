@@ -1,5 +1,5 @@
 import { Body, Controller, Patch, Post, Version } from '@nestjs/common';
-import { BaseResponse } from '../../../global/common/dto/base.response';
+import { BaseResponse } from '../../../global/common/dto/response/base.response';
 import { SendCodeResetPasswordRequest } from '../dto/request/send-code-reset-password.request';
 import { AuthService } from '../../application/service/auth.service';
 import { VerifyCodeResetPasswordRequest } from '../dto/request/verify-code-reset-password.request';
