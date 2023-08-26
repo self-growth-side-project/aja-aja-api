@@ -1,7 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { SignUpServiceDto } from '../dto/sign-up.service.dto';
 import { Member } from '../../../member/domain/entity/member.entity';
-import { PasswordBcrypter } from '../../domain/PasswordBcrypter';
 import { MemberCommandRepository } from '../../../member/domain/repository/member-command.repository';
 import { ConflictException } from '../../../global/exception/conflict.exception';
 import { SignInServiceDto } from '../dto/sign-in.service.dto';
@@ -14,8 +13,6 @@ import { Transactional } from '../../../global/common/decorator/transactional.de
 @Injectable()
 export class SignService {
   constructor(
-    private readonly passwordBcrypter: PasswordBcrypter,
-
     private readonly jwtTokenService: JwtTokenService,
 
     @Inject(MemberCommandRepository)
@@ -27,7 +24,7 @@ export class SignService {
 
   @Transactional()
   async signUp(dto: SignUpServiceDto): Promise<Member> {
-    const member = await Member.signUpMember(dto.email, dto.password, this.passwordBcrypter);
+    const member = await Member.signUpMember(dto.email, dto.password, this.passwordEncrypter);
 
     if (await this.memberCommandRepository.existByEmail(member.email)) {
       throw new ConflictException(ConflictException.ErrorCodes.DUPLICATE_EMAIL);
