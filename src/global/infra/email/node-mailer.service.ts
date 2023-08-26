@@ -1,15 +1,29 @@
 import { EmailService } from '../../common/domain/infra/email.service';
 import { Injectable } from '@nestjs/common';
-import { MailerService } from '@nestjs-modules/mailer';
 import { InternalServerException } from '../../exception/internal-server.exception';
+import * as nodemailer from 'nodemailer';
+import * as process from 'process';
 
 @Injectable()
 export class NodeMailerService implements EmailService {
-  constructor(private readonly mailerService: MailerService) {}
+  private transporter;
+
+  constructor() {
+    this.transporter = nodemailer.createTransport({
+      host: 'smtp.gmail.com',
+      port: 587,
+      secure: false,
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASSWORD,
+      },
+    });
+  }
   send(to: string, subject: string, content: string): void {
-    this.mailerService
+    this.transporter
       .sendMail({
         to: to,
+        from: process.env.EMAIL_SENDER,
         subject: subject,
         text: content,
       })
