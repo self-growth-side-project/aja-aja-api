@@ -18,23 +18,23 @@ export class AuthCode extends BaseEntity {
   private static readonly RESET_PASSWORD_TOKEN_EXPIRATION = 10;
 
   @Generated('increment')
-  @PrimaryColumn({ name: 'id', type: 'bigint', unsigned: true, transformer: new BigintTransformer() })
+  @PrimaryColumn({ type: 'bigint', unsigned: true, transformer: new BigintTransformer() })
   public readonly id: number;
 
   @ManyToOne(() => Member, { eager: true, createForeignKeyConstraints: false })
   @JoinColumn({ name: 'member_id' })
   public readonly member: Member;
 
-  @Column({ name: 'type', type: 'varchar', length: 30, transformer: new AuthCodeTypeTransformer() })
+  @Column({ type: 'varchar', length: 30, transformer: new AuthCodeTypeTransformer() })
   public readonly type: AuthCodeType;
 
-  @Column({ name: 'code', type: 'varchar', length: 50 })
+  @Column({ type: 'varchar', length: 50 })
   public readonly code: string;
 
-  @Column({ name: 'expires_at', type: 'timestamp', transformer: new LocalDateTimeTransformer() })
+  @Column({ type: 'timestamp', transformer: new LocalDateTimeTransformer() })
   public readonly expiresAt: LocalDateTime;
 
-  @Column({ name: 'is_verified', type: 'tinyint', default: false, transformer: new BooleanTransformer() })
+  @Column({ type: 'tinyint', default: false, transformer: new BooleanTransformer() })
   public isVerified: boolean;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', transformer: new LocalDateTimeTransformer() })

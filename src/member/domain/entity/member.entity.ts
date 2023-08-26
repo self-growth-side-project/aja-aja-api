@@ -8,16 +8,16 @@ import { PasswordEncrypter } from '../../../auth/domain/PasswordEncrypter';
 @Entity()
 export class Member extends BaseTimeEntity {
   @Generated('increment')
-  @PrimaryColumn({ name: 'id', type: 'bigint', unsigned: true, transformer: new BigintTransformer() })
+  @PrimaryColumn({ type: 'bigint', unsigned: true, transformer: new BigintTransformer() })
   public readonly id: number;
 
-  @Column({ name: 'email', type: 'varchar', length: 320 })
+  @Column({ type: 'varchar', length: 320 })
   public readonly email: string;
 
-  @Column({ name: 'password', type: 'varchar', length: 60 })
+  @Column({ type: 'varchar', length: 60 })
   public password: string | null;
 
-  @Column({ name: 'role', type: 'varchar', length: 10, transformer: new MemberRoleTransformer() })
+  @Column({ type: 'varchar', length: 10, transformer: new MemberRoleTransformer() })
   public readonly role: MemberRole;
 
   private constructor(email: string, password: string | null, role: MemberRole);

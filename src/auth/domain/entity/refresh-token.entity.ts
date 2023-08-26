@@ -15,17 +15,17 @@ import { RefreshTokenEncrypter } from '../RefreshTokenEncrypter';
 @Entity()
 export class RefreshToken extends BaseEntity {
   @Generated('increment')
-  @PrimaryColumn({ name: 'id', type: 'bigint', unsigned: true, transformer: new BigintTransformer() })
+  @PrimaryColumn({ type: 'bigint', unsigned: true, transformer: new BigintTransformer() })
   public readonly id: number;
 
   @ManyToOne(() => Member, { eager: true, createForeignKeyConstraints: false })
   @JoinColumn({ name: 'member_id' })
   public readonly member: Member;
 
-  @Column({ name: 'token', type: 'varchar', length: 60 })
+  @Column({ type: 'varchar', length: 60 })
   public token: string;
 
-  @Column({ name: 'expires_at', type: 'timestamp', transformer: new LocalDateTimeTransformer() })
+  @Column({ type: 'timestamp', transformer: new LocalDateTimeTransformer() })
   public readonly expiresAt: LocalDateTime;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', transformer: new LocalDateTimeTransformer() })

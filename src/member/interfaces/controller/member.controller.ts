@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Inject, Patch, Query, UseGuards, Version } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Patch, Post, Query, UseGuards, Version } from '@nestjs/common';
 import { BaseResponse } from '../../../global/common/dto/base.response';
 import { MemberService } from '../../application/service/member.service';
 import { CheckEmailDuplicationRequest } from '../dto/check-email-duplication.request';
@@ -47,6 +47,13 @@ export class MemberController {
   @Patch('/me/password')
   async resetMyPassword(@Body() request: ResetMyPasswordRequest): Promise<BaseResponse<Void>> {
     await this.memberService.resetMyPassword(request.toServiceDto());
+    return BaseResponse.voidBaseResponse();
+  }
+
+  @Version('1')
+  @UseGuards(JwtAuthGuard)
+  @Post('/me/backups')
+  async requestToBackup(): Promise<BaseResponse<Void>> {
     return BaseResponse.voidBaseResponse();
   }
 }
