@@ -10,6 +10,8 @@ import { MemberCommandRepository } from './domain/repository/member-command.repo
 import { TypeormMemberCommandRepository } from './infra/typeorm-member-command.repository';
 import { BackupRequestCommandRepository } from './domain/repository/backup-request-command.repository';
 import { TypeormBackupRequestCommandRepository } from './infra/typeorm-backup-request-command.repository';
+import { BackupRequestQueryRepository } from './domain/repository/backup-request-query.repository';
+import { TypeormBackupRequestQueryRepository } from './infra/typeorm-backup-request-query.repository';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Member, BackupRequest])],
@@ -27,6 +29,11 @@ import { TypeormBackupRequestCommandRepository } from './infra/typeorm-backup-re
     {
       provide: BackupRequestCommandRepository,
       useClass: TypeormBackupRequestCommandRepository,
+    },
+
+    {
+      provide: BackupRequestQueryRepository,
+      useClass: TypeormBackupRequestQueryRepository,
     },
   ],
   exports: [

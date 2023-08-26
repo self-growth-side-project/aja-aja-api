@@ -10,6 +10,10 @@ import { MemberCondition } from '../../domain/repository/dto/member.condition';
 import { GlobalContextUtil } from '../../../global/util/global-context.util';
 import { NotFoundException } from '../../../global/exception/not-found.exception';
 import { ResetMyPasswordRequest } from '../dto/reset-my-password.request';
+import { BackupRequestQueryRepository } from '../../domain/repository/backup-request-query.repository';
+import { BackupRequestCondition } from '../../domain/repository/dto/backup-request.condition';
+import { BackupRequestStatus } from '../../domain/enum/BackupRequestStatus';
+import { CheckPendingBackupRequestResponse } from '../dto/check-pending-backup-request.response';
 
 @Controller('/members')
 export class MemberController {
@@ -18,6 +22,9 @@ export class MemberController {
 
     @Inject(MemberQueryRepository)
     private readonly memberQueryRepository: MemberQueryRepository,
+
+    @Inject(BackupRequestQueryRepository)
+    private readonly backupRequestQueryRepository: BackupRequestQueryRepository,
   ) {}
 
   @Version('1')
@@ -57,5 +64,16 @@ export class MemberController {
   async requestToBackup(): Promise<BaseResponse<Void>> {
     await this.memberService.requestToBackup();
     return BaseResponse.voidBaseResponse();
+  }
+
+  @Version('1')
+  @UseGuards(JwtAuthGuard)
+  @Get('/me/backups/pending')
+  async checkPendingBackup(): Promise<BaseResponse<CheckPendingBackupRequestResponse>> {
+    const count = await this.backupRequestQueryRepository.count(
+      BackupRequestCondition.of(GlobalContextUtil.getMember().id, BackupRequestStatus.PENDING),
+    );
+
+    return BaseResponse.successBaseResponse(CheckPendingBackupRequestResponse.from(count > 0));
   }
 }
