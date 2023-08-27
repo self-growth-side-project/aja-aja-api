@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Inject, Patch, Post, Query, UseGuards, Version } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Inject, Patch, Post, Query, UseGuards, Version } from '@nestjs/common';
 import { BaseResponse } from '../../../global/common/dto/response/base.response';
 import { MemberService } from '../../application/service/member.service';
 import { CheckEmailDuplicationRequest } from '../dto/check-email-duplication.request';
@@ -75,5 +75,13 @@ export class MemberController {
     );
 
     return BaseResponse.successBaseResponse(CheckPendingBackupRequestResponse.from(count > 0));
+  }
+
+  @Version('1')
+  @UseGuards(JwtAuthGuard)
+  @Delete('/me')
+  async withdraw(): Promise<BaseResponse<Void>> {
+    await this.memberService.withdraw();
+    return BaseResponse.voidBaseResponse();
   }
 }

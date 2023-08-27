@@ -10,6 +10,8 @@ export interface MemberCommandRepository {
   existByEmail(email: string): Promise<boolean>;
 
   findByEmail(email: string): Promise<Member | null>;
+
+  remove(member: Member): Promise<void>;
 }
 
 export const MemberCommandRepository = Symbol('MemberCommandRepository');

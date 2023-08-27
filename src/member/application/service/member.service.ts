@@ -12,6 +12,10 @@ import { BackupRequestStatus } from '../../domain/enum/BackupRequestStatus';
 import { ConflictException } from '../../../global/exception/conflict.exception';
 import { Transactional } from '../../../global/common/decorator/transactional.decorator';
 import { BackupRequest } from '../../domain/entity/backup-request.entity';
+import { WithdrawnMember } from '../../domain/entity/withdrawn-member.entity';
+import { WithdrawnMemberCommandRepository } from '../../domain/repository/withdrawn-member-command.repository';
+import { EventEmitter2 } from '@nestjs/event-emitter';
+import { MemberListener } from '../listener/member.listener';
 
 @Injectable()
 export class MemberService {
@@ -22,8 +26,13 @@ export class MemberService {
     @Inject(BackupRequestCommandRepository)
     private readonly backupRequestCommandRepository: BackupRequestCommandRepository,
 
+    @Inject(WithdrawnMemberCommandRepository)
+    private readonly withdrawnMemberCommandRepository: WithdrawnMemberCommandRepository,
+
     @Inject(PasswordEncrypter)
     private readonly passwordEncrypter: PasswordEncrypter,
+
+    private readonly eventEmitter: EventEmitter2,
   ) {}
 
   async checkEmailDuplication(dto: CheckEmailDuplicationServiceDto): Promise<boolean> {
@@ -71,5 +80,22 @@ export class MemberService {
     const backupRequest = BackupRequest.createPendingRequest(foundMember);
 
     await this.backupRequestCommandRepository.save(backupRequest);
+  }
+
+  @Transactional()
+  async withdraw(): Promise<void> {
+    const memberId = GlobalContextUtil.getMember().id;
+
+    const foundMember = await this.memberCommandRepository.findById(memberId);
+
+    if (!foundMember) {
+      throw new NotFoundException(NotFoundException.ErrorCodes.NOT_FOUND_MEMBER);
+    }
+
+    const withdrawnMember = await WithdrawnMember.withdrawFromMember(foundMember, this.memberCommandRepository);
+
+    await this.withdrawnMemberCommandRepository.save(withdrawnMember);
+
+    this.eventEmitter.emit(MemberListener.WITHDRAW_MEMBER, withdrawnMember.memberId);
   }
 }

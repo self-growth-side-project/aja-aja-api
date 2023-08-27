@@ -11,12 +11,14 @@ import { TransactionMiddleware } from '../../common/middleware/transaction.middl
 import { NamespaceMiddleware } from '../../common/middleware/namespace.middleware';
 import { MemberMiddleware } from '../../common/middleware/member.middleware';
 import { MemberModule } from '../../../member/member.module';
+import { EventListenerModule } from './event-listener.module';
 
 const modules = [
   TypeOrmTransactionModule,
   TypeOrmModule.forRootAsync({
     useFactory: TypeOrmConfig,
   }),
+  EventListenerModule,
   MemberModule,
 ];
 

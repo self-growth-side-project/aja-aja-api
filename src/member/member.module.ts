@@ -12,6 +12,8 @@ import { BackupRequestCommandRepository } from './domain/repository/backup-reque
 import { TypeormBackupRequestCommandRepository } from './infra/typeorm-backup-request-command.repository';
 import { BackupRequestQueryRepository } from './domain/repository/backup-request-query.repository';
 import { TypeormBackupRequestQueryRepository } from './infra/typeorm-backup-request-query.repository';
+import { WithdrawnMemberCommandRepository } from './domain/repository/withdrawn-member-command.repository';
+import { TypeormWithdrawnMemberCommandRepository } from './infra/typeorm-withdrawn-member-command.repository';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Member, BackupRequest])],
@@ -34,6 +36,10 @@ import { TypeormBackupRequestQueryRepository } from './infra/typeorm-backup-requ
     {
       provide: BackupRequestQueryRepository,
       useClass: TypeormBackupRequestQueryRepository,
+    },
+    {
+      provide: WithdrawnMemberCommandRepository,
+      useClass: TypeormWithdrawnMemberCommandRepository,
     },
   ],
   exports: [
