@@ -1,8 +1,5 @@
 import { Global, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { TypeOrmTransactionModule } from './type-orm-transaction.module';
 import { ShutDownManager } from '../shutdown.manager';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { TypeOrmConfig } from '../type-orm.config';
 import { PasswordEncrypter } from '../../../auth/domain/PasswordEncrypter';
 import { PasswordBcrypter } from '../../../auth/domain/PasswordBcrypter';
 import { RefreshTokenEncrypter } from '../../../auth/domain/RefreshTokenEncrypter';
@@ -12,15 +9,9 @@ import { NamespaceMiddleware } from '../../common/middleware/namespace.middlewar
 import { MemberMiddleware } from '../../common/middleware/member.middleware';
 import { MemberModule } from '../../../member/member.module';
 import { EventListenerModule } from './event-listener.module';
+import { TypeormConfigModule } from './typeorm-config.module';
 
-const modules = [
-  TypeOrmTransactionModule,
-  TypeOrmModule.forRootAsync({
-    useFactory: TypeOrmConfig,
-  }),
-  EventListenerModule,
-  MemberModule,
-];
+const modules = [TypeormConfigModule, EventListenerModule, MemberModule];
 
 @Global()
 @Module({
