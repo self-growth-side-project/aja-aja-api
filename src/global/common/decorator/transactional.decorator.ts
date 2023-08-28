@@ -22,6 +22,17 @@ export function Transactional(options?: { propagation: Propagation }) {
         );
       }
 
+      if (!options) {
+        options = { propagation: Propagation.REQUIRED };
+      }
+
+      if (options?.propagation === Propagation.REQUIRED) {
+        return await entityManager.transaction(async (tx: EntityManager) => {
+          GlobalContextUtil.getMainNamespace().set(NAMESPACE_ENTITY_MANAGER, tx);
+          return await originMethod.apply(this, args);
+        });
+      }
+
       if (options?.propagation === Propagation.REQUIRES_NEW) {
         const newEntityManager = new EntityManager(GlobalContextUtil.getEntityManager().connection);
         return await newEntityManager.transaction(async (tx: EntityManager) => {
@@ -29,11 +40,6 @@ export function Transactional(options?: { propagation: Propagation }) {
           return await originMethod.apply(this, args);
         });
       }
-
-      return await entityManager.transaction(async (tx: EntityManager) => {
-        GlobalContextUtil.getMainNamespace().set(NAMESPACE_ENTITY_MANAGER, tx);
-        return await originMethod.apply(this, args);
-      });
     }
 
     descriptor.value = transactionWrapped;
