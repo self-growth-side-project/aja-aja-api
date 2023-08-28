@@ -10,7 +10,7 @@ import { BadRequestException } from '../../../global/exception/bad-request.excep
 import { AuthCodeType } from '../../domain/enum/AuthCodeType';
 import { TooManyRequestsException } from '../../../global/exception/too-many-requests.exception';
 import { Member } from '../../../member/domain/entity/member.entity';
-import { Transactional } from '../../../global/common/decorator/transactional.decorator';
+import { Propagation, Transactional } from '../../../global/common/decorator/transactional.decorator';
 import { ResetPasswordServiceDto } from '../dto/reset-password.service.dto';
 import { PasswordEncrypter } from '../../domain/PasswordEncrypter';
 import { RefreshTokenServiceDto } from '../dto/refresh-token.service.dto';
@@ -103,5 +103,12 @@ export class AuthService {
       await this.jwtTokenService.createAccessToken(member),
       await this.jwtTokenService.createRefreshToken(member),
     );
+  }
+
+  @Transactional({ propagation: Propagation.REQUIRES_NEW })
+  async removeAuthCodes(memberId: number): Promise<void> {
+    const foundAuthCodes = await this.authCodeCommandRepository.findAllByMemberId(memberId);
+
+    await this.authCodeCommandRepository.removeAll(foundAuthCodes);
   }
 }

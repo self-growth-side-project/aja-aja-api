@@ -10,8 +10,9 @@ import { MemberMiddleware } from '../../common/middleware/member.middleware';
 import { MemberModule } from '../../../member/member.module';
 import { EventListenerModule } from './event-listener.module';
 import { TypeormConfigModule } from './typeorm-config.module';
+import { AuthModule } from '../../../auth/auth.module';
 
-const modules = [TypeormConfigModule, EventListenerModule, MemberModule];
+const modules = [TypeormConfigModule, EventListenerModule, MemberModule, AuthModule];
 
 @Global()
 @Module({

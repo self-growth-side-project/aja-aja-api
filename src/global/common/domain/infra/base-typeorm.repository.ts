@@ -21,6 +21,10 @@ export abstract class BaseTypeormRepository<T extends BaseEntity> {
     await this.getRepository().remove(t);
   }
 
+  async removeAll(t: T[]): Promise<void> {
+    await this.getRepository().remove(t);
+  }
+
   async count(): Promise<number> {
     return await this.getRepository().count();
   }

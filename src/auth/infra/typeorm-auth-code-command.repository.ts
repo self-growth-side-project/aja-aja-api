@@ -31,4 +31,8 @@ export class TypeormAuthCodeCommandRepository
   async findByCode(code: string): Promise<AuthCode | null> {
     return await this.getRepository().findOne({ where: { code: code } } as any);
   }
+
+  async findAllByMemberId(memberId: number): Promise<AuthCode[]> {
+    return await this.getRepository().find({ where: { 'member.id': memberId } } as any);
+  }
 }

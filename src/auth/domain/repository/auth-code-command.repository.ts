@@ -8,7 +8,11 @@ export interface AuthCodeCommandRepository {
 
   findByCode(code: string): Promise<AuthCode | null>;
 
+  findAllByMemberId(memberId: number): Promise<AuthCode[]>;
+
   remove(authCode: AuthCode): Promise<void>;
+
+  removeAll(authCode: AuthCode[]): Promise<void>;
 }
 
 export const AuthCodeCommandRepository = Symbol('AuthCodeCommandRepository');
