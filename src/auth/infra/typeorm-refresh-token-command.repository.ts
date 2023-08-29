@@ -13,7 +13,7 @@ export class TypeormRefreshTokenCommandRepository
     return RefreshToken.name;
   }
 
-  async findOneByMemberId(memberId: number): Promise<RefreshToken | null> {
+  async findByMemberId(memberId: number): Promise<RefreshToken | null> {
     return await this.getRepository().findOne({
       where: {
         'member.id': memberId,

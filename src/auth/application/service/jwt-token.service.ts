@@ -8,6 +8,8 @@ import { RefreshToken } from '../../domain/entity/refresh-token.entity';
 import { RefreshTokenCommandRepository } from '../../domain/repository/refresh-token-command.repository';
 import { RefreshTokenEncrypter } from '../../domain/RefreshTokenEncrypter';
 import { UnauthorizedException } from '../../../global/exception/unauthorized.exception';
+import { Propagation, Transactional } from '../../../global/common/decorator/transactional.decorator';
+import { BadRequestException } from '../../../global/exception/bad-request.exception';
 
 @Injectable()
 export class JwtTokenService {
@@ -36,10 +38,10 @@ export class JwtTokenService {
       throw new NotFoundException(NotFoundException.ErrorCodes.NOT_FOUND_MEMBER);
     }
 
-    const foundToken = await this.refreshTokenCommandRepository.findOneByMemberId(member.id);
+    const foundRefreshToken = await this.refreshTokenCommandRepository.findByMemberId(member.id);
 
-    if (foundToken) {
-      await this.refreshTokenCommandRepository.remove(foundToken);
+    if (foundRefreshToken) {
+      await this.refreshTokenCommandRepository.remove(foundRefreshToken);
     }
 
     const refreshToken = RefreshToken.create(member, this.jwtService);
@@ -64,7 +66,7 @@ export class JwtTokenService {
 
     const memberId = decodedRefreshToken.memberId;
 
-    const foundRefreshToken = await this.refreshTokenCommandRepository.findOneByMemberId(memberId);
+    const foundRefreshToken = await this.refreshTokenCommandRepository.findByMemberId(memberId);
 
     if (!foundRefreshToken) {
       throw new UnauthorizedException(UnauthorizedException.ErrorCodes.INVALID_TOKEN);
@@ -79,5 +81,16 @@ export class JwtTokenService {
     await this.refreshTokenCommandRepository.remove(foundRefreshToken);
 
     return foundRefreshToken.member;
+  }
+
+  @Transactional({ propagation: Propagation.REQUIRES_NEW })
+  async removeRefreshToken(memberId: number): Promise<void> {
+    const foundToken = await this.refreshTokenCommandRepository.findByMemberId(memberId);
+
+    if (foundToken) {
+      await this.refreshTokenCommandRepository.remove(foundToken);
+    }
+
+    throw new BadRequestException(BadRequestException.ErrorCodes.FAILED_TO_VERIFY_AUTH_CODE);
   }
 }

@@ -96,6 +96,6 @@ export class MemberService {
 
     await this.withdrawnMemberCommandRepository.save(withdrawnMember);
 
-    this.eventEmitter.emit(MemberListener.WITHDRAW_MEMBER, withdrawnMember.memberId);
+    this.eventEmitter.emit(MemberListener.WITHDRAW_MEMBER_EVENT, withdrawnMember);
   }
 }

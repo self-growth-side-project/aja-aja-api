@@ -58,7 +58,7 @@ export class AuthService {
 
     await this.authCodeCommandRepository.save(authCode);
 
-    this.emailService.send('developerkgh@gmail.com', '인증번호', authCode.code);
+    this.emailService.send(foundMember.email, '인증번호', authCode.code);
   }
 
   @Transactional()
@@ -96,7 +96,7 @@ export class AuthService {
   }
 
   @Transactional()
-  async refreshToken(dto: RefreshTokenServiceDto): Promise<TokenServiceDto> {
+  async refreshAccessToken(dto: RefreshTokenServiceDto): Promise<TokenServiceDto> {
     const member = await this.jwtTokenService.verifyRefreshToken(dto.refreshToken);
 
     return TokenServiceDto.of(

@@ -14,8 +14,8 @@ export class AuthController {
 
   @Version('1')
   @Post('/refresh')
-  async refreshToken(@Body() request: RefreshTokenRequest): Promise<BaseResponse<SignInResponse>> {
-    const result = await this.authService.refreshToken(request.toServiceDto());
+  async refreshAccessToken(@Body() request: RefreshTokenRequest): Promise<BaseResponse<SignInResponse>> {
+    const result = await this.authService.refreshAccessToken(request.toServiceDto());
     return BaseResponse.successBaseResponse(SignInResponse.from(result));
   }
 
