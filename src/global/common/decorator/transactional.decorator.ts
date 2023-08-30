@@ -35,9 +35,14 @@ export function Transactional(options?: { propagation: Propagation }) {
 
       if (options?.propagation === Propagation.REQUIRES_NEW) {
         const newEntityManager = new EntityManager(GlobalContextUtil.getEntityManager().connection);
-        return await newEntityManager.transaction(async (tx: EntityManager) => {
-          GlobalContextUtil.getMainNamespace().set(NAMESPACE_ENTITY_MANAGER, tx);
-          return await originMethod.apply(this, args);
+        const namespace = GlobalContextUtil.getMainNamespace();
+
+        return await namespace.runAndReturn(async () => {
+          namespace.set(NAMESPACE_ENTITY_MANAGER, newEntityManager);
+          return await newEntityManager.transaction(async (tx: EntityManager) => {
+            namespace.set(NAMESPACE_ENTITY_MANAGER, tx);
+            return await originMethod.apply(this, args);
+          });
         });
       }
     }

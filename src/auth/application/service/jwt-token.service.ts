@@ -9,7 +9,6 @@ import { RefreshTokenCommandRepository } from '../../domain/repository/refresh-t
 import { RefreshTokenEncrypter } from '../../domain/RefreshTokenEncrypter';
 import { UnauthorizedException } from '../../../global/exception/unauthorized.exception';
 import { Propagation, Transactional } from '../../../global/common/decorator/transactional.decorator';
-import { BadRequestException } from '../../../global/exception/bad-request.exception';
 
 @Injectable()
 export class JwtTokenService {
@@ -87,10 +86,10 @@ export class JwtTokenService {
   async removeRefreshToken(memberId: number): Promise<void> {
     const foundToken = await this.refreshTokenCommandRepository.findByMemberId(memberId);
 
-    if (foundToken) {
-      await this.refreshTokenCommandRepository.remove(foundToken);
+    if (!foundToken) {
+      throw new NotFoundException(NotFoundException.ErrorCodes.NOT_FOUND_REFRESH_TOKEN);
     }
 
-    throw new BadRequestException(BadRequestException.ErrorCodes.FAILED_TO_VERIFY_AUTH_CODE);
+    await this.refreshTokenCommandRepository.remove(foundToken);
   }
 }
