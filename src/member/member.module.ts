@@ -14,12 +14,14 @@ import { BackupRequestQueryRepository } from './domain/repository/backup-request
 import { TypeormBackupRequestQueryRepository } from './infra/typeorm-backup-request-query.repository';
 import { WithdrawnMemberCommandRepository } from './domain/repository/withdrawn-member-command.repository';
 import { TypeormWithdrawnMemberCommandRepository } from './infra/typeorm-withdrawn-member-command.repository';
+import { BackupService } from './application/service/backup.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Member, BackupRequest])],
   controllers: [MemberController],
   providers: [
     MemberService,
+    BackupService,
     {
       provide: MemberCommandRepository,
       useClass: TypeormMemberCommandRepository,
@@ -44,6 +46,7 @@ import { TypeormWithdrawnMemberCommandRepository } from './infra/typeorm-withdra
   ],
   exports: [
     MemberService,
+    BackupService,
     {
       provide: MemberCommandRepository,
       useClass: TypeormMemberCommandRepository,

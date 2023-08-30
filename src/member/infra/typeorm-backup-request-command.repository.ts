@@ -17,4 +17,8 @@ export class TypeormBackupRequestCommandRepository
   async existByMemberIdAndStatus(memberId: number, status: BackupRequestStatus): Promise<boolean> {
     return await this.getRepository().exist({ where: { 'member.id': memberId, status: status } as any });
   }
+
+  async findAllByMemberId(memberId: number): Promise<BackupRequest[]> {
+    return await this.getRepository().find({ where: { 'member.id': memberId } } as any);
+  }
 }

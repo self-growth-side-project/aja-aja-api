@@ -14,11 +14,14 @@ import { BackupRequestQueryRepository } from '../../domain/repository/backup-req
 import { BackupRequestCondition } from '../../domain/repository/dto/backup-request.condition';
 import { BackupRequestStatus } from '../../domain/enum/BackupRequestStatus';
 import { CheckPendingBackupRequestResponse } from '../dto/check-pending-backup-request.response';
+import { BackupService } from '../../application/service/backup.service';
 
 @Controller('/members')
 export class MemberController {
   constructor(
     private readonly memberService: MemberService,
+
+    private readonly backupService: BackupService,
 
     @Inject(MemberQueryRepository)
     private readonly memberQueryRepository: MemberQueryRepository,
@@ -62,7 +65,7 @@ export class MemberController {
   @UseGuards(JwtAuthGuard)
   @Post('/me/backups')
   async requestToBackup(): Promise<BaseResponse<Void>> {
-    await this.memberService.requestToBackup();
+    await this.backupService.requestToBackup();
     return BaseResponse.voidBaseResponse();
   }
 
