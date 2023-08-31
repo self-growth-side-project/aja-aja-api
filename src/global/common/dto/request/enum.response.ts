@@ -13,7 +13,7 @@ export class EnumResponse<T extends BaseEnum> {
     this.name = enumValue.name;
   }
 
-  public static of(enumValue?: any): EnumResponse<any> | null {
-    return enumValue ? new EnumResponse(enumValue) : null;
+  public static of(enumValue: any): EnumResponse<any> {
+    return new EnumResponse(enumValue);
   }
 }

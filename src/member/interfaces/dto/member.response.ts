@@ -28,6 +28,10 @@ export class MemberResponse {
 
   @Expose()
   get role(): EnumResponse<MemberRole> | null {
+    if (!this._role) {
+      return null;
+    }
+
     return EnumResponse.of(MemberRole.findCode(this._role));
   }
 }

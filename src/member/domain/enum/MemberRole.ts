@@ -1,5 +1,7 @@
 import { Enum, EnumType } from 'ts-jenum';
 import { BaseEnum } from '../../../global/common/domain/enum/base.enum';
+import { InternalServerException } from '../../../global/exception/internal-server.exception';
+import { ForbiddenException } from '../../../global/exception/forbidden.exception';
 
 @Enum('code')
 export class MemberRole extends EnumType<MemberRole>() implements BaseEnum {
@@ -21,7 +23,19 @@ export class MemberRole extends EnumType<MemberRole>() implements BaseEnum {
     return this._name;
   }
 
-  public static findCode(value: string): MemberRole | null {
-    return this.values().find(role => role.code === value) ?? null;
+  public static findCode(value: string): MemberRole {
+    const code = this.values().find(role => role.code === value);
+
+    if (!code) {
+      throw new InternalServerException(InternalServerException.ErrorCodes.NOT_SUPPORTED_CODE);
+    }
+
+    return code;
+  }
+
+  public checkSufficientRole(role: MemberRole): void {
+    if (this !== role) {
+      throw new ForbiddenException(ForbiddenException.ErrorCodes.NO_PERMISSION);
+    }
   }
 }

@@ -3,14 +3,15 @@ import { AppController } from './app.controller';
 import * as process from 'process';
 import { ConfigModule } from '@nestjs/config';
 import { GlobalModule } from './global/config/module/global.module';
+import { AdminModule } from './admin/admin.module';
 
-//const applicationModules = [];
+const applicationModules = [AdminModule];
 
 @Module({
   imports: [
     ConfigModule.forRoot({ envFilePath: `env/.env.${process.env.NODE_ENV}` }),
     GlobalModule,
-    //...applicationModules,
+    ...applicationModules,
   ],
   controllers: [AppController],
 })

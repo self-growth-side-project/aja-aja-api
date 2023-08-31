@@ -10,6 +10,7 @@ export class InternalServerException extends BaseException {
     FAILED_TO_GET_NAMESPACE: ErrorCode.create(500003, 'namespace 를 가져올 수 없습니다.'),
     FAILED_TO_GET_SYSTEM_VARIABLE: ErrorCode.create(500004, '환경 변수를 가져올 수 없습니다.'),
     FAILED_TO_HASH_REFRESH_TOKEN: ErrorCode.create(500005, 'Refresh Token 을 해싱할 수 없습니다.'),
+    NOT_SUPPORTED_CODE: ErrorCode.create(500006, '지원하지 않는 Code 입니다.'),
   };
 
   constructor(errorCode: ErrorCode, data?: any) {
