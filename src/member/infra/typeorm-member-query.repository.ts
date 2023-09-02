@@ -38,51 +38,14 @@ export class TypeormMemberQueryRepository implements MemberQueryRepository {
     this.eqEmail(queryBuilder, condition.email);
     this.eqRole(queryBuilder, condition.role);
 
-    let idSort: SortEnum | null = null;
-
-    condition.sort.forEach(sort => {
-      const { field, orderBy } = sort;
-      queryBuilder.addOrderBy(`member.${field}`, orderBy.code as 'ASC' | 'DESC');
-
-      if (field === 'id') {
-        idSort = orderBy;
-      }
-    });
+    const idSort = this.setOrderBy(condition, queryBuilder);
 
     if (condition.lastId && condition.size && idSort) {
-      const operator = idSort === SortEnum.ASC ? '>' : '<';
-
-      const totalCount = await queryBuilder.getCount();
-
-      queryBuilder.andWhere(`member.id ${operator} :lastId`, { lastId: condition.lastId });
-      queryBuilder.limit(condition.getLimit());
-
-      const results = await queryBuilder.getRawMany();
-
-      return new PagingResponse<MemberResponse>(
-        null,
-        condition.size,
-        totalCount,
-        results.length,
-        results.map(result => plainToInstance(MemberResponse, result) as unknown as MemberResponse),
-      );
+      return await this.getInfiniteScrollResult(idSort, queryBuilder, condition);
     }
 
     if (condition.page && condition.size) {
-      const totalCount = await queryBuilder.getCount();
-
-      queryBuilder.offset(condition.getOffset());
-      queryBuilder.limit(condition.getLimit());
-
-      const results = await queryBuilder.getRawMany();
-
-      return new PagingResponse<MemberResponse>(
-        condition.page,
-        condition.size,
-        totalCount,
-        results.length,
-        results.map(result => plainToInstance(MemberResponse, result) as unknown as MemberResponse),
-      );
+      return await this.getPagingResult(queryBuilder, condition);
     }
 
     const results = await queryBuilder.getRawMany();
@@ -111,5 +74,60 @@ export class TypeormMemberQueryRepository implements MemberQueryRepository {
     }
 
     queryBuilder.andWhere('member.role = :role', { role });
+  }
+
+  private setOrderBy(condition: MemberCondition, queryBuilder: SelectQueryBuilder<Member>): SortEnum | null {
+    let idSort: SortEnum | null = null;
+
+    condition.sort.forEach(sort => {
+      const { field, orderBy } = sort;
+      queryBuilder.addOrderBy(`member.${field}`, orderBy.code as 'ASC' | 'DESC');
+
+      if (field === 'id') {
+        idSort = orderBy;
+      }
+    });
+
+    return idSort;
+  }
+
+  private async getInfiniteScrollResult(
+    idSort: SortEnum,
+    queryBuilder: SelectQueryBuilder<Member>,
+    condition: MemberCondition,
+  ) {
+    const operator = idSort === SortEnum.ASC ? '>' : '<';
+
+    const totalCount = await queryBuilder.getCount();
+
+    queryBuilder.andWhere(`member.id ${operator} :lastId`, { lastId: condition.lastId });
+    queryBuilder.limit(condition.getLimit());
+
+    const results = await queryBuilder.getRawMany();
+
+    return new PagingResponse<MemberResponse>(
+      null,
+      condition.size as number,
+      totalCount,
+      results.length,
+      results.map(result => plainToInstance(MemberResponse, result) as unknown as MemberResponse),
+    );
+  }
+
+  private async getPagingResult(queryBuilder: SelectQueryBuilder<Member>, condition: MemberCondition) {
+    const totalCount = await queryBuilder.getCount();
+
+    queryBuilder.offset(condition.getOffset());
+    queryBuilder.limit(condition.getLimit());
+
+    const results = await queryBuilder.getRawMany();
+
+    return new PagingResponse<MemberResponse>(
+      condition.page as number,
+      condition.size as number,
+      totalCount,
+      results.length,
+      results.map(result => plainToInstance(MemberResponse, result) as unknown as MemberResponse),
+    );
   }
 }
