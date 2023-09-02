@@ -1,9 +1,17 @@
-import { PagingRequest } from './paging.request';
+import { BaseRequest } from './base.request';
 import { MemberCondition } from '../../../domain/repository/dto/member.condition';
 import { MemberRole } from '../../../../../member/domain/enum/MemberRole';
 
-export class SearchMemberRequest extends PagingRequest {
+export class SearchMemberRequest extends BaseRequest {
   public toCondition(): MemberCondition {
-    return MemberCondition.of(this.page, this.size, null, null, MemberRole.MEMBER);
+    return MemberCondition.of(
+      this.page,
+      this.size,
+      this.lastId,
+      this.sort?.map(s => s.toCondition()),
+      null,
+      null,
+      MemberRole.MEMBER,
+    );
   }
 }

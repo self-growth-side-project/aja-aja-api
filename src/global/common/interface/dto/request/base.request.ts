@@ -1,17 +1,27 @@
 import { IsNumber, IsOptional, Min } from 'class-validator';
-import { ToNumber } from '../../../decorator/transformer.decorator';
+import { Sort, ToNumber } from '../../../decorator/transformer.decorator';
 import { ValidationMessage } from '../../../constant/validation.message';
+import { SortRequest } from './sort.request';
 
-export abstract class PagingRequest {
+export abstract class BaseRequest {
   @IsOptional()
   @ToNumber()
   @IsNumber()
   @Min(1, { message: ValidationMessage.page.min })
-  page?: number;
+  page?: number = 1;
 
   @IsOptional()
   @ToNumber()
   @IsNumber()
   @Min(1, { message: ValidationMessage.size.min })
   size?: number;
+
+  @IsOptional()
+  @ToNumber()
+  @IsNumber()
+  lastId?: number;
+
+  @IsOptional()
+  @Sort()
+  sort?: SortRequest[];
 }

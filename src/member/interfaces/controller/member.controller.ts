@@ -35,7 +35,7 @@ export class MemberController {
   @Get('/me')
   async getMe(): Promise<BaseResponse<MemberResponse>> {
     const result = await this.memberQueryRepository.find(
-      MemberCondition.of(null, null, null, GlobalContextUtil.getMember().id),
+      MemberCondition.of(null, null, null, null, null, GlobalContextUtil.getMember().id),
     );
 
     if (!result) {

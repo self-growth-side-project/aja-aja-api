@@ -1,20 +1,25 @@
 import { Exclude, Expose } from 'class-transformer';
 
 export class PagingResponse<T> {
-  @Exclude({ toPlainOnly: true }) private readonly _page: number;
+  @Exclude({ toPlainOnly: true }) private readonly _page: number | null;
   @Exclude({ toPlainOnly: true }) private readonly _size: number;
   @Exclude({ toPlainOnly: true }) private readonly _totalElements: number;
   @Exclude({ toPlainOnly: true }) private readonly _numberOfElements: number;
   @Exclude({ toPlainOnly: true }) private readonly _items: T[];
 
   @Expose()
-  get page(): number {
+  get page(): number | null {
     return this._page;
   }
 
   @Expose()
   get size(): number {
     return this._size;
+  }
+
+  @Expose()
+  get lastId(): number | null {
+    return (this._items[this._items.length - 1] as any)?.id || null;
   }
 
   @Expose()
@@ -37,7 +42,7 @@ export class PagingResponse<T> {
     return this._items;
   }
 
-  constructor(page: number, size: number, totalElements: number, numberOfElements: number, items: T[]) {
+  constructor(page: number | null, size: number, totalElements: number, numberOfElements: number, items: T[]) {
     this._page = page;
     this._size = size;
     this._totalElements = totalElements;

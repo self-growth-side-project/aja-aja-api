@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { MemberResponse } from '../interfaces/dto/member.response';
 import { plainToInstance } from 'class-transformer';
 import { PagingResponse } from '../../global/common/interface/dto/response/paging.response';
+import { SortEnum } from '../../global/common/domain/enum/sort.enum';
 
 @Injectable()
 export class TypeormMemberQueryRepository implements MemberQueryRepository {
@@ -36,6 +37,36 @@ export class TypeormMemberQueryRepository implements MemberQueryRepository {
     this.eqId(queryBuilder, condition.id);
     this.eqEmail(queryBuilder, condition.email);
     this.eqRole(queryBuilder, condition.role);
+
+    let idSort: SortEnum | null = null;
+
+    condition.sort.forEach(sort => {
+      const { field, orderBy } = sort;
+      queryBuilder.addOrderBy(`member.${field}`, orderBy.code as 'ASC' | 'DESC');
+
+      if (field === 'id') {
+        idSort = orderBy;
+      }
+    });
+
+    if (condition.lastId && condition.size && idSort) {
+      const operator = idSort === SortEnum.ASC ? '>' : '<';
+
+      const totalCount = await queryBuilder.getCount();
+
+      queryBuilder.andWhere(`member.id ${operator} :lastId`, { lastId: condition.lastId });
+      queryBuilder.limit(condition.getLimit());
+
+      const results = await queryBuilder.getRawMany();
+
+      return new PagingResponse<MemberResponse>(
+        null,
+        condition.size,
+        totalCount,
+        results.length,
+        results.map(result => plainToInstance(MemberResponse, result) as unknown as MemberResponse),
+      );
+    }
 
     if (condition.page && condition.size) {
       const totalCount = await queryBuilder.getCount();

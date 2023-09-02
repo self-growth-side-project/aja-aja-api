@@ -1,7 +1,8 @@
-import { PagingCondition } from './paging.condition';
+import { BaseCondition } from './base.condition';
 import { MemberRole } from '../../../../../member/domain/enum/MemberRole';
+import { SortCondition } from './sort.condition';
 
-export class MemberCondition extends PagingCondition {
+export class MemberCondition extends BaseCondition {
   email?: string | null | undefined;
 
   id?: number | null | undefined;
@@ -11,11 +12,13 @@ export class MemberCondition extends PagingCondition {
   private constructor(
     page?: number | null | undefined,
     size?: number | null | undefined,
+    lastId?: number | null | undefined,
+    sort?: SortCondition[] | null | undefined,
     email?: string | null | undefined,
     id?: number | null | undefined,
     role?: MemberRole | null | undefined,
   ) {
-    super(page, size);
+    super(page, size, lastId, sort);
     this.email = email;
     this.id = id;
     this.role = role?.code;
@@ -24,10 +27,12 @@ export class MemberCondition extends PagingCondition {
   public static of(
     page?: number | null | undefined,
     size?: number | null | undefined,
+    lastId?: number | null | undefined,
+    sort?: SortCondition[] | null | undefined,
     email?: string | null,
     id?: number | null,
     role?: MemberRole | null | undefined,
   ): MemberCondition {
-    return new MemberCondition(page, size, email, id, role);
+    return new MemberCondition(page, size, lastId, sort, email, id, role);
   }
 }

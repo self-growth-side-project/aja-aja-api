@@ -30,4 +30,12 @@ export class StringUtil {
 
     return value.toString();
   }
+
+  public static split(value: string, delimiter: string): string[] | null {
+    if (!value) {
+      return null;
+    }
+
+    return value.split(delimiter);
+  }
 }
