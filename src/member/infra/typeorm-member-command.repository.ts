@@ -1,7 +1,7 @@
 import { MemberCommandRepository } from '../domain/repository/member-command.repository';
 import { Member } from '../domain/entity/member.entity';
 import { Injectable } from '@nestjs/common';
-import { BaseTypeormRepository } from '../../global/common/domain/infra/base-typeorm.repository';
+import { BaseTypeormRepository } from '../../global/common/infra/repository/base-typeorm.repository';
 import { EntityTarget } from 'typeorm';
 
 @Injectable()

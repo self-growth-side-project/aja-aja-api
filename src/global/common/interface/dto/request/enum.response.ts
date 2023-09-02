@@ -1,5 +1,5 @@
 import { Expose } from 'class-transformer';
-import { BaseEnum } from '../../domain/enum/base.enum';
+import { BaseEnum } from '../../../domain/enum/base.enum';
 
 export class EnumResponse<T extends BaseEnum> {
   @Expose()

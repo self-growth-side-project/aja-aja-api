@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { EntityTarget } from 'typeorm';
-import { BaseTypeormRepository } from '../../global/common/domain/infra/base-typeorm.repository';
+import { BaseTypeormRepository } from '../../global/common/infra/repository/base-typeorm.repository';
 import { RefreshToken } from '../domain/entity/refresh-token.entity';
 import { RefreshTokenCommandRepository } from '../domain/repository/refresh-token-command.repository';
 

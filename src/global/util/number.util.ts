@@ -10,4 +10,8 @@ export class NumberUtil {
 
     return parseInt(value);
   }
+
+  public static isNumber(value: number): boolean {
+    return isNaN(value);
+  }
 }

@@ -1,7 +1,7 @@
 import { Inject } from '@nestjs/common';
 import { TransactionManager } from '../../../util/transaction-manager.util';
 import { EntityTarget, FindOneOptions, Repository } from 'typeorm';
-import { BaseEntity } from '../entity/base.entity';
+import { BaseEntity } from '../../domain/entity/base.entity';
 
 export abstract class BaseTypeormRepository<T extends BaseEntity> {
   constructor(@Inject(TransactionManager) private readonly txManger: TransactionManager) {}

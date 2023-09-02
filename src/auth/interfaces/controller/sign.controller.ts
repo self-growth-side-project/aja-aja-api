@@ -1,7 +1,7 @@
 import { Body, Controller, Post, Version } from '@nestjs/common';
 import { SignUpRequest } from '../dto/request/sign-up.request';
 import { SignService } from '../../application/service/sign.service';
-import { BaseResponse } from '../../../global/common/dto/response/base.response';
+import { BaseResponse } from '../../../global/common/interface/dto/response/base.response';
 import { SignInRequest } from '../dto/request/sign-in.request';
 import { SignInResponse } from '../dto/response/sign-in.response';
 

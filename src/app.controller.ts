@@ -1,5 +1,5 @@
 import { Controller, Get, Version } from '@nestjs/common';
-import { BaseResponse } from './global/common/dto/response/base.response';
+import { BaseResponse } from './global/common/interface/dto/response/base.response';
 
 @Controller()
 export class AppController {

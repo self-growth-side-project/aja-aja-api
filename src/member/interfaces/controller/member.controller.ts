@@ -1,12 +1,12 @@
 import { Body, Controller, Delete, Get, Inject, Patch, Post, Query, UseGuards, Version } from '@nestjs/common';
-import { BaseResponse } from '../../../global/common/dto/response/base.response';
+import { BaseResponse } from '../../../global/common/interface/dto/response/base.response';
 import { MemberService } from '../../application/service/member.service';
 import { CheckEmailDuplicationRequest } from '../dto/check-email-duplication.request';
 import { CheckEmailDuplicationResponse } from '../dto/check-email-duplication.response';
 import { JwtAuthGuard } from '../../../auth/guard/jwt-auth.guard';
 import { MemberQueryRepository } from '../../domain/repository/member-query.repository';
 import { MemberResponse } from '../dto/member.response';
-import { MemberCondition } from '../../domain/repository/dto/member.condition';
+import { MemberCondition } from '../../../global/common/domain/repository/dto/member.condition';
 import { GlobalContextUtil } from '../../../global/util/global-context.util';
 import { NotFoundException } from '../../../global/exception/not-found.exception';
 import { ResetMyPasswordRequest } from '../dto/reset-my-password.request';
@@ -34,7 +34,9 @@ export class MemberController {
   @UseGuards(JwtAuthGuard)
   @Get('/me')
   async getMe(): Promise<BaseResponse<MemberResponse>> {
-    const result = await this.memberQueryRepository.find(MemberCondition.of(null, GlobalContextUtil.getMember().id));
+    const result = await this.memberQueryRepository.find(
+      MemberCondition.of(null, null, null, GlobalContextUtil.getMember().id),
+    );
 
     if (!result) {
       throw new NotFoundException(NotFoundException.ErrorCodes.NOT_FOUND_MEMBER);

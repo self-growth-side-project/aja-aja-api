@@ -4,7 +4,7 @@ import { AuthCodeCommandRepository } from '../domain/repository/auth-code-comman
 import { AuthCode } from '../domain/entity/auth-code.entity';
 import { AuthCodeType } from '../domain/enum/AuthCodeType';
 import { TimeUtil } from '../../global/util/time.util';
-import { BaseTypeormRepository } from '../../global/common/domain/infra/base-typeorm.repository';
+import { BaseTypeormRepository } from '../../global/common/infra/repository/base-typeorm.repository';
 
 @Injectable()
 export class TypeormAuthCodeCommandRepository

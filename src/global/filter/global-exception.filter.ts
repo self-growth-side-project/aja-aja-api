@@ -1,5 +1,5 @@
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus } from '@nestjs/common';
-import { BaseResponse } from '../common/dto/response/base.response';
+import { BaseResponse } from '../common/interface/dto/response/base.response';
 import { instanceToPlain } from 'class-transformer';
 
 @Catch()

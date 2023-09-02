@@ -1,5 +1,5 @@
 import { Column, Entity, Generated, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
-import { BigintTransformer } from '../../../global/common/domain/transformer/bigint.transformer';
+import { BigintTransformer } from '../../../global/common/infra/transformer/bigint.transformer';
 import { Member } from './member.entity';
 import { BaseAuditEntity } from '../../../global/common/domain/entity/base-audit.entity';
 import { BackupRequestStatus } from '../enum/BackupRequestStatus';

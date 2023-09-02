@@ -1,5 +1,5 @@
 import { BeforeInsert, Column, Entity, Generated, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
-import { LocalDateTimeTransformer } from '../../../global/common/domain/transformer/local-date-time.transformer';
+import { LocalDateTimeTransformer } from '../../../global/common/infra/transformer/local-date-time.transformer';
 import { LocalDateTime } from '@js-joda/core';
 import { Member } from '../../../member/domain/entity/member.entity';
 import { AuthCodeTypeTransformer } from '../../infra/transformer/MemberRoleTransformer';
@@ -8,8 +8,8 @@ import { RandomUtil } from '../../../global/util/random.util';
 import { StringUtil } from '../../../global/util/string.util';
 import { InternalServerException } from '../../../global/exception/internal-server.exception';
 import { BadRequestException } from '../../../global/exception/bad-request.exception';
-import { BooleanTransformer } from '../../../global/common/domain/transformer/boolean.transformer';
-import { BigintTransformer } from '../../../global/common/domain/transformer/bigint.transformer';
+import { BooleanTransformer } from '../../../global/common/infra/transformer/boolean.transformer';
+import { BigintTransformer } from '../../../global/common/infra/transformer/bigint.transformer';
 import { BaseEntity } from '../../../global/common/domain/entity/base.entity';
 
 @Entity()

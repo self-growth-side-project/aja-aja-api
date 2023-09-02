@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { BaseTypeormRepository } from '../../global/common/domain/infra/base-typeorm.repository';
+import { BaseTypeormRepository } from '../../global/common/infra/repository/base-typeorm.repository';
 import { EntityTarget } from 'typeorm';
 import { BackupRequest } from '../domain/entity/backup-request.entity';
 import { BackupRequestCommandRepository } from '../domain/repository/backup-request-command.repository';
