@@ -1,5 +1,5 @@
 import { ValueTransformer } from 'typeorm';
-import { BackupRequestStatus } from '../../domain/enum/BackupRequestStatus';
+import { BackupRequestStatus } from '../../domain/enum/backup-request-status.enum';
 
 export class BackupRequestStatusTransformer implements ValueTransformer {
   to(entityValue: BackupRequestStatus): string | null {

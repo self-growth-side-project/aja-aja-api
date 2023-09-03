@@ -1,19 +1,19 @@
 import { Body, Controller, Delete, Get, Inject, Patch, Post, Query, UseGuards, Version } from '@nestjs/common';
 import { BaseResponse } from '../../../global/common/interface/dto/response/base.response';
 import { MemberService } from '../../application/service/member.service';
-import { CheckEmailDuplicationRequest } from '../dto/check-email-duplication.request';
-import { CheckEmailDuplicationResponse } from '../dto/check-email-duplication.response';
+import { CheckEmailDuplicationRequest } from '../dto/request/check-email-duplication.request';
+import { CheckEmailDuplicationResponse } from '../dto/response/check-email-duplication.response';
 import { JwtAuthGuard } from '../../../auth/guard/jwt-auth.guard';
 import { MemberQueryRepository } from '../../domain/repository/member-query.repository';
-import { MemberResponse } from '../dto/member.response';
+import { MemberResponse } from '../dto/response/member.response';
 import { MemberCondition } from '../../../global/common/domain/repository/dto/member.condition';
 import { GlobalContextUtil } from '../../../global/util/global-context.util';
 import { NotFoundException } from '../../../global/exception/not-found.exception';
-import { ResetMyPasswordRequest } from '../dto/reset-my-password.request';
+import { ResetMyPasswordRequest } from '../dto/request/reset-my-password.request';
 import { BackupRequestQueryRepository } from '../../domain/repository/backup-request-query.repository';
 import { BackupRequestCondition } from '../../domain/repository/dto/backup-request.condition';
-import { BackupRequestStatus } from '../../domain/enum/BackupRequestStatus';
-import { CheckPendingBackupRequestResponse } from '../dto/check-pending-backup-request.response';
+import { BackupRequestStatus } from '../../domain/enum/backup-request-status.enum';
+import { CheckPendingBackupRequestResponse } from '../dto/response/check-pending-backup-request.response';
 import { BackupService } from '../../application/service/backup.service';
 
 @Controller('/members')

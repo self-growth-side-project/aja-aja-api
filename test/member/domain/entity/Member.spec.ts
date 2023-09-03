@@ -1,7 +1,7 @@
 import { Member } from '../../../../src/member/domain/entity/member.entity';
 import { StringUtil } from '../../../../src/global/util/string.util';
-import { MemberRole } from '../../../../src/member/domain/enum/MemberRole';
-import { PasswordEncrypter } from '../../../../src/auth/domain/PasswordEncrypter';
+import { MemberRole } from '../../../../src/member/domain/enum/member-role.enum';
+import { PasswordEncrypter } from '../../../../src/auth/domain/password-encrypter.service';
 
 describe('Member', () => {
   let signUpMember: Member;

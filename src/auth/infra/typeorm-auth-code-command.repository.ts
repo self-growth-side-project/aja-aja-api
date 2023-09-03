@@ -2,13 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { Between, EntityTarget } from 'typeorm';
 import { AuthCodeCommandRepository } from '../domain/repository/auth-code-command.repository';
 import { AuthCode } from '../domain/entity/auth-code.entity';
-import { AuthCodeType } from '../domain/enum/AuthCodeType';
+import { AuthCodeType } from '../domain/enum/auth-code-type.enum';
 import { TimeUtil } from '../../global/util/time.util';
-import { BaseTypeormRepository } from '../../global/common/infra/repository/base-typeorm.repository';
+import { TypeormBaseRepository } from '../../global/common/infra/repository/typeorm-base.repository';
 
 @Injectable()
 export class TypeormAuthCodeCommandRepository
-  extends BaseTypeormRepository<AuthCode>
+  extends TypeormBaseRepository<AuthCode>
   implements AuthCodeCommandRepository
 {
   getName(): EntityTarget<AuthCode> {

@@ -5,7 +5,7 @@ import { ResetMyPasswordServiceDto } from '../dto/reset-my-password.service.dto'
 import { GlobalContextUtil } from '../../../global/util/global-context.util';
 import { Member } from '../../domain/entity/member.entity';
 import { NotFoundException } from '../../../global/exception/not-found.exception';
-import { PasswordEncrypter } from '../../../auth/domain/PasswordEncrypter';
+import { PasswordEncrypter } from '../../../auth/domain/password-encrypter.service';
 import { BadRequestException } from '../../../global/exception/bad-request.exception';
 import { Transactional } from '../../../global/common/decorator/transactional.decorator';
 import { WithdrawnMember } from '../../domain/entity/withdrawn-member.entity';

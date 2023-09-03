@@ -1,6 +1,6 @@
 import { BaseRequest } from './base.request';
 import { MemberCondition } from '../../../domain/repository/dto/member.condition';
-import { MemberRole } from '../../../../../member/domain/enum/MemberRole';
+import { MemberRole } from '../../../../../member/domain/enum/member-role.enum';
 
 export class SearchMemberRequest extends BaseRequest {
   public toCondition(): MemberCondition {

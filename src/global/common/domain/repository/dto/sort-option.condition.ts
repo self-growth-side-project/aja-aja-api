@@ -1,6 +1,6 @@
 import { SortEnum } from '../../enum/sort.enum';
 
-export class SortCondition {
+export class SortOptionCondition {
   field!: string;
 
   orderBy!: SortEnum;

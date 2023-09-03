@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { BaseTypeormRepository } from '../../global/common/infra/repository/base-typeorm.repository';
+import { TypeormBaseRepository } from '../../global/common/infra/repository/typeorm-base.repository';
 import { EntityTarget } from 'typeorm';
 import { BackupRequest } from '../domain/entity/backup-request.entity';
 import { BackupRequestCommandRepository } from '../domain/repository/backup-request-command.repository';
-import { BackupRequestStatus } from '../domain/enum/BackupRequestStatus';
+import { BackupRequestStatus } from '../domain/enum/backup-request-status.enum';
 
 @Injectable()
 export class TypeormBackupRequestCommandRepository
-  extends BaseTypeormRepository<BackupRequest>
+  extends TypeormBaseRepository<BackupRequest>
   implements BackupRequestCommandRepository
 {
   getName(): EntityTarget<BackupRequest> {

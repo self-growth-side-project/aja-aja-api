@@ -2,7 +2,7 @@ import { Transform } from 'class-transformer';
 import { TimeUtil } from '../../util/time.util';
 import { NumberUtil } from '../../util/number.util';
 import { StringUtil } from '../../util/string.util';
-import { SortRequest } from '../interface/dto/request/sort.request';
+import { SortOptionRequest } from '../interface/dto/request/sort-option.request';
 import { BadRequestException } from '../../exception/bad-request.exception';
 
 export function FromLocalDateTime(): PropertyDecorator {
@@ -43,7 +43,7 @@ export function Sort(): PropertyDecorator {
         throw new BadRequestException(BadRequestException.ErrorCodes.INVALID_SORT_OPTION);
       }
 
-      return [SortRequest.of(sort[0], sort[1])];
+      return [SortOptionRequest.of(sort[0], sort[1])];
     }
 
     return value.map((v: string) => {
@@ -52,7 +52,7 @@ export function Sort(): PropertyDecorator {
         throw new BadRequestException(BadRequestException.ErrorCodes.INVALID_SORT_OPTION);
       }
 
-      return SortRequest.of(sort[0], sort[1]);
+      return SortOptionRequest.of(sort[0], sort[1]);
     });
   });
 }

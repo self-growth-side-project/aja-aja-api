@@ -1,5 +1,5 @@
-import { IsPassword } from '../../../global/common/decorator/validator.decorator';
-import { ResetMyPasswordServiceDto } from '../../application/dto/reset-my-password.service.dto';
+import { IsPassword } from '../../../../global/common/decorator/validator.decorator';
+import { ResetMyPasswordServiceDto } from '../../../application/dto/reset-my-password.service.dto';
 
 export class ResetMyPasswordRequest {
   @IsPassword()

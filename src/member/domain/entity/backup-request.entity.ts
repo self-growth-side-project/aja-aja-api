@@ -2,8 +2,8 @@ import { Column, Entity, Generated, JoinColumn, ManyToOne, PrimaryColumn } from 
 import { BigintTransformer } from '../../../global/common/infra/transformer/bigint.transformer';
 import { Member } from './member.entity';
 import { BaseAuditEntity } from '../../../global/common/domain/entity/base-audit.entity';
-import { BackupRequestStatus } from '../enum/BackupRequestStatus';
-import { BackupRequestStatusTransformer } from '../../infra/transformer/BackupRequestStatusTransformer';
+import { BackupRequestStatus } from '../enum/backup-request-status.enum';
+import { BackupRequestStatusTransformer } from '../../infra/transformer/backup-request-status.transformer';
 
 @Entity()
 export class BackupRequest extends BaseAuditEntity {

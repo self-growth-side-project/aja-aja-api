@@ -1,6 +1,6 @@
 import { BaseCondition } from './base.condition';
-import { MemberRole } from '../../../../../member/domain/enum/MemberRole';
-import { SortCondition } from './sort.condition';
+import { MemberRole } from '../../../../../member/domain/enum/member-role.enum';
+import { SortOptionCondition } from './sort-option.condition';
 
 export class MemberCondition extends BaseCondition {
   email?: string | null | undefined;
@@ -13,7 +13,7 @@ export class MemberCondition extends BaseCondition {
     page?: number | null | undefined,
     size?: number | null | undefined,
     lastId?: number | null | undefined,
-    sort?: SortCondition[] | null | undefined,
+    sort?: SortOptionCondition[] | null | undefined,
     email?: string | null | undefined,
     id?: number | null | undefined,
     role?: MemberRole | null | undefined,
@@ -28,7 +28,7 @@ export class MemberCondition extends BaseCondition {
     page?: number | null | undefined,
     size?: number | null | undefined,
     lastId?: number | null | undefined,
-    sort?: SortCondition[] | null | undefined,
+    sort?: SortOptionCondition[] | null | undefined,
     email?: string | null,
     id?: number | null,
     role?: MemberRole | null | undefined,

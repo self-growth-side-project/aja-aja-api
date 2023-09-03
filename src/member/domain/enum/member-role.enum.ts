@@ -27,7 +27,7 @@ export class MemberRole extends EnumType<MemberRole>() implements BaseEnum {
     const code = this.values().find(role => role.code === value);
 
     if (!code) {
-      throw new InternalServerException(InternalServerException.ErrorCodes.NOT_SUPPORTED_CODE);
+      throw new InternalServerException(InternalServerException.ErrorCodes.NOT_SUPPORTED_CODE, value);
     }
 
     return code;

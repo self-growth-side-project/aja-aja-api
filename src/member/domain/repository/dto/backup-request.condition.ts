@@ -1,4 +1,4 @@
-import { BackupRequestStatus } from '../../enum/BackupRequestStatus';
+import { BackupRequestStatus } from '../../enum/backup-request-status.enum';
 
 export class BackupRequestCondition {
   memberId?: number | null;

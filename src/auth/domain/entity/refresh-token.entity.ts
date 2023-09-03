@@ -9,7 +9,7 @@ import { JwtService } from '@nestjs/jwt';
 import { TokenPayloadServiceDto } from '../../application/dto/token-payload.service.dto';
 import { InternalServerException } from '../../../global/exception/internal-server.exception';
 import { NumberUtil } from '../../../global/util/number.util';
-import { RefreshTokenEncrypter } from '../RefreshTokenEncrypter';
+import { RefreshTokenEncrypter } from '../refresh-token-encrypter.service';
 
 @Unique('UK_member_id', ['member'])
 @Entity()

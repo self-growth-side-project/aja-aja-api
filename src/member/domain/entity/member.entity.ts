@@ -1,9 +1,9 @@
 import { BaseTimeEntity } from '../../../global/common/domain/entity/base-time.entity';
-import { MemberRole } from '../enum/MemberRole';
+import { MemberRole } from '../enum/member-role.enum';
 import { Column, Entity, Generated, PrimaryColumn } from 'typeorm';
-import { MemberRoleTransformer } from '../../infra/transformer/MemberRoleTransformer';
+import { MemberRoleTransformer } from '../../infra/transformer/member-role.transformer';
 import { BigintTransformer } from '../../../global/common/infra/transformer/bigint.transformer';
-import { PasswordEncrypter } from '../../../auth/domain/PasswordEncrypter';
+import { PasswordEncrypter } from '../../../auth/domain/password-encrypter.service';
 
 @Entity()
 export class Member extends BaseTimeEntity {

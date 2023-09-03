@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { MemberPayload } from './member.payload';
 import { UnauthorizedException } from '../../global/exception/unauthorized.exception';
 import { Reflector } from '@nestjs/core';
-import { MemberRole } from '../../member/domain/enum/MemberRole';
+import { MemberRole } from '../../member/domain/enum/member-role.enum';
 
 @Injectable()
 export class RoleGuard implements CanActivate {

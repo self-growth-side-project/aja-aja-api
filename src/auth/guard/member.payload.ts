@@ -1,4 +1,4 @@
-import { MemberRole } from '../../member/domain/enum/MemberRole';
+import { MemberRole } from '../../member/domain/enum/member-role.enum';
 
 export class MemberPayload {
   id: number;

@@ -1,7 +1,7 @@
 import { Exclude, Expose } from 'class-transformer';
-import { NumberUtil } from '../../../global/util/number.util';
-import { EnumResponse } from '../../../global/common/interface/dto/response/enum.response';
-import { MemberRole } from '../../domain/enum/MemberRole';
+import { NumberUtil } from '../../../../global/util/number.util';
+import { EnumResponse } from '../../../../global/common/interface/dto/response/enum.response';
+import { MemberRole } from '../../../domain/enum/member-role.enum';
 
 export class MemberResponse {
   @Exclude({ toPlainOnly: true }) private readonly _id: string;

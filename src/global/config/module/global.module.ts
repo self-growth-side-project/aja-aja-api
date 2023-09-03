@@ -1,9 +1,9 @@
 import { Global, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ShutDownManager } from '../shutdown.manager';
-import { PasswordEncrypter } from '../../../auth/domain/PasswordEncrypter';
-import { PasswordBcrypter } from '../../../auth/domain/PasswordBcrypter';
-import { RefreshTokenEncrypter } from '../../../auth/domain/RefreshTokenEncrypter';
-import { RefreshTokenBcrypter } from '../../../auth/domain/RefreshTokenBcrypter';
+import { PasswordEncrypter } from '../../../auth/domain/password-encrypter.service';
+import { PasswordBcrypter } from '../../../auth/domain/password-bcrypter.service';
+import { RefreshTokenEncrypter } from '../../../auth/domain/refresh-token-encrypter.service';
+import { RefreshTokenBcrypter } from '../../../auth/domain/refresh-token-bcrypter.service';
 import { TransactionMiddleware } from '../../common/middleware/transaction.middleware';
 import { NamespaceMiddleware } from '../../common/middleware/namespace.middleware';
 import { MemberMiddleware } from '../../common/middleware/member.middleware';

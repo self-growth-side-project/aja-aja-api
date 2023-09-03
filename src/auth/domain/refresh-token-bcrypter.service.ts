@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { BcryptUtil } from '../../global/util/bcrypt.util';
-import { RefreshTokenEncrypter } from './RefreshTokenEncrypter';
+import { RefreshTokenEncrypter } from './refresh-token-encrypter.service';
 
 @Injectable()
 export class RefreshTokenBcrypter implements RefreshTokenEncrypter {

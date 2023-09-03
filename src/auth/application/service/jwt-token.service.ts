@@ -6,7 +6,7 @@ import { NotFoundException } from '../../../global/exception/not-found.exception
 import { RandomUtil } from '../../../global/util/random.util';
 import { RefreshToken } from '../../domain/entity/refresh-token.entity';
 import { RefreshTokenCommandRepository } from '../../domain/repository/refresh-token-command.repository';
-import { RefreshTokenEncrypter } from '../../domain/RefreshTokenEncrypter';
+import { RefreshTokenEncrypter } from '../../domain/refresh-token-encrypter.service';
 import { UnauthorizedException } from '../../../global/exception/unauthorized.exception';
 import { Propagation, Transactional } from '../../../global/common/decorator/transactional.decorator';
 

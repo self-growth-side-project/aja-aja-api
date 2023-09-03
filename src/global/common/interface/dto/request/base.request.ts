@@ -1,7 +1,7 @@
 import { IsNumber, IsOptional, Min } from 'class-validator';
 import { Sort, ToNumber } from '../../../decorator/transformer.decorator';
 import { ValidationMessage } from '../../../constant/validation.message';
-import { SortRequest } from './sort.request';
+import { SortOptionRequest } from './sort-option.request';
 
 export abstract class BaseRequest {
   @IsOptional()
@@ -23,5 +23,5 @@ export abstract class BaseRequest {
 
   @IsOptional()
   @Sort()
-  sort?: SortRequest[];
+  sort?: SortOptionRequest[];
 }

@@ -1,5 +1,5 @@
 import { AuthCode } from '../entity/auth-code.entity';
-import { AuthCodeType } from '../enum/AuthCodeType';
+import { AuthCodeType } from '../enum/auth-code-type.enum';
 
 export interface AuthCodeCommandRepository {
   save(authCode: AuthCode): Promise<AuthCode>;

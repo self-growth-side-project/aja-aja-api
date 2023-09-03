@@ -3,7 +3,7 @@ import { MemberCommandRepository } from '../../domain/repository/member-command.
 import { GlobalContextUtil } from '../../../global/util/global-context.util';
 import { NotFoundException } from '../../../global/exception/not-found.exception';
 import { BackupRequestCommandRepository } from '../../domain/repository/backup-request-command.repository';
-import { BackupRequestStatus } from '../../domain/enum/BackupRequestStatus';
+import { BackupRequestStatus } from '../../domain/enum/backup-request-status.enum';
 import { ConflictException } from '../../../global/exception/conflict.exception';
 import { Propagation, Transactional } from '../../../global/common/decorator/transactional.decorator';
 import { BackupRequest } from '../../domain/entity/backup-request.entity';

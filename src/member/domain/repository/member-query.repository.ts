@@ -1,5 +1,5 @@
 import { MemberCondition } from '../../../global/common/domain/repository/dto/member.condition';
-import { MemberResponse } from '../../interfaces/dto/member.response';
+import { MemberResponse } from '../../interface/dto/response/member.response';
 import { PagingResponse } from '../../../global/common/interface/dto/response/paging.response';
 
 export interface MemberQueryRepository {

@@ -4,7 +4,7 @@ import { MemberCondition } from '../../global/common/domain/repository/dto/membe
 import { getMetadataArgsStorage, Repository, SelectQueryBuilder } from 'typeorm';
 import { Member } from '../domain/entity/member.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { MemberResponse } from '../interfaces/dto/member.response';
+import { MemberResponse } from '../interface/dto/response/member.response';
 import { plainToInstance } from 'class-transformer';
 import { PagingResponse } from '../../global/common/interface/dto/response/paging.response';
 import { SortEnum } from '../../global/common/domain/enum/sort.enum';

@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { EntityTarget } from 'typeorm';
-import { BaseTypeormRepository } from '../../global/common/infra/repository/base-typeorm.repository';
+import { TypeormBaseRepository } from '../../global/common/infra/repository/typeorm-base.repository';
 import { RefreshToken } from '../domain/entity/refresh-token.entity';
 import { RefreshTokenCommandRepository } from '../domain/repository/refresh-token-command.repository';
 
 @Injectable()
 export class TypeormRefreshTokenCommandRepository
-  extends BaseTypeormRepository<RefreshToken>
+  extends TypeormBaseRepository<RefreshToken>
   implements RefreshTokenCommandRepository
 {
   getName(): EntityTarget<RefreshToken> {

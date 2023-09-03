@@ -1,6 +1,6 @@
 import { IsEmail, IsNotEmpty } from 'class-validator';
-import { ValidationMessage } from '../../../global/common/constant/validation.message';
-import { CheckEmailDuplicationServiceDto } from '../../application/dto/check-email-duplication-service.dto';
+import { ValidationMessage } from '../../../../global/common/constant/validation.message';
+import { CheckEmailDuplicationServiceDto } from '../../../application/dto/check-email-duplication-service.dto';
 
 export class CheckEmailDuplicationRequest {
   @IsNotEmpty({ message: ValidationMessage.email.isEmpty })

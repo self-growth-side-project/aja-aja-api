@@ -1,4 +1,4 @@
-import { MemberRole } from '../../../../src/member/domain/enum/MemberRole';
+import { MemberRole } from '../../../../src/member/domain/enum/member-role.enum';
 
 describe('MemberRole', () => {
   describe('ADMIN', () => {

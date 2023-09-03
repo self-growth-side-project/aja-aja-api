@@ -1,5 +1,5 @@
 import { BackupRequest } from '../entity/backup-request.entity';
-import { BackupRequestStatus } from '../enum/BackupRequestStatus';
+import { BackupRequestStatus } from '../enum/backup-request-status.enum';
 
 export interface BackupRequestCommandRepository {
   save(backupRequest: BackupRequest): Promise<BackupRequest>;

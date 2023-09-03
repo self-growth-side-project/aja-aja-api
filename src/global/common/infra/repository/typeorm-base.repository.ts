@@ -3,7 +3,7 @@ import { TransactionManager } from '../../../util/transaction-manager.util';
 import { EntityTarget, FindOneOptions, Repository } from 'typeorm';
 import { BaseEntity } from '../../domain/entity/base.entity';
 
-export abstract class BaseTypeormRepository<T extends BaseEntity> {
+export abstract class TypeormBaseRepository<T extends BaseEntity> {
   constructor(@Inject(TransactionManager) private readonly txManger: TransactionManager) {}
 
   abstract getName(): EntityTarget<T>;

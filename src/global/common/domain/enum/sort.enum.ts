@@ -26,7 +26,7 @@ export class SortEnum extends EnumType<SortEnum>() implements BaseEnum {
     const code = this.values().find(sort => sort.code === value);
 
     if (!code) {
-      throw new InternalServerException(InternalServerException.ErrorCodes.NOT_SUPPORTED_CODE);
+      throw new InternalServerException(InternalServerException.ErrorCodes.NOT_SUPPORTED_CODE, value);
     }
 
     return code;

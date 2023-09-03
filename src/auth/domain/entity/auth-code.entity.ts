@@ -2,8 +2,8 @@ import { BeforeInsert, Column, Entity, Generated, JoinColumn, ManyToOne, Primary
 import { LocalDateTimeTransformer } from '../../../global/common/infra/transformer/local-date-time.transformer';
 import { LocalDateTime } from '@js-joda/core';
 import { Member } from '../../../member/domain/entity/member.entity';
-import { AuthCodeTypeTransformer } from '../../infra/transformer/MemberRoleTransformer';
-import { AuthCodeType } from '../enum/AuthCodeType';
+import { AuthCodeTypeTransformer } from '../../infra/transformer/auth-code-type.transformer';
+import { AuthCodeType } from '../enum/auth-code-type.enum';
 import { RandomUtil } from '../../../global/util/random.util';
 import { StringUtil } from '../../../global/util/string.util';
 import { InternalServerException } from '../../../global/exception/internal-server.exception';

@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { MemberController } from './interfaces/controller/member.controller';
+import { MemberController } from './interface/controller/member.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Member } from './domain/entity/member.entity';
 import { TypeormMemberQueryRepository } from './infra/typeorm-member-query.repository';

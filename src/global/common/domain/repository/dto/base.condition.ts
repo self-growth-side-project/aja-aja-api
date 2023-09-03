@@ -1,4 +1,4 @@
-import { SortCondition } from './sort.condition';
+import { SortOptionCondition } from './sort-option.condition';
 import { SortEnum } from '../../enum/sort.enum';
 
 export abstract class BaseCondition {
@@ -8,13 +8,13 @@ export abstract class BaseCondition {
 
   lastId?: number | null | undefined;
 
-  _sort?: SortCondition[] | null | undefined;
+  _sort?: SortOptionCondition[] | null | undefined;
 
   protected constructor(
     page?: number | null | undefined,
     size?: number | null | undefined,
     lastId?: number | null | undefined,
-    sort?: SortCondition[] | null | undefined,
+    sort?: SortOptionCondition[] | null | undefined,
   ) {
     this.page = page;
     this.size = size;
@@ -46,9 +46,9 @@ export abstract class BaseCondition {
     return this.lastId;
   }
 
-  get sort(): SortCondition[] {
+  get sort(): SortOptionCondition[] {
     if (!this._sort || this._sort.length < 1) {
-      return [new SortCondition('id', SortEnum.DESC)];
+      return [new SortOptionCondition('id', SortEnum.DESC)];
     }
 
     return this._sort;

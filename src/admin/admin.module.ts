@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { AdminController } from './interfaces/controller/admin.controller';
+import { AdminController } from './interface/controller/admin.controller';
 
 @Module({
   controllers: [AdminController],
