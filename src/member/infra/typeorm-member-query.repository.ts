@@ -1,16 +1,21 @@
 import { Injectable } from '@nestjs/common';
 import { MemberQueryRepository } from '../domain/repository/member-query.repository';
 import { MemberCondition } from '../../global/common/domain/repository/dto/member.condition';
-import { Repository, SelectQueryBuilder } from 'typeorm';
+import { getMetadataArgsStorage, Repository, SelectQueryBuilder } from 'typeorm';
 import { Member } from '../domain/entity/member.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MemberResponse } from '../interfaces/dto/member.response';
 import { plainToInstance } from 'class-transformer';
 import { PagingResponse } from '../../global/common/interface/dto/response/paging.response';
 import { SortEnum } from '../../global/common/domain/enum/sort.enum';
+import { BadRequestException } from '../../global/exception/bad-request.exception';
 
 @Injectable()
 export class TypeormMemberQueryRepository implements MemberQueryRepository {
+  public static readonly ENTITY_FIELD_NAMES = getMetadataArgsStorage()
+    .columns.filter(column => column.target === Member)
+    .map(column => column.propertyName);
+
   constructor(
     @InjectRepository(Member)
     private readonly memberRepository: Repository<Member>,
@@ -81,6 +86,14 @@ export class TypeormMemberQueryRepository implements MemberQueryRepository {
 
     condition.sort.forEach(sort => {
       const { field, orderBy } = sort;
+
+      if (!TypeormMemberQueryRepository.ENTITY_FIELD_NAMES.includes(field)) {
+        throw new BadRequestException(BadRequestException.ErrorCodes.INVALID_SORT_OPTION, {
+          field: field,
+          orderBy: orderBy.code,
+        });
+      }
+
       queryBuilder.addOrderBy(`member.${field}`, orderBy.code as 'ASC' | 'DESC');
 
       if (field === 'id') {
