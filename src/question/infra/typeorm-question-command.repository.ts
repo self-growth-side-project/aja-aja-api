@@ -14,9 +14,12 @@ export class TypeormQuestionCommandRepository
   }
 
   async findTopByOrderBySeqAsc(): Promise<Question | null> {
-    return await this.getRepository().findOne({
+    const results = await this.getRepository().find({
       order: { seq: 'ASC' },
+      take: 1,
     });
+
+    return results[0] || null;
   }
 
   async findBySeq(seq: number): Promise<Question | null> {
