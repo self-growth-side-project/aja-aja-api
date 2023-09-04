@@ -65,15 +65,27 @@ export class TimeUtil {
     return LocalDateTime.parse(strDate, TimeUtil.DATE_TIME_FORMATTER);
   }
 
-  static getStartOfTodayInKSTAsUTC(): LocalDateTime {
+  static getStartOfTodayFromKST(): LocalDateTime {
     return ZonedDateTime.of(LocalDateTime.of(LocalDate.now(TimeUtil.KST_ZONE_ID), LocalTime.MIN), TimeUtil.KST_ZONE_ID)
       .withZoneSameInstant(TimeUtil.UTC_ZONE_ID)
       .toLocalDateTime();
   }
 
-  static getEndOfTodayInKSTAsUTC(): LocalDateTime {
+  static getEndOfTodayFromKST(): LocalDateTime {
     return ZonedDateTime.of(LocalDateTime.of(LocalDate.now(TimeUtil.KST_ZONE_ID), LocalTime.MAX), TimeUtil.KST_ZONE_ID)
       .withZoneSameInstant(TimeUtil.UTC_ZONE_ID)
       .toLocalDateTime();
+  }
+
+  static getLocalDateInKST(): LocalDate {
+    return LocalDate.now(TimeUtil.KST_ZONE_ID);
+  }
+
+  static getLocalDateTimeInKST(): LocalDateTime {
+    return LocalDateTime.now(TimeUtil.KST_ZONE_ID);
+  }
+
+  static convertLocalDateTimeToKST(time: LocalDateTime): LocalDateTime {
+    return ZonedDateTime.of(time, TimeUtil.UTC_ZONE_ID).withZoneSameInstant(TimeUtil.KST_ZONE_ID).toLocalDateTime();
   }
 }

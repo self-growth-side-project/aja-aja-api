@@ -5,6 +5,7 @@ import { AuthCode } from '../domain/entity/auth-code.entity';
 import { AuthCodeType } from '../domain/enum/auth-code-type.enum';
 import { TimeUtil } from '../../global/util/time.util';
 import { TypeormBaseRepository } from '../../global/common/infra/repository/typeorm-base.repository';
+import { Period } from '../../global/common/domain/vo/period.vo';
 
 @Injectable()
 export class TypeormAuthCodeCommandRepository
@@ -16,14 +17,14 @@ export class TypeormAuthCodeCommandRepository
   }
 
   async findAllByMemberIdAndTypeAndCreatedAtToday(memberId: number, type: AuthCodeType): Promise<AuthCode[]> {
-    const from = TimeUtil.getStartOfTodayInKSTAsUTC();
-    const to = TimeUtil.getEndOfTodayInKSTAsUTC();
+    const start = Period.createForTodayInKST().start;
+    const end = Period.createForTodayInKST().end;
 
     return await this.getRepository().find({
       where: {
         'member.id': memberId,
         type: type,
-        createdAt: Between(from, to),
+        createdAt: Between(TimeUtil.toDate(start), TimeUtil.toDate(end)),
       },
     } as any);
   }

@@ -43,12 +43,12 @@ export class AuthService {
       throw new NotFoundException(NotFoundException.ErrorCodes.NOT_FOUND_MEMBER);
     }
 
-    const foundAuthCode = await this.authCodeCommandRepository.findAllByMemberIdAndTypeAndCreatedAtToday(
+    const foundAuthCodes = await this.authCodeCommandRepository.findAllByMemberIdAndTypeAndCreatedAtToday(
       foundMember.id,
       AuthCodeType.RESET_PASSWORD_EMAIL_AUTH_CODE,
     );
 
-    if (foundAuthCode.length === 10) {
+    if (foundAuthCodes.length === 10) {
       throw new TooManyRequestsException(
         TooManyRequestsException.ErrorCodes.RESET_PASSWORD_EMAIL_REQUEST_LIMIT_EXCEEDED,
       );

@@ -4,8 +4,9 @@ import * as process from 'process';
 import { ConfigModule } from '@nestjs/config';
 import { GlobalModule } from './global/config/module/global.module';
 import { AdminModule } from './admin/admin.module';
+import { QuestionModule } from './question/question.module';
 
-const applicationModules = [AdminModule];
+const applicationModules = [AdminModule, QuestionModule];
 
 @Module({
   imports: [
