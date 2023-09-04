@@ -3,7 +3,6 @@ import { Between, EntityTarget } from 'typeorm';
 import { AuthCodeCommandRepository } from '../domain/repository/auth-code-command.repository';
 import { AuthCode } from '../domain/entity/auth-code.entity';
 import { AuthCodeType } from '../domain/enum/auth-code-type.enum';
-import { TimeUtil } from '../../global/util/time.util';
 import { TypeormBaseRepository } from '../../global/common/infra/repository/typeorm-base.repository';
 import { Period } from '../../global/common/domain/vo/period.vo';
 
@@ -24,7 +23,7 @@ export class TypeormAuthCodeCommandRepository
       where: {
         'member.id': memberId,
         type: type,
-        createdAt: Between(TimeUtil.toDate(start), TimeUtil.toDate(end)),
+        createdAt: Between(start, end),
       },
     } as any);
   }
