@@ -1,4 +1,4 @@
-import { EmailService } from '../../common/infra/email/email.service';
+import { EmailService } from '../../common/domain/service/email.service';
 import { Injectable } from '@nestjs/common';
 import { InternalServerException } from '../../exception/internal-server.exception';
 import * as nodemailer from 'nodemailer';

@@ -1,7 +1,7 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { NextFunction } from 'express';
-import { NAMESPACE_MEMBER } from '../constant/namespace.code';
-import { GlobalContextUtil } from '../../util/global-context.util';
+import { NAMESPACE_MEMBER } from '../common/constant/namespace.code';
+import { GlobalContextUtil } from '../util/global-context.util';
 
 @Injectable()
 export class MemberMiddleware implements NestMiddleware {

@@ -1,8 +1,8 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { EntityManager } from 'typeorm';
 import { NextFunction } from 'express';
-import { NAMESPACE_ENTITY_MANAGER } from '../constant/namespace.code';
-import { GlobalContextUtil } from '../../util/global-context.util';
+import { NAMESPACE_ENTITY_MANAGER } from '../common/constant/namespace.code';
+import { GlobalContextUtil } from '../util/global-context.util';
 
 @Injectable()
 export class TransactionMiddleware implements NestMiddleware {

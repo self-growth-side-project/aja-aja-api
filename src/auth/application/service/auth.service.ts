@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { SendCodeResetPasswordServiceDto } from '../dto/send-code-reset-password.service.dto';
 import { NotFoundException } from '../../../global/exception/not-found.exception';
-import { EmailService } from '../../../global/common/infra/email/email.service';
+import { EmailService } from '../../../global/common/domain/service/email.service';
 import { AuthCodeCommandRepository } from '../../domain/repository/auth-code-command.repository';
 import { AuthCode } from '../../domain/entity/auth-code.entity';
 import { MemberCommandRepository } from '../../../member/domain/repository/member-command.repository';
