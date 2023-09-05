@@ -1,4 +1,4 @@
-import { Column, Entity, Generated, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
+import { Column, Entity, Generated, JoinColumn, ManyToOne, PrimaryColumn, Unique } from 'typeorm';
 import { BigintTransformer } from '../../../global/common/infra/transformer/bigint.transformer';
 import { Member } from '../../../member/domain/entity/member.entity';
 import { Question } from './question.entity';
@@ -6,6 +6,7 @@ import { BaseTimeEntity } from '../../../global/common/domain/entity/base-time.e
 import { Period } from '../../../global/common/domain/vo/period.vo';
 import { TimeUtil } from '../../../global/util/time.util';
 
+@Unique('UK_question_id_member_id', ['question.id', 'member.id'])
 @Entity()
 export class Answer extends BaseTimeEntity {
   @Generated('increment')
