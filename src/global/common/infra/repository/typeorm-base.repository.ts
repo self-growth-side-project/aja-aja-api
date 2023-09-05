@@ -25,6 +25,10 @@ export abstract class TypeormBaseRepository<T extends BaseEntity> {
     await this.getRepository().remove(t);
   }
 
+  async softRemove(t: T): Promise<void> {
+    await this.getRepository().softRemove(t);
+  }
+
   async count(): Promise<number> {
     return await this.getRepository().count();
   }

@@ -1,6 +1,8 @@
-import { Column, Entity, Generated, PrimaryColumn } from 'typeorm';
+import { Column, DeleteDateColumn, Entity, Generated, PrimaryColumn } from 'typeorm';
 import { BigintTransformer } from '../../../global/common/infra/transformer/bigint.transformer';
 import { BaseTimeEntity } from '../../../global/common/domain/entity/base-time.entity';
+import { LocalDateTime } from '@js-joda/core';
+import { LocalDateTimeTransformer } from '../../../global/common/infra/transformer/local-date-time.transformer';
 
 @Entity()
 export class Question extends BaseTimeEntity {
@@ -19,6 +21,9 @@ export class Question extends BaseTimeEntity {
 
   @Column({ type: 'int' })
   public readonly seq: number;
+
+  @DeleteDateColumn({ type: 'timestamp', transformer: new LocalDateTimeTransformer(), nullable: true, precision: 0 })
+  public readonly deletedAt!: LocalDateTime | null;
 
   public getNextSeq(): number {
     return this.seq + 1;
