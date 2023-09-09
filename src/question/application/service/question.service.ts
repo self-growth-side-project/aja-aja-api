@@ -6,6 +6,8 @@ import { Answer } from '../../domain/entity/answer.entity';
 import { QuestionCommandRepository } from '../../domain/repository/question-command.repository';
 import { Question } from '../../domain/entity/question.entity';
 import { NotFoundException } from '../../../global/exception/not-found.exception';
+import { WiseManOpinionResponse } from '../../interface/dto/response/wise-man-opinion.response';
+import { ForbiddenException } from '../../../global/exception/forbidden.exception';
 
 @Injectable()
 export class QuestionService {
@@ -48,5 +50,18 @@ export class QuestionService {
     }
 
     return QuestionResponse.fromQuestionEntity(foundFirstQuestion);
+  }
+
+  async getWiseManOpinion(questionId: number): Promise<WiseManOpinionResponse> {
+    const foundAnswer = await this.answerCommandRepository.findByQuestionIdAndMemberId(
+      questionId,
+      GlobalContextUtil.getMember().id,
+    );
+
+    if (!foundAnswer || !foundAnswer.canAccessWiseManOpinion()) {
+      throw new ForbiddenException(ForbiddenException.ErrorCodes.NO_PERMISSION_TO_ACCESS_WISE_MAN_OPINION);
+    }
+
+    return WiseManOpinionResponse.fromQuestionEntity(foundAnswer.question);
   }
 }

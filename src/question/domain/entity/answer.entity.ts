@@ -6,7 +6,7 @@ import { BaseTimeEntity } from '../../../global/common/domain/entity/base-time.e
 import { Period } from '../../../global/common/domain/vo/period.vo';
 import { TimeUtil } from '../../../global/util/time.util';
 import { LocalDateTimeTransformer } from '../../../global/common/infra/transformer/local-date-time.transformer';
-import { LocalDateTime } from '@js-joda/core';
+import { Duration, LocalDateTime } from '@js-joda/core';
 
 @Unique('UK_question_id_member_id', ['question.id', 'member.id'])
 @Entity()
@@ -39,5 +39,9 @@ export class Answer extends BaseTimeEntity {
     const nextDate = createdAt.withHour(0).withMinute(0).withSecond(0).withNano(0).plusDays(1);
 
     return now.isAfter(nextDate) || now.isEqual(nextDate);
+  }
+
+  public canAccessWiseManOpinion(): boolean {
+    return Duration.between(this.createdAt, LocalDateTime.now()).toMinutes() >= 30;
   }
 }

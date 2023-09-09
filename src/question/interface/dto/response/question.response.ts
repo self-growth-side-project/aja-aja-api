@@ -1,5 +1,5 @@
 import { Exclude, Expose } from 'class-transformer';
-import { Duration, LocalDate, LocalDateTime } from '@js-joda/core';
+import { LocalDate } from '@js-joda/core';
 import { TimeUtil } from '../../../../global/util/time.util';
 import { FromLocalDate } from '../../../../global/common/decorator/transformer.decorator';
 import { Question } from '../../../domain/entity/question.entity';
@@ -45,12 +45,11 @@ export class QuestionResponse {
 
   @Expose()
   get isWiseManOpinionOpen(): boolean {
-    if (!this._answer || !this._answer.createdAt) {
+    if (!this._answer) {
       return false;
     }
-    const duration = Duration.between(this._answer.createdAt, LocalDateTime.now());
 
-    return duration.toMinutes() >= 30;
+    return this._answer.canAccessWiseManOpinion();
   }
 
   @Expose()
