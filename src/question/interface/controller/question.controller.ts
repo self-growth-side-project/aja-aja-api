@@ -1,4 +1,4 @@
-import { Controller, Get, Inject, Param, Post, Put, UseGuards, Version } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Param, ParseIntPipe, Post, Put, UseGuards, Version } from '@nestjs/common';
 import { BaseResponse } from '../../../global/common/interface/dto/response/base.response';
 import { JwtAuthGuard } from '../../../auth/guard/jwt-auth.guard';
 import { QuestionResponse } from '../dto/response/question.response';
@@ -9,6 +9,7 @@ import { AnswerResponse } from '../dto/response/answer.response';
 import { AnswerCondition } from '../../domain/repository/dto/answer.condition';
 import { GlobalContextUtil } from '../../../global/util/global-context.util';
 import { NotFoundException } from '../../../global/exception/not-found.exception';
+import { CreateAnswerRequest } from '../dto/request/create-answer.request';
 
 @Controller('/questions')
 export class QuestionController {
@@ -29,15 +30,18 @@ export class QuestionController {
   @Version('1')
   @UseGuards(JwtAuthGuard)
   @Get('/:id/wise-man-opinion')
-  async getWiseManOpinion(@Param('id') questionId: number): Promise<BaseResponse<WiseManOpinionResponse>> {
-    return BaseResponse.successBaseResponse(await this.questionService.getWiseManOpinion(questionId));
+  async getWiseManOpinion(@Param('id', ParseIntPipe) id: number): Promise<BaseResponse<WiseManOpinionResponse>> {
+    return BaseResponse.successBaseResponse(await this.questionService.getWiseManOpinion(id));
   }
 
   @Version('1')
   @UseGuards(JwtAuthGuard)
   @Post('/:id/answers')
-  async createAnswer(@Param('id') questionId: number): Promise<BaseResponse<Void>> {
-    console.log(questionId);
+  async createAnswer(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() request: CreateAnswerRequest,
+  ): Promise<BaseResponse<Void>> {
+    console.log(id, request);
     return BaseResponse.voidBaseResponse();
   }
 
@@ -45,8 +49,8 @@ export class QuestionController {
   @UseGuards(JwtAuthGuard)
   @Put('/:questionId/answers/:answerId')
   async updateAnswer(
-    @Param('questionId') questionId: number,
-    @Param('answerId') answerId: number,
+    @Param('questionId', ParseIntPipe) questionId: number,
+    @Param('answerId', ParseIntPipe) answerId: number,
   ): Promise<BaseResponse<Void>> {
     console.log(questionId, answerId);
     return BaseResponse.voidBaseResponse();
@@ -55,9 +59,9 @@ export class QuestionController {
   @Version('1')
   @UseGuards(JwtAuthGuard)
   @Get('/:id/answers/me')
-  async getMyAnswer(@Param('id') questionId: number): Promise<BaseResponse<AnswerResponse>> {
+  async getMyAnswer(@Param('id', ParseIntPipe) id: number): Promise<BaseResponse<AnswerResponse>> {
     const result = await this.answerQueryRepository.find(
-      AnswerCondition.of(null, null, null, null, questionId, GlobalContextUtil.getMember().id),
+      AnswerCondition.of(null, null, null, null, id, GlobalContextUtil.getMember().id),
     );
 
     if (!result) {
