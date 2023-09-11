@@ -1,6 +1,6 @@
-import { BaseCondition } from './base.condition';
-import { MemberRole } from '../../../../../member/domain/enum/member-role.enum';
-import { SortOptionCondition } from './sort-option.condition';
+import { BaseCondition } from '../../../../global/common/domain/repository/dto/base.condition';
+import { MemberRole } from '../../enum/member-role.enum';
+import { SortOptionCondition } from '../../../../global/common/domain/repository/dto/sort-option.condition';
 
 export class MemberCondition extends BaseCondition {
   email?: string | null | undefined;

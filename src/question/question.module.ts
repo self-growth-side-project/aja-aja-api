@@ -8,6 +8,8 @@ import { TypeormAnswerCommandRepository } from './infra/typeorm-answer-command.r
 import { QuestionCommandRepository } from './domain/repository/question-command.repository';
 import { TypeormQuestionCommandRepository } from './infra/typeorm-question-command.repository';
 import { QuestionService } from './application/service/question.service';
+import { AnswerQueryRepository } from './domain/repository/answer-query.repository';
+import { TypeormAnswerQueryRepository } from './infra/typeorm-answer-query.repository';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Question, Answer])],
@@ -21,6 +23,10 @@ import { QuestionService } from './application/service/question.service';
     {
       provide: AnswerCommandRepository,
       useClass: TypeormAnswerCommandRepository,
+    },
+    {
+      provide: AnswerQueryRepository,
+      useClass: TypeormAnswerQueryRepository,
     },
   ],
   exports: [],

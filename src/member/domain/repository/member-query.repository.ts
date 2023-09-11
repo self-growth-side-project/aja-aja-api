@@ -1,4 +1,4 @@
-import { MemberCondition } from '../../../global/common/domain/repository/dto/member.condition';
+import { MemberCondition } from './dto/member.condition';
 import { MemberResponse } from '../../interface/dto/response/member.response';
 import { PagingResponse } from '../../../global/common/interface/dto/response/paging.response';
 

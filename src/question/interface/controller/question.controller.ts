@@ -1,13 +1,23 @@
-import { Controller, Get, Param, Post, Put, UseGuards, Version } from '@nestjs/common';
+import { Controller, Get, Inject, Param, Post, Put, UseGuards, Version } from '@nestjs/common';
 import { BaseResponse } from '../../../global/common/interface/dto/response/base.response';
 import { JwtAuthGuard } from '../../../auth/guard/jwt-auth.guard';
 import { QuestionResponse } from '../dto/response/question.response';
 import { QuestionService } from '../../application/service/question.service';
 import { WiseManOpinionResponse } from '../dto/response/wise-man-opinion.response';
+import { AnswerQueryRepository } from '../../domain/repository/answer-query.repository';
+import { AnswerResponse } from '../dto/response/answer.response';
+import { AnswerCondition } from '../../domain/repository/dto/answer.condition';
+import { GlobalContextUtil } from '../../../global/util/global-context.util';
+import { NotFoundException } from '../../../global/exception/not-found.exception';
 
 @Controller('/questions')
 export class QuestionController {
-  constructor(private readonly questionService: QuestionService) {}
+  constructor(
+    private readonly questionService: QuestionService,
+
+    @Inject(AnswerQueryRepository)
+    private readonly answerQueryRepository: AnswerQueryRepository,
+  ) {}
 
   @Version('1')
   @UseGuards(JwtAuthGuard)
@@ -45,8 +55,15 @@ export class QuestionController {
   @Version('1')
   @UseGuards(JwtAuthGuard)
   @Get('/:id/answers/me')
-  async getMyAnswer(@Param('id') questionId: number): Promise<BaseResponse<Void>> {
-    console.log(questionId);
-    return BaseResponse.voidBaseResponse();
+  async getMyAnswer(@Param('id') questionId: number): Promise<BaseResponse<AnswerResponse>> {
+    const result = await this.answerQueryRepository.find(
+      AnswerCondition.of(null, null, null, null, questionId, GlobalContextUtil.getMember().id),
+    );
+
+    if (!result) {
+      throw new NotFoundException(NotFoundException.ErrorCodes.NOT_FOUND_ANSWER);
+    }
+
+    return BaseResponse.successBaseResponse(result);
   }
 }

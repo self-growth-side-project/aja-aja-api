@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { MemberQueryRepository } from '../domain/repository/member-query.repository';
-import { MemberCondition } from '../../global/common/domain/repository/dto/member.condition';
+import { MemberCondition } from '../domain/repository/dto/member.condition';
 import { getMetadataArgsStorage, Repository, SelectQueryBuilder } from 'typeorm';
 import { Member } from '../domain/entity/member.entity';
 import { InjectRepository } from '@nestjs/typeorm';

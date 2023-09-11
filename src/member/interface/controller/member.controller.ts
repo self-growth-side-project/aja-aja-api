@@ -6,7 +6,7 @@ import { CheckEmailDuplicationResponse } from '../dto/response/check-email-dupli
 import { JwtAuthGuard } from '../../../auth/guard/jwt-auth.guard';
 import { MemberQueryRepository } from '../../domain/repository/member-query.repository';
 import { MemberResponse } from '../dto/response/member.response';
-import { MemberCondition } from '../../../global/common/domain/repository/dto/member.condition';
+import { MemberCondition } from '../../domain/repository/dto/member.condition';
 import { GlobalContextUtil } from '../../../global/util/global-context.util';
 import { NotFoundException } from '../../../global/exception/not-found.exception';
 import { ResetMyPasswordRequest } from '../dto/request/reset-my-password.request';
