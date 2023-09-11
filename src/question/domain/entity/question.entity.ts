@@ -28,4 +28,8 @@ export class Question extends BaseTimeEntity {
   public getNextSeq(): number {
     return this.seq + 1;
   }
+
+  public isEqualToId(id: number): boolean {
+    return this.id === id;
+  }
 }

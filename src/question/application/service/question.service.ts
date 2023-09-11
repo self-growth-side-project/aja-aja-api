@@ -8,6 +8,9 @@ import { Question } from '../../domain/entity/question.entity';
 import { NotFoundException } from '../../../global/exception/not-found.exception';
 import { WiseManOpinionResponse } from '../../interface/dto/response/wise-man-opinion.response';
 import { ForbiddenException } from '../../../global/exception/forbidden.exception';
+import { CreateAnswerServiceDto } from '../dto/create-answer.service.dto';
+import { ConflictException } from '../../../global/exception/conflict.exception';
+import { MemberCommandRepository } from '../../../member/domain/repository/member-command.repository';
 
 @Injectable()
 export class QuestionService {
@@ -17,6 +20,9 @@ export class QuestionService {
 
     @Inject(AnswerCommandRepository)
     private readonly answerCommandRepository: AnswerCommandRepository,
+
+    @Inject(MemberCommandRepository)
+    private readonly memberCommandRepository: MemberCommandRepository,
   ) {}
 
   async getQuestionOfToday(): Promise<QuestionResponse | null> {
@@ -42,16 +48,6 @@ export class QuestionService {
     throw new NotFoundException(NotFoundException.ErrorCodes.NOT_FOUND_QUESTION);
   }
 
-  private async getFirstQuestion(): Promise<QuestionResponse | null> {
-    const foundFirstQuestion: Question | null = await this.questionCommandRepository.findTopByOrderBySeqAsc();
-
-    if (!foundFirstQuestion) {
-      throw new NotFoundException(NotFoundException.ErrorCodes.NOT_FOUND_QUESTION);
-    }
-
-    return QuestionResponse.fromQuestionEntity(foundFirstQuestion);
-  }
-
   async getWiseManOpinion(questionId: number): Promise<WiseManOpinionResponse> {
     const foundAnswer = await this.answerCommandRepository.findByQuestionIdAndMemberId(
       questionId,
@@ -63,5 +59,47 @@ export class QuestionService {
     }
 
     return WiseManOpinionResponse.fromQuestionEntity(foundAnswer.question);
+  }
+
+  async createAnswer(serviceDto: CreateAnswerServiceDto): Promise<Answer> {
+    const memberId = GlobalContextUtil.getMember().id;
+    const foundMember = await this.memberCommandRepository.findById(memberId);
+
+    if (!foundMember) {
+      throw new NotFoundException(NotFoundException.ErrorCodes.NOT_FOUND_MEMBER);
+    }
+
+    const foundQuestion = await this.questionCommandRepository.findById(serviceDto.questionId);
+
+    if (!foundQuestion) {
+      throw new NotFoundException(NotFoundException.ErrorCodes.NOT_FOUND_QUESTION);
+    }
+
+    const foundTodayQuestion = await this.getQuestionOfToday();
+
+    if (!foundTodayQuestion || !foundQuestion.isEqualToId(foundTodayQuestion.id)) {
+      throw new ConflictException(ConflictException.ErrorCodes.FAILED_TO_CREATE_ANSWER);
+    }
+
+    const foundAnswer: Answer | null = await this.answerCommandRepository.findByQuestionIdAndMemberId(
+      foundQuestion.id,
+      memberId,
+    );
+
+    if (foundAnswer) {
+      throw new ConflictException(ConflictException.ErrorCodes.FAILED_TO_CREATE_ANSWER);
+    }
+
+    return await this.answerCommandRepository.save(Answer.create(serviceDto.content, foundQuestion, foundMember));
+  }
+
+  private async getFirstQuestion(): Promise<QuestionResponse | null> {
+    const foundFirstQuestion: Question | null = await this.questionCommandRepository.findTopByOrderBySeqAsc();
+
+    if (!foundFirstQuestion) {
+      throw new NotFoundException(NotFoundException.ErrorCodes.NOT_FOUND_QUESTION);
+    }
+
+    return QuestionResponse.fromQuestionEntity(foundFirstQuestion);
   }
 }

@@ -29,6 +29,17 @@ export class Answer extends BaseTimeEntity {
   @DeleteDateColumn({ type: 'timestamp', transformer: new LocalDateTimeTransformer(), nullable: true, precision: 0 })
   public readonly deletedAt!: LocalDateTime | null;
 
+  private constructor(content: string, question: Question, member: Member) {
+    super();
+    this.content = content;
+    this.question = question;
+    this.member = member;
+  }
+
+  public static create(content: string, question: Question, member: Member): Answer {
+    return new Answer(content, question, member);
+  }
+
   public isWrittenOnToday(): boolean {
     return Period.createForTodayInKST().isWithinRange(this.createdAt);
   }

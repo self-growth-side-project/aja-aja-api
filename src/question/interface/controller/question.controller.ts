@@ -40,9 +40,10 @@ export class QuestionController {
   async createAnswer(
     @Param('id', ParseIntPipe) id: number,
     @Body() request: CreateAnswerRequest,
-  ): Promise<BaseResponse<Void>> {
-    console.log(id, request);
-    return BaseResponse.voidBaseResponse();
+  ): Promise<BaseResponse<AnswerResponse>> {
+    return BaseResponse.successBaseResponse(
+      AnswerResponse.fromEntity(await this.questionService.createAnswer(request.toServiceDto(id))),
+    );
   }
 
   @Version('1')
