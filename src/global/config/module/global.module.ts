@@ -6,7 +6,6 @@ import { RefreshTokenEncrypter } from '../../../auth/domain/refresh-token-encryp
 import { RefreshTokenBcrypter } from '../../../auth/domain/refresh-token-bcrypter.service';
 import { TransactionMiddleware } from '../../middleware/transaction.middleware';
 import { NamespaceMiddleware } from '../../middleware/namespace.middleware';
-import { MemberMiddleware } from '../../middleware/member.middleware';
 import { MemberModule } from '../../../member/member.module';
 import { EventListenerModule } from './event-listener.module';
 import { TypeormConfigModule } from './typeorm-config.module';
@@ -42,6 +41,6 @@ const modules = [TypeormConfigModule, EventListenerModule, MemberModule, AuthMod
 })
 export class GlobalModule implements NestModule {
   configure(consumer: MiddlewareConsumer): any {
-    consumer.apply(NamespaceMiddleware, TransactionMiddleware, MemberMiddleware).forRoutes('*');
+    consumer.apply(NamespaceMiddleware, TransactionMiddleware).forRoutes('*');
   }
 }
