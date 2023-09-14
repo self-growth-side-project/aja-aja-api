@@ -1,6 +1,7 @@
 import {
   convert,
   DateTimeFormatter,
+  Instant,
   LocalDate,
   LocalDateTime,
   LocalTime,
@@ -71,6 +72,14 @@ export class TimeUtil {
     return LocalDateTime.parse(strDate, TimeUtil.DATE_TIME_FORMATTER);
   }
 
+  static toLocalDateTimeByDate(strDate: Date): LocalDateTime | null {
+    if (!strDate) {
+      return null;
+    }
+
+    return ZonedDateTime.ofInstant(Instant.parse(strDate.toISOString()), this.UTC_ZONE_ID).toLocalDateTime();
+  }
+
   static getStartOfTodayFromKST(): LocalDateTime {
     return ZonedDateTime.of(LocalDateTime.of(LocalDate.now(TimeUtil.KST_ZONE_ID), LocalTime.MIN), TimeUtil.KST_ZONE_ID)
       .withZoneSameInstant(TimeUtil.UTC_ZONE_ID)
@@ -93,5 +102,20 @@ export class TimeUtil {
 
   static convertLocalDateTimeToKST(time: LocalDateTime): LocalDateTime {
     return ZonedDateTime.of(time, TimeUtil.UTC_ZONE_ID).withZoneSameInstant(TimeUtil.KST_ZONE_ID).toLocalDateTime();
+  }
+
+  static getFirstDayOfMonthFromKST(year: number, month: number): LocalDateTime {
+    return ZonedDateTime.of(LocalDateTime.of(LocalDate.of(year, month, 1), LocalTime.MIN), this.KST_ZONE_ID)
+      .withZoneSameInstant(this.UTC_ZONE_ID)
+      .toLocalDateTime();
+  }
+
+  static getLastDayOfMonthFromKST(year: number, month: number): LocalDateTime {
+    const firstDay = LocalDate.of(year, month, 1);
+    const lastDay = firstDay.withDayOfMonth(firstDay.lengthOfMonth());
+
+    return ZonedDateTime.of(LocalDateTime.of(lastDay, LocalTime.MAX), this.KST_ZONE_ID)
+      .withZoneSameInstant(this.UTC_ZONE_ID)
+      .toLocalDateTime();
   }
 }

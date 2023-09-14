@@ -1,14 +1,16 @@
 import { IsNotEmpty } from 'class-validator';
-import { SearchGrowthCondition } from '../../../domain/repository/dto/search-growth.condition';
+import { GrowthCondition } from '../../../domain/repository/dto/growth.condition';
 import { LocalDate } from '@js-joda/core';
 import { ToLocalDate } from '../../../../global/common/decorator/transformer.decorator';
+import { GlobalContextUtil } from '../../../../global/util/global-context.util';
+import { Period } from '../../../../global/common/domain/vo/period.vo';
 
 export class SearchWeekGrowthRequest {
   @IsNotEmpty()
   @ToLocalDate()
   public date: LocalDate;
 
-  public toCondition(): SearchGrowthCondition {
-    return SearchGrowthCondition.of(null);
+  public toCondition(): GrowthCondition {
+    return GrowthCondition.of(GlobalContextUtil.getMember().id, Period.createForTodayInKST());
   }
 }

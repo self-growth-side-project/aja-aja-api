@@ -27,6 +27,10 @@ export class Period {
     return new Period(TimeUtil.getStartOfTodayFromKST(), TimeUtil.getEndOfTodayFromKST());
   }
 
+  public static createForMonthInKST(year: number, month: number): Period {
+    return new Period(TimeUtil.getFirstDayOfMonthFromKST(year, month), TimeUtil.getLastDayOfMonthFromKST(year, month));
+  }
+
   public isWithinRange(time: LocalDateTime): boolean {
     return (
       (time.isAfter(this._start) || time.isEqual(this._start)) && (time.isBefore(this._end) || time.isEqual(this._end))
