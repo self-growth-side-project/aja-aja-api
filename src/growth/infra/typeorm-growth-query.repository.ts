@@ -6,7 +6,6 @@ import { Answer } from '../../question/domain/entity/answer.entity';
 import { GrowthCondition } from '../domain/repository/dto/growth.condition';
 import { GrowthMonthResponse } from '../interface/dto/response/growth-month.response';
 import { Period } from '../../global/common/domain/vo/period.vo';
-import { plainToInstance } from 'class-transformer';
 import { SortEnum } from '../../global/common/domain/enum/sort.enum';
 import { TimeUtil } from '../../global/util/time.util';
 
@@ -29,17 +28,11 @@ export class TypeormGrowthQueryRepository implements GrowthQueryRepository {
     queryBuilder.addOrderBy(`answer.createdAt`, SortEnum.ASC.code as 'ASC' | 'DESC');
     queryBuilder.addGroupBy(`answer.createdAt`);
 
-    const results = (await queryBuilder.getRawMany()).map(
-      result => plainToInstance(GrowthMonthResponse, result) as unknown as GrowthMonthResponse,
+    const results: GrowthMonthResponse[] = (await queryBuilder.getRawMany()).map(
+      result => new GrowthMonthResponse(result._date, result._count),
     );
 
-    console.log(
-      TimeUtil.convertLocalDateTimeToKST(condition.period.start).toLocalDate(),
-      TimeUtil.convertLocalDateTimeToKST(condition.period.end).toLocalDate(),
-    );
-    console.log(results);
-
-    return results;
+    return this.fillMissingDates(condition.period, results);
   }
 
   private eqMemberId(queryBuilder: SelectQueryBuilder<Answer>, memberId: number): void {
@@ -51,5 +44,27 @@ export class TypeormGrowthQueryRepository implements GrowthQueryRepository {
       start: period.start.toString(),
       end: period.end.toString(),
     });
+  }
+
+  private fillMissingDates(period: Period, results: GrowthMonthResponse[]): GrowthMonthResponse[] {
+    const start = TimeUtil.convertLocalDateTimeToKST(period.start).toLocalDate();
+    const end = TimeUtil.convertLocalDateTimeToKST(period.end).toLocalDate();
+
+    const resultMap = new Map<string, GrowthMonthResponse>();
+    results.forEach(result => {
+      resultMap.set(result.date.toString(), result);
+    });
+
+    const completeResults: GrowthMonthResponse[] = [];
+
+    let current = start;
+
+    while (current.isBefore(end) || current.equals(end)) {
+      const result = resultMap.get(current.toString()) || new GrowthMonthResponse(current, 0);
+      completeResults.push(result);
+      current = current.plusDays(1);
+    }
+
+    return completeResults;
   }
 }
