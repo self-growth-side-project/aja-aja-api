@@ -12,4 +12,7 @@ export const ValidationMessage: { [key: string]: any } = {
   size: {
     min: 'size는 1 이상이어야 합니다.',
   },
+  date: {
+    isYearAndMonthFormat: 'YYYY-MM 형식이어야 합니다.',
+  },
 };

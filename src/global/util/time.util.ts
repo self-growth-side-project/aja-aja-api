@@ -9,12 +9,14 @@ import {
   ZoneId,
 } from '@js-joda/core';
 import '@js-joda/timezone';
+import { BadRequestException } from '../exception/bad-request.exception';
 
 export class TimeUtil {
-  private static DATE_FORMATTER = DateTimeFormatter.ofPattern('yyyy-MM-dd');
-  private static DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern('yyyy-MM-dd HH:mm:ss');
-  private static UTC_ZONE_ID = ZoneId.of('UTC');
-  private static KST_ZONE_ID = ZoneId.of('Asia/Seoul');
+  private static readonly DATE_FORMATTER = DateTimeFormatter.ofPattern('yyyy-MM-dd');
+  private static readonly DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern('yyyy-MM-dd HH:mm:ss');
+  private static readonly UTC_ZONE_ID = ZoneId.of('UTC');
+  private static readonly KST_ZONE_ID = ZoneId.of('Asia/Seoul');
+  private static readonly LOCAL_DATE_PATTERN = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
 
   static toString(value: LocalDate | LocalDateTime): string | null {
     if (!value) {
@@ -52,6 +54,10 @@ export class TimeUtil {
   static toLocalDateBy(strDate: string): LocalDate | null {
     if (!strDate) {
       return null;
+    }
+
+    if (!this.LOCAL_DATE_PATTERN.test(strDate)) {
+      throw new BadRequestException(BadRequestException.ErrorCodes.INVALID_PARAMETER, strDate);
     }
 
     return LocalDate.parse(strDate, TimeUtil.DATE_FORMATTER);
