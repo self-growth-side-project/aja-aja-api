@@ -10,6 +10,12 @@ export class TypeormAnswerCommandRepository extends TypeormBaseRepository<Answer
     return Answer.name;
   }
 
+  async findByIdAndQuestionIdAndMemberId(id: number, questionId: number, memberId: number): Promise<Answer | null> {
+    return await this.getRepository().findOne({
+      where: { id: id, 'question.id': questionId, 'member.id': memberId } as any,
+    });
+  }
+
   async findTopByMemberIdAndOrderByIdDesc(memberId: number): Promise<Answer | null> {
     return await this.getRepository().findOne({
       where: { 'member.id': memberId } as any,

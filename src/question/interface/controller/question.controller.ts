@@ -10,6 +10,7 @@ import { AnswerCondition } from '../../domain/repository/dto/answer.condition';
 import { GlobalContextUtil } from '../../../global/util/global-context.util';
 import { NotFoundException } from '../../../global/exception/not-found.exception';
 import { CreateAnswerRequest } from '../dto/request/create-answer.request';
+import { UpdateAnswerRequest } from '../dto/request/update-answer.request';
 
 @Controller('/questions')
 export class QuestionController {
@@ -52,9 +53,11 @@ export class QuestionController {
   async updateAnswer(
     @Param('questionId', ParseIntPipe) questionId: number,
     @Param('answerId', ParseIntPipe) answerId: number,
-  ): Promise<BaseResponse<Void>> {
-    console.log(questionId, answerId);
-    return BaseResponse.voidBaseResponse();
+    @Body() request: UpdateAnswerRequest,
+  ): Promise<BaseResponse<AnswerResponse>> {
+    return BaseResponse.successBaseResponse(
+      AnswerResponse.fromEntity(await this.questionService.updateAnswer(request.toServiceDto(questionId, answerId))),
+    );
   }
 
   @Version('1')

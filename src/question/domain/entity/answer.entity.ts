@@ -7,6 +7,7 @@ import { Period } from '../../../global/common/domain/vo/period.vo';
 import { TimeUtil } from '../../../global/util/time.util';
 import { LocalDateTimeTransformer } from '../../../global/common/infra/transformer/local-date-time.transformer';
 import { Duration, LocalDateTime } from '@js-joda/core';
+import { UpdateAnswerServiceDto } from '../../application/dto/update-answer.service.dto';
 
 @Unique('UK_question_id_member_id', ['question.id', 'member.id'])
 @Entity()
@@ -16,7 +17,7 @@ export class Answer extends BaseTimeEntity {
   public readonly id: number;
 
   @Column({ type: 'text' })
-  public readonly content: string;
+  public content: string;
 
   @ManyToOne(() => Question, { eager: true, createForeignKeyConstraints: false })
   @JoinColumn({ name: 'question_id' })
@@ -54,5 +55,9 @@ export class Answer extends BaseTimeEntity {
 
   public canAccessWiseManOpinion(): boolean {
     return Duration.between(this.createdAt, LocalDateTime.now()).toMinutes() >= 30;
+  }
+
+  public update(dto: UpdateAnswerServiceDto) {
+    this.content = dto.content;
   }
 }

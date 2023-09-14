@@ -11,6 +11,7 @@ import { ForbiddenException } from '../../../global/exception/forbidden.exceptio
 import { CreateAnswerServiceDto } from '../dto/create-answer.service.dto';
 import { ConflictException } from '../../../global/exception/conflict.exception';
 import { MemberCommandRepository } from '../../../member/domain/repository/member-command.repository';
+import { UpdateAnswerServiceDto } from '../dto/update-answer.service.dto';
 
 @Injectable()
 export class QuestionService {
@@ -91,6 +92,22 @@ export class QuestionService {
     }
 
     return await this.answerCommandRepository.save(Answer.create(serviceDto.content, foundQuestion, foundMember));
+  }
+
+  async updateAnswer(serviceDto: UpdateAnswerServiceDto): Promise<Answer> {
+    const foundAnswer: Answer | null = await this.answerCommandRepository.findByIdAndQuestionIdAndMemberId(
+      serviceDto.answerId,
+      serviceDto.questionId,
+      GlobalContextUtil.getMember().id,
+    );
+
+    if (!foundAnswer) {
+      throw new NotFoundException(NotFoundException.ErrorCodes.NOT_FOUND_ANSWER);
+    }
+
+    foundAnswer.update(serviceDto);
+
+    return await this.answerCommandRepository.save(foundAnswer);
   }
 
   private async getFirstQuestion(): Promise<QuestionResponse | null> {
