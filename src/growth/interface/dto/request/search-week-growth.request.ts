@@ -11,6 +11,6 @@ export class SearchWeekGrowthRequest {
   public date: LocalDate;
 
   public toCondition(): GrowthCondition {
-    return GrowthCondition.of(GlobalContextUtil.getMember().id, Period.createForTodayInKST());
+    return GrowthCondition.of(GlobalContextUtil.getMember().id, Period.createForWeekInKST(this.date));
   }
 }

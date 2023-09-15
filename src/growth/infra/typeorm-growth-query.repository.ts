@@ -8,6 +8,7 @@ import { GrowthMonthResponse } from '../interface/dto/response/growth-month.resp
 import { Period } from '../../global/common/domain/vo/period.vo';
 import { SortEnum } from '../../global/common/domain/enum/sort.enum';
 import { TimeUtil } from '../../global/util/time.util';
+import { GrowthWeekResponse } from '../interface/dto/response/growth-week.response';
 
 @Injectable()
 export class TypeormGrowthQueryRepository implements GrowthQueryRepository {
@@ -33,6 +34,27 @@ export class TypeormGrowthQueryRepository implements GrowthQueryRepository {
     );
 
     return this.fillMissingDates(condition.period, results);
+  }
+
+  async getGrowthStatusByWeek(condition: GrowthCondition): Promise<GrowthWeekResponse[]> {
+    const queryBuilder = this.answerRepository
+      .createQueryBuilder('answer')
+      .innerJoin('answer.question', 'question')
+      .select('answer.createdAt as _date')
+      .addSelect('question.title as _title')
+      .addSelect('answer.content as _answerContent')
+      .addSelect('question.wiseManOpinion as _wiseManOpinion');
+
+    this.eqMemberId(queryBuilder, condition.memberId);
+    this.betweenCreatedAt(queryBuilder, condition.period);
+
+    queryBuilder.addOrderBy(`answer.createdAt`, SortEnum.ASC.code as 'ASC' | 'DESC');
+
+    const results: GrowthWeekResponse[] = (await queryBuilder.getRawMany()).map(
+      result => new GrowthWeekResponse(result._date),
+    );
+
+    return results;
   }
 
   private eqMemberId(queryBuilder: SelectQueryBuilder<Answer>, memberId: number): void {

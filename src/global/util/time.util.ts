@@ -1,4 +1,5 @@
 import {
+  ChronoUnit,
   convert,
   DateTimeFormatter,
   Instant,
@@ -18,6 +19,7 @@ export class TimeUtil {
   private static readonly UTC_ZONE_ID = ZoneId.of('UTC');
   private static readonly KST_ZONE_ID = ZoneId.of('Asia/Seoul');
   private static readonly LOCAL_DATE_PATTERN = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
+  private static readonly MAX_TIME = LocalTime.MAX.truncatedTo(ChronoUnit.SECONDS);
 
   static toString(value: LocalDate | LocalDateTime): string | null {
     if (!value) {
@@ -87,7 +89,7 @@ export class TimeUtil {
   }
 
   static getEndOfTodayFromKST(): LocalDateTime {
-    return ZonedDateTime.of(LocalDateTime.of(LocalDate.now(TimeUtil.KST_ZONE_ID), LocalTime.MAX), TimeUtil.KST_ZONE_ID)
+    return ZonedDateTime.of(LocalDateTime.of(LocalDate.now(TimeUtil.KST_ZONE_ID), this.MAX_TIME), TimeUtil.KST_ZONE_ID)
       .withZoneSameInstant(TimeUtil.UTC_ZONE_ID)
       .toLocalDateTime();
   }
@@ -104,6 +106,10 @@ export class TimeUtil {
     return ZonedDateTime.of(time, TimeUtil.UTC_ZONE_ID).withZoneSameInstant(TimeUtil.KST_ZONE_ID).toLocalDateTime();
   }
 
+  static convertLocalDateTimeToUTC(time: LocalDateTime): LocalDateTime {
+    return ZonedDateTime.of(time, TimeUtil.KST_ZONE_ID).withZoneSameInstant(TimeUtil.UTC_ZONE_ID).toLocalDateTime();
+  }
+
   static getFirstDayOfMonthFromKST(year: number, month: number): LocalDateTime {
     return ZonedDateTime.of(LocalDateTime.of(LocalDate.of(year, month, 1), LocalTime.MIN), this.KST_ZONE_ID)
       .withZoneSameInstant(this.UTC_ZONE_ID)
@@ -114,8 +120,16 @@ export class TimeUtil {
     const firstDay = LocalDate.of(year, month, 1);
     const lastDay = firstDay.withDayOfMonth(firstDay.lengthOfMonth());
 
-    return ZonedDateTime.of(LocalDateTime.of(lastDay, LocalTime.MAX), this.KST_ZONE_ID)
+    return ZonedDateTime.of(LocalDateTime.of(lastDay, this.MAX_TIME), this.KST_ZONE_ID)
       .withZoneSameInstant(this.UTC_ZONE_ID)
       .toLocalDateTime();
+  }
+
+  static getMinLocalDateTimeByLocalDate(localDate: LocalDate): LocalDateTime {
+    return LocalDateTime.of(localDate, LocalTime.MIN);
+  }
+
+  static getMaxLocalDateTimeByLocalDate(localDate: LocalDate): LocalDateTime {
+    return LocalDateTime.of(localDate, this.MAX_TIME);
   }
 }

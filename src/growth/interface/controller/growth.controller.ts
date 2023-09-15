@@ -5,6 +5,7 @@ import { SearchMonthGrowthRequest } from '../dto/request/search-month-growth.req
 import { SearchWeekGrowthRequest } from '../dto/request/search-week-growth.request';
 import { GrowthQueryRepository } from '../../domain/repository/growth-query.repository';
 import { GrowthMonthResponse } from '../dto/response/growth-month.response';
+import { GrowthWeekResponse } from '../dto/response/growth-week.response';
 
 @Controller('/growth')
 export class GrowthController {
@@ -27,8 +28,9 @@ export class GrowthController {
   @Version('1')
   @UseGuards(JwtAuthGuard)
   @Get('/week')
-  async getGrowthStatusByWeek(@Query() request: SearchWeekGrowthRequest): Promise<BaseResponse<Void>> {
-    console.log(request);
-    return BaseResponse.voidBaseResponse();
+  async getGrowthStatusByWeek(@Query() request: SearchWeekGrowthRequest): Promise<BaseResponse<GrowthWeekResponse[]>> {
+    return BaseResponse.successBaseResponse(
+      await this.growthQueryRepository.getGrowthStatusByWeek(request.toCondition()),
+    );
   }
 }

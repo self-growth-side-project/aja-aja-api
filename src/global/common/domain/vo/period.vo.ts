@@ -1,5 +1,5 @@
 import { Column } from 'typeorm';
-import { LocalDateTime } from '@js-joda/core';
+import { LocalDate, LocalDateTime } from '@js-joda/core';
 import { LocalDateTimeTransformer } from '../../infra/transformer/local-date-time.transformer';
 import { TimeUtil } from '../../../util/time.util';
 
@@ -29,6 +29,18 @@ export class Period {
 
   public static createForMonthInKST(year: number, month: number): Period {
     return new Period(TimeUtil.getFirstDayOfMonthFromKST(year, month), TimeUtil.getLastDayOfMonthFromKST(year, month));
+  }
+
+  public static createForWeekInKST(date: LocalDate): Period {
+    const dayOfWeek = date.dayOfWeek().value();
+
+    const startDate = date.minusDays((dayOfWeek - 1 + 7) % 7);
+    const endDate = startDate.plusDays(6);
+
+    const start = TimeUtil.convertLocalDateTimeToUTC(TimeUtil.getMinLocalDateTimeByLocalDate(startDate));
+    const end = TimeUtil.convertLocalDateTimeToUTC(TimeUtil.getMaxLocalDateTimeByLocalDate(endDate));
+
+    return new Period(start, end);
   }
 
   public isWithinRange(time: LocalDateTime): boolean {
