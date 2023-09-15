@@ -33,7 +33,7 @@ export class TypeormGrowthQueryRepository implements GrowthQueryRepository {
       result => new GrowthMonthResponse(result._date, result._count),
     );
 
-    return this.fillMissingDates(condition.period, results);
+    return this.fillMissingDatesForGrowthMonthResponse(condition.period, results);
   }
 
   async getGrowthStatusByWeek(condition: GrowthCondition): Promise<GrowthWeekResponse[]> {
@@ -41,8 +41,9 @@ export class TypeormGrowthQueryRepository implements GrowthQueryRepository {
       .createQueryBuilder('answer')
       .innerJoin('answer.question', 'question')
       .select('answer.createdAt as _date')
-      .addSelect('question.title as _title')
+      .addSelect('answer.id as _answerId')
       .addSelect('answer.content as _answerContent')
+      .addSelect('question.title as _questionTitle')
       .addSelect('question.wiseManOpinion as _wiseManOpinion');
 
     this.eqMemberId(queryBuilder, condition.memberId);
@@ -51,10 +52,17 @@ export class TypeormGrowthQueryRepository implements GrowthQueryRepository {
     queryBuilder.addOrderBy(`answer.createdAt`, SortEnum.ASC.code as 'ASC' | 'DESC');
 
     const results: GrowthWeekResponse[] = (await queryBuilder.getRawMany()).map(
-      result => new GrowthWeekResponse(result._date),
+      result =>
+        new GrowthWeekResponse(
+          result._date,
+          result._answerId,
+          result._answerContent,
+          result._questionTitle,
+          result._wiseManOpinion,
+        ),
     );
 
-    return results;
+    return this.fillMissingDatesForGrowthWeekResponse(condition.period, results);
   }
 
   private eqMemberId(queryBuilder: SelectQueryBuilder<Answer>, memberId: number): void {
@@ -68,7 +76,10 @@ export class TypeormGrowthQueryRepository implements GrowthQueryRepository {
     });
   }
 
-  private fillMissingDates(period: Period, results: GrowthMonthResponse[]): GrowthMonthResponse[] {
+  private fillMissingDatesForGrowthMonthResponse(
+    period: Period,
+    results: GrowthMonthResponse[],
+  ): GrowthMonthResponse[] {
     const start = TimeUtil.convertLocalDateTimeToKST(period.start).toLocalDate();
     const end = TimeUtil.convertLocalDateTimeToKST(period.end).toLocalDate();
 
@@ -83,6 +94,28 @@ export class TypeormGrowthQueryRepository implements GrowthQueryRepository {
 
     while (current.isBefore(end) || current.equals(end)) {
       const result = resultMap.get(current.toString()) || new GrowthMonthResponse(current, 0);
+      completeResults.push(result);
+      current = current.plusDays(1);
+    }
+
+    return completeResults;
+  }
+
+  private fillMissingDatesForGrowthWeekResponse(period: Period, results: GrowthWeekResponse[]): GrowthWeekResponse[] {
+    const start = TimeUtil.convertLocalDateTimeToKST(period.start).toLocalDate();
+    const end = TimeUtil.convertLocalDateTimeToKST(period.end).toLocalDate();
+
+    const resultMap = new Map<string, GrowthWeekResponse>();
+    results.forEach(result => {
+      resultMap.set(result.date.toString(), result);
+    });
+
+    const completeResults: GrowthWeekResponse[] = [];
+
+    let current = start;
+
+    while (current.isBefore(end) || current.equals(end)) {
+      const result = resultMap.get(current.toString()) || new GrowthWeekResponse(current);
       completeResults.push(result);
       current = current.plusDays(1);
     }
