@@ -16,6 +16,7 @@ import { BadRequestException } from '../exception/bad-request.exception';
 export class TimeUtil {
   private static readonly DATE_FORMATTER = DateTimeFormatter.ofPattern('yyyy-MM-dd');
   private static readonly DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern('yyyy-MM-dd HH:mm:ss');
+  public static readonly YYYY_MM_FORMATTER = DateTimeFormatter.ofPattern('yyyy-MM');
   private static readonly UTC_ZONE_ID = ZoneId.of('UTC');
   private static readonly KST_ZONE_ID = ZoneId.of('Asia/Seoul');
   private static readonly LOCAL_DATE_PATTERN = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
@@ -27,9 +28,18 @@ export class TimeUtil {
     }
 
     if (value instanceof LocalDate) {
-      return value.format(this.DATE_FORMATTER);
+      return this.format(value, this.DATE_FORMATTER);
     }
-    return value.format(this.DATE_TIME_FORMATTER);
+
+    return this.format(value, this.DATE_TIME_FORMATTER);
+  }
+
+  static format(target: LocalDate | LocalDateTime, formatter: DateTimeFormatter): string | null {
+    if (!target) {
+      return null;
+    }
+
+    return target.format(formatter);
   }
 
   static toDate(localDate: LocalDate | LocalDateTime): Date | null {
