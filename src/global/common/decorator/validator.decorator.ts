@@ -9,7 +9,7 @@ import { ValidationMessage } from '../constant/validation.message';
 @ValidatorConstraint({ async: true })
 export class IsPasswordConstraint implements ValidatorConstraintInterface {
   validate(password: string) {
-    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&.,])[A-Za-z\d@$!%*#?&.,]{8,}$/;
     return passwordRegex.test(password); // for English letters, numbers and special characters
   }
 
