@@ -16,6 +16,7 @@ module.exports = {
       instances: 1,
       autorestart: true,
       watch: true,
+      ignore_watch: ['logs'],
       env: {
         NODE_ENV: 'prod',
       },
