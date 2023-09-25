@@ -5,7 +5,6 @@ module.exports = {
       script: './dist/main.js',
       instances: 1,
       autorestart: true,
-      watch: true,
       env: {
         NODE_ENV: 'local',
       },
@@ -15,8 +14,6 @@ module.exports = {
       script: './dist/main.js',
       instances: 1,
       autorestart: true,
-      watch: true,
-      ignore_watch: ['./logs'],
       env: {
         NODE_ENV: 'prod',
       },
