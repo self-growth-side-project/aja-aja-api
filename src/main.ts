@@ -1,10 +1,10 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { AjaAjaModule } from './aja-aja.module';
 import { setNestApp } from './global/config/nest-app.config';
 import * as process from 'process';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AjaAjaModule);
   setNestApp(app);
   await app.listen(Number(process.env.SERVER_PORT));
 }

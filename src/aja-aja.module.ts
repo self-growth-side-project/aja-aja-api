@@ -1,13 +1,14 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
+import { AjaAjaController } from './aja-aja.controller';
 import * as process from 'process';
 import { ConfigModule } from '@nestjs/config';
 import { GlobalModule } from './global/config/module/global.module';
 import { AdminModule } from './admin/admin.module';
 import { QuestionModule } from './question/question.module';
 import { GrowthModule } from './growth/growth.module';
+import { AppModule } from './app/app.module';
 
-const applicationModules = [AdminModule, QuestionModule, GrowthModule];
+const applicationModules = [AdminModule, QuestionModule, GrowthModule, AppModule];
 
 @Module({
   imports: [
@@ -15,6 +16,6 @@ const applicationModules = [AdminModule, QuestionModule, GrowthModule];
     GlobalModule,
     ...applicationModules,
   ],
-  controllers: [AppController],
+  controllers: [AjaAjaController],
 })
-export class AppModule {}
+export class AjaAjaModule {}
