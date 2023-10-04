@@ -4,6 +4,8 @@ import { instanceToPlain } from 'class-transformer';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Logger } from 'winston';
 import { GlobalContextUtil } from '../util/global-context.util';
+import { TimeUtil } from '../util/time.util';
+import { LocalDateTime } from '@js-joda/core';
 
 @Catch()
 export class GlobalExceptionFilter implements ExceptionFilter {
@@ -39,6 +41,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
         userAgent: headerContext.userAgent,
         message: message,
         stacktrace: stacktrace,
+        executionTime: `${TimeUtil.getMillisOfDuration(headerContext.startTime, LocalDateTime.now())} ms`,
       };
 
       if (status < 500) {

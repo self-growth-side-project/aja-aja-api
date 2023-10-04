@@ -2,6 +2,7 @@ import {
   ChronoUnit,
   convert,
   DateTimeFormatter,
+  Duration,
   Instant,
   LocalDate,
   LocalDateTime,
@@ -141,5 +142,9 @@ export class TimeUtil {
 
   static getMaxLocalDateTimeByLocalDate(localDate: LocalDate): LocalDateTime {
     return LocalDateTime.of(localDate, this.MAX_TIME);
+  }
+
+  static getMillisOfDuration(from: LocalDateTime, to: LocalDateTime): number {
+    return Duration.between(from, to).toMillis();
   }
 }
