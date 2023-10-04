@@ -11,7 +11,7 @@ import { LocalDateTime } from '@js-joda/core';
 export class GlobalExceptionFilter implements ExceptionFilter {
   constructor(@Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger) {}
 
-  catch(exception: HttpException, host: ArgumentsHost) {
+  catch(exception: any, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse();
 
