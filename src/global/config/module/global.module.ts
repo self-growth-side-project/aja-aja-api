@@ -14,7 +14,7 @@ import { HeaderMiddleware } from '../../middleware/header.middleware';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { HttpStatusInterceptor } from '../../interceptor/http-status.interceptor';
 import { WinstonConfigModule } from './winston-config.module';
-import { LoggingMiddleware } from '../../middleware/logging.middleware';
+import { LoggingInterceptor } from '../../interceptor/logging.interceptor';
 import { GlobalExceptionFilter } from '../../filter/global-exception.filter';
 
 const modules = [TypeormConfigModule, WinstonConfigModule, EventListenerModule, MemberModule, AuthModule];
@@ -31,6 +31,10 @@ const modules = [TypeormConfigModule, WinstonConfigModule, EventListenerModule, 
     {
       provide: RefreshTokenEncrypter,
       useClass: RefreshTokenBcrypter,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: LoggingInterceptor,
     },
     {
       provide: APP_INTERCEPTOR,
@@ -55,6 +59,6 @@ const modules = [TypeormConfigModule, WinstonConfigModule, EventListenerModule, 
 })
 export class GlobalModule implements NestModule {
   configure(consumer: MiddlewareConsumer): any {
-    consumer.apply(NamespaceMiddleware, HeaderMiddleware, TransactionMiddleware, LoggingMiddleware).forRoutes('*');
+    consumer.apply(NamespaceMiddleware, HeaderMiddleware, TransactionMiddleware).forRoutes('*');
   }
 }
