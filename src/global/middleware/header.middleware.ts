@@ -4,6 +4,7 @@ import { GlobalContextUtil } from '../util/global-context.util';
 import { HeaderContextDto } from '../context/header-context.dto';
 import { RandomUtil } from '../util/random.util';
 import { LocalDateTime } from '@js-joda/core';
+import { AppOsType } from '../common/domain/enum/app-os-type.enum';
 
 @Injectable()
 export class HeaderMiddleware implements NestMiddleware {
@@ -11,6 +12,7 @@ export class HeaderMiddleware implements NestMiddleware {
     const transactionId = RandomUtil.generateUuidV4();
     const userAgent = req.get('user-agent');
     const ip = req.ip;
+    const appOsType = req.header('x-platform-type') ? AppOsType.findCode(req.header('x-platform-type')!) : null;
     const httpMethod = req.method;
     const url = req.originalUrl;
     const requestBody = req.body;
@@ -18,7 +20,17 @@ export class HeaderMiddleware implements NestMiddleware {
     const startTime = LocalDateTime.now();
 
     GlobalContextUtil.setHeader(
-      HeaderContextDto.of(transactionId, userAgent, ip, httpMethod, url, requestBody, queryParams, startTime),
+      HeaderContextDto.of(
+        transactionId,
+        userAgent,
+        ip,
+        httpMethod,
+        url,
+        requestBody,
+        queryParams,
+        appOsType,
+        startTime,
+      ),
     );
 
     next();

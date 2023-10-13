@@ -1,6 +1,8 @@
 import { cloneDeep } from 'lodash';
 import { StringUtil } from '../util/string.util';
 import { LocalDateTime } from '@js-joda/core';
+import { RandomUtil } from '../util/random.util';
+import { AppOsType } from '../common/domain/enum/app-os-type.enum';
 
 export class HeaderContextDto {
   private static readonly SENSITIVE_FIELDS = ['password'];
@@ -12,6 +14,7 @@ export class HeaderContextDto {
   private readonly _url: string;
   private readonly _requestBody: any;
   private readonly _queryParams: any;
+  private readonly _appOsType: AppOsType | null;
   private readonly _startTime: LocalDateTime;
 
   private constructor(
@@ -22,6 +25,7 @@ export class HeaderContextDto {
     url: string,
     requestBody: any,
     queryParams: any,
+    appOsType: AppOsType | null,
     startTime: LocalDateTime,
   ) {
     this._transactionId = transactionId;
@@ -31,6 +35,7 @@ export class HeaderContextDto {
     this._url = url;
     this._requestBody = requestBody;
     this._queryParams = queryParams;
+    this._appOsType = appOsType;
     this._startTime = startTime;
   }
 
@@ -42,12 +47,45 @@ export class HeaderContextDto {
     url: string,
     requestBody: any,
     queryParams: any,
+    appOsType: AppOsType | null,
     startTime: LocalDateTime,
   ): HeaderContextDto {
     requestBody = this.maskSensitiveFields(cloneDeep(requestBody));
     queryParams = this.maskSensitiveFields(cloneDeep(queryParams));
 
-    return new HeaderContextDto(transactionId, userAgent, ip, httpMethod, url, requestBody, queryParams, startTime);
+    return new HeaderContextDto(
+      transactionId,
+      userAgent,
+      ip,
+      httpMethod,
+      url,
+      requestBody,
+      queryParams,
+      appOsType,
+      startTime,
+    );
+  }
+
+  public static createDefault(
+    userAgent: string | undefined,
+    ip: string,
+    httpMethod: string,
+    url: string,
+    requestBody: any,
+    queryParams: any,
+    appOsType: AppOsType | null,
+  ) {
+    return new HeaderContextDto(
+      RandomUtil.generateUuidV4(),
+      userAgent,
+      ip,
+      httpMethod,
+      url,
+      requestBody,
+      queryParams,
+      appOsType,
+      LocalDateTime.now(),
+    );
   }
 
   get transactionId(): string {
@@ -76,6 +114,10 @@ export class HeaderContextDto {
 
   get queryParams(): any {
     return this._queryParams;
+  }
+
+  get appOsType(): AppOsType | null {
+    return this._appOsType;
   }
 
   get startTime(): LocalDateTime {
