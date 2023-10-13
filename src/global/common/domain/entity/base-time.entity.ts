@@ -6,17 +6,19 @@ import { BaseEntity } from './base.entity';
 export abstract class BaseTimeEntity extends BaseEntity {
   @Column({
     type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
+    default: () => 'CURRENT_TIMESTAMP(3)',
     transformer: new LocalDateTimeTransformer(),
+    precision: 3,
     comment: '생성 일시',
   })
   createdAt: LocalDateTime;
 
   @Column({
     type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
-    onUpdate: 'CURRENT_TIMESTAMP',
+    default: () => 'CURRENT_TIMESTAMP(3)',
+    onUpdate: 'CURRENT_TIMESTAMP(3)',
     transformer: new LocalDateTimeTransformer(),
+    precision: 3,
     comment: '수정 일시',
   })
   updatedAt: LocalDateTime;

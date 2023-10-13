@@ -25,13 +25,14 @@ export class RefreshToken extends BaseEntity {
   @Column({ type: 'varchar', length: 60, comment: 'refresh token' })
   public token: string;
 
-  @Column({ type: 'timestamp', transformer: new LocalDateTimeTransformer(), comment: '만료 시간' })
+  @Column({ type: 'timestamp', transformer: new LocalDateTimeTransformer(), comment: '만료 시간', precision: 3 })
   public readonly expiresAt: LocalDateTime;
 
   @Column({
     type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
+    default: () => 'CURRENT_TIMESTAMP(3)',
     transformer: new LocalDateTimeTransformer(),
+    precision: 3,
     comment: '생성 일시',
   })
   public createdAt: LocalDateTime;

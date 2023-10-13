@@ -14,17 +14,19 @@ export abstract class BaseAuditEntity extends BaseEntity {
 
   @Column({
     type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
+    default: () => 'CURRENT_TIMESTAMP(3)',
     transformer: new LocalDateTimeTransformer(),
+    precision: 3,
     comment: '생성 일시',
   })
   public createdAt: LocalDateTime;
 
   @Column({
     type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
-    onUpdate: 'CURRENT_TIMESTAMP',
+    default: () => 'CURRENT_TIMESTAMP(3)',
+    onUpdate: 'CURRENT_TIMESTAMP(3)',
     transformer: new LocalDateTimeTransformer(),
+    precision: 3,
     comment: '수정 일시',
   })
   public updatedAt: LocalDateTime;

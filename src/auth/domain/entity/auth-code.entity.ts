@@ -31,7 +31,7 @@ export class AuthCode extends BaseEntity {
   @Column({ type: 'varchar', length: 50, comment: '인증코드' })
   public readonly code: string;
 
-  @Column({ type: 'timestamp', transformer: new LocalDateTimeTransformer(), comment: '만료 시간' })
+  @Column({ type: 'timestamp', transformer: new LocalDateTimeTransformer(), precision: 3, comment: '만료 시간' })
   public readonly expiresAt: LocalDateTime;
 
   @Column({ type: 'tinyint', default: false, transformer: new BooleanTransformer(), comment: '인증 여부' })
@@ -39,8 +39,9 @@ export class AuthCode extends BaseEntity {
 
   @Column({
     type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
+    default: () => 'CURRENT_TIMESTAMP(3)',
     transformer: new LocalDateTimeTransformer(),
+    precision: 3,
     comment: '생성 일시',
   })
   public createdAt: LocalDateTime;
