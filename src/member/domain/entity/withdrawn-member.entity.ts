@@ -9,16 +9,16 @@ import { MemberCommandRepository } from '../repository/member-command.repository
 @Entity()
 export class WithdrawnMember extends BaseTimeEntity {
   @Generated('increment')
-  @PrimaryColumn({ type: 'bigint', unsigned: true, transformer: new BigintTransformer() })
+  @PrimaryColumn({ type: 'bigint', unsigned: true, transformer: new BigintTransformer(), comment: '고유 식별 ID' })
   public readonly id: number;
 
-  @Column({ type: 'bigint', unsigned: true, transformer: new BigintTransformer() })
+  @Column({ type: 'bigint', unsigned: true, transformer: new BigintTransformer(), comment: '회원 식별 ID' })
   public readonly memberId: number;
 
-  @Column({ type: 'varchar', length: 320 })
+  @Column({ type: 'varchar', length: 320, comment: '이메일' })
   public readonly email: string;
 
-  @Column({ type: 'varchar', length: 10, transformer: new MemberRoleTransformer() })
+  @Column({ type: 'varchar', length: 10, transformer: new MemberRoleTransformer(), comment: '회원 Role' })
   public readonly role: MemberRole;
 
   private constructor(memberId: number, email: string, role: MemberRole) {

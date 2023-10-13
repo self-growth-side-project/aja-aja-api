@@ -6,13 +6,18 @@ import { BigintTransformer } from '../../infra/transformer/bigint.transformer';
 import { GlobalContextUtil } from '../../../util/global-context.util';
 
 export abstract class BaseAuditEntity extends BaseEntity {
-  @Column({ type: 'bigint', unsigned: true, transformer: new BigintTransformer() })
+  @Column({ type: 'bigint', unsigned: true, transformer: new BigintTransformer(), comment: '생성자' })
   public createdBy: number;
 
-  @Column({ type: 'bigint', unsigned: true, transformer: new BigintTransformer() })
+  @Column({ type: 'bigint', unsigned: true, transformer: new BigintTransformer(), comment: '수정자' })
   public updatedBy: number;
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', transformer: new LocalDateTimeTransformer() })
+  @Column({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+    transformer: new LocalDateTimeTransformer(),
+    comment: '생성 일시',
+  })
   public createdAt: LocalDateTime;
 
   @Column({
@@ -20,6 +25,7 @@ export abstract class BaseAuditEntity extends BaseEntity {
     default: () => 'CURRENT_TIMESTAMP',
     onUpdate: 'CURRENT_TIMESTAMP',
     transformer: new LocalDateTimeTransformer(),
+    comment: '수정 일시',
   })
   public updatedAt: LocalDateTime;
 

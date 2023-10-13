@@ -15,20 +15,25 @@ import { RefreshTokenEncrypter } from '../refresh-token-encrypter.service';
 @Entity()
 export class RefreshToken extends BaseEntity {
   @Generated('increment')
-  @PrimaryColumn({ type: 'bigint', unsigned: true, transformer: new BigintTransformer() })
+  @PrimaryColumn({ type: 'bigint', unsigned: true, transformer: new BigintTransformer(), comment: '고유 식별 ID' })
   public readonly id: number;
 
   @ManyToOne(() => Member, { eager: true, createForeignKeyConstraints: false })
   @JoinColumn({ name: 'member_id' })
   public readonly member: Member;
 
-  @Column({ type: 'varchar', length: 60 })
+  @Column({ type: 'varchar', length: 60, comment: 'refresh token' })
   public token: string;
 
-  @Column({ type: 'timestamp', transformer: new LocalDateTimeTransformer() })
+  @Column({ type: 'timestamp', transformer: new LocalDateTimeTransformer(), comment: '만료 시간' })
   public readonly expiresAt: LocalDateTime;
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', transformer: new LocalDateTimeTransformer() })
+  @Column({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+    transformer: new LocalDateTimeTransformer(),
+    comment: '생성 일시',
+  })
   public createdAt: LocalDateTime;
 
   @BeforeInsert()

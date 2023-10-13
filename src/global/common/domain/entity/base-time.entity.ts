@@ -4,7 +4,12 @@ import { LocalDateTimeTransformer } from '../../infra/transformer/local-date-tim
 import { BaseEntity } from './base.entity';
 
 export abstract class BaseTimeEntity extends BaseEntity {
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', transformer: new LocalDateTimeTransformer() })
+  @Column({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+    transformer: new LocalDateTimeTransformer(),
+    comment: '생성 일시',
+  })
   createdAt: LocalDateTime;
 
   @Column({
@@ -12,6 +17,7 @@ export abstract class BaseTimeEntity extends BaseEntity {
     default: () => 'CURRENT_TIMESTAMP',
     onUpdate: 'CURRENT_TIMESTAMP',
     transformer: new LocalDateTimeTransformer(),
+    comment: '수정 일시',
   })
   updatedAt: LocalDateTime;
 

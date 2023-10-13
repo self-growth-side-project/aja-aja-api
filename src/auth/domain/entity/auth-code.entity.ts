@@ -18,26 +18,31 @@ export class AuthCode extends BaseEntity {
   private static readonly RESET_PASSWORD_TOKEN_EXPIRATION = 10;
 
   @Generated('increment')
-  @PrimaryColumn({ type: 'bigint', unsigned: true, transformer: new BigintTransformer() })
+  @PrimaryColumn({ type: 'bigint', unsigned: true, transformer: new BigintTransformer(), comment: '고유 식별 ID' })
   public readonly id: number;
 
   @ManyToOne(() => Member, { eager: true, createForeignKeyConstraints: false })
   @JoinColumn({ name: 'member_id' })
   public readonly member: Member;
 
-  @Column({ type: 'varchar', length: 30, transformer: new AuthCodeTypeTransformer() })
+  @Column({ type: 'varchar', length: 30, transformer: new AuthCodeTypeTransformer(), comment: '인증코드 Type' })
   public readonly type: AuthCodeType;
 
-  @Column({ type: 'varchar', length: 50 })
+  @Column({ type: 'varchar', length: 50, comment: '인증코드' })
   public readonly code: string;
 
-  @Column({ type: 'timestamp', transformer: new LocalDateTimeTransformer() })
+  @Column({ type: 'timestamp', transformer: new LocalDateTimeTransformer(), comment: '만료 시간' })
   public readonly expiresAt: LocalDateTime;
 
-  @Column({ type: 'tinyint', default: false, transformer: new BooleanTransformer() })
+  @Column({ type: 'tinyint', default: false, transformer: new BooleanTransformer(), comment: '인증 여부' })
   public isVerified: boolean;
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', transformer: new LocalDateTimeTransformer() })
+  @Column({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+    transformer: new LocalDateTimeTransformer(),
+    comment: '생성 일시',
+  })
   public createdAt: LocalDateTime;
 
   @BeforeInsert()
