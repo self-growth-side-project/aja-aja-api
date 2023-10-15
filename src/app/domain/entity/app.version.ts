@@ -5,7 +5,7 @@ import { AppOsType } from '../../../global/common/domain/enum/app-os-type.enum';
 import { AppOsTypeTransformer } from '../../infra/transformer/app-os-type.transformer';
 
 @Entity({ name: 'app_version' })
-export class AppVersionEntity extends BaseTimeEntity {
+export class AppVersion extends BaseTimeEntity {
   @Generated('increment')
   @PrimaryColumn({ type: 'bigint', unsigned: true, transformer: new BigintTransformer(), comment: '고유 식별 ID' })
   public readonly id: number;

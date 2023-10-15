@@ -34,7 +34,6 @@ import { BackupService } from './application/service/backup.service';
       provide: BackupRequestCommandRepository,
       useClass: TypeormBackupRequestCommandRepository,
     },
-
     {
       provide: BackupRequestQueryRepository,
       useClass: TypeormBackupRequestQueryRepository,
