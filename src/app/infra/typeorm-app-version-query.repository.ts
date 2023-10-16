@@ -3,7 +3,7 @@ import { Repository, SelectQueryBuilder } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { plainToInstance } from 'class-transformer';
 import { AppVersionQueryRepository } from '../domain/repository/app-version-query.repository';
-import { AppVersion } from '../domain/entity/app.version';
+import { AppVersion } from '../domain/entity/app-version.entity';
 import { AppVersionCondition } from '../domain/repository/dto/app-version.condition';
 import { AppVersionResponse } from '../interface/dto/response/app-version.response';
 
