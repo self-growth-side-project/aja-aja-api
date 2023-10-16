@@ -3,6 +3,8 @@ import { Injectable } from '@nestjs/common';
 import { InternalServerException } from '../../exception/internal-server.exception';
 import * as nodemailer from 'nodemailer';
 import * as process from 'process';
+import * as fs from 'fs';
+import * as path from 'path';
 
 @Injectable()
 export class NodeMailerService implements EmailService {
@@ -20,12 +22,15 @@ export class NodeMailerService implements EmailService {
     });
   }
   send(to: string, subject: string, content: string): void {
+    let template = fs.readFileSync(path.join(process.cwd(), '/src/global/infra/email/email-template.html'), 'utf8');
+    template = template.replace('{{authCode}}', content);
+
     this.transporter
       .sendMail({
         to: to,
         from: process.env.EMAIL_SENDER,
         subject: subject,
-        text: content,
+        html: template,
       })
       .catch(e => {
         console.log(e);
