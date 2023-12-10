@@ -44,7 +44,8 @@ export class TypeormGrowthQueryRepository implements GrowthQueryRepository {
       .addSelect('answer.id as _answerId')
       .addSelect('answer.content as _answerContent')
       .addSelect('question.title as _questionTitle')
-      .addSelect('question.wiseManOpinion as _wiseManOpinion');
+      .addSelect('question.wiseManOpinion as _wiseManOpinion')
+      .addSelect('question.wiseManName as _wiseManName');
 
     this.eqMemberId(queryBuilder, condition.memberId);
     this.betweenCreatedAt(queryBuilder, condition.period);
@@ -59,6 +60,7 @@ export class TypeormGrowthQueryRepository implements GrowthQueryRepository {
           result._answerContent,
           result._questionTitle,
           result._wiseManOpinion,
+          result._wiseManName,
         ),
     );
 

@@ -9,17 +9,20 @@ export class GrowthWeekItemResponse {
   @Exclude({ toPlainOnly: true }) private readonly _answerContent: string | undefined;
   @Exclude({ toPlainOnly: true }) private readonly _questionTitle: string | undefined;
   @Exclude({ toPlainOnly: true }) private readonly _wiseManOpinion: string | undefined;
+  @Exclude({ toPlainOnly: true }) public readonly _wiseManName: string | undefined;
 
   public constructor(
     answerId: number,
     answerContent: string | undefined,
     questionTitle: string | undefined,
     wiseManOpinion: string | undefined,
+    wiseManName: string | undefined,
   ) {
     this._answerId = answerId;
     this._answerContent = answerContent;
     this._questionTitle = questionTitle;
     this._wiseManOpinion = wiseManOpinion;
+    this._wiseManName = wiseManName;
   }
 
   @Expose()
@@ -41,6 +44,11 @@ export class GrowthWeekItemResponse {
   get wiseManOpinion(): string | undefined {
     return this._wiseManOpinion;
   }
+
+  @Expose()
+  get wiseManName(): string | undefined {
+    return this._wiseManName;
+  }
 }
 
 export class GrowthWeekResponse {
@@ -49,6 +57,7 @@ export class GrowthWeekResponse {
   @Exclude({ toPlainOnly: true }) private readonly _answerContent: string | undefined;
   @Exclude({ toPlainOnly: true }) private readonly _questionTitle: string | undefined;
   @Exclude({ toPlainOnly: true }) private readonly _wiseManOpinion: string | undefined;
+  @Exclude({ toPlainOnly: true }) public readonly _wiseManName: string | undefined;
 
   constructor(
     date: Date | LocalDate,
@@ -56,6 +65,7 @@ export class GrowthWeekResponse {
     answerContent?: string | undefined,
     questionTitle?: string | undefined,
     wiseManOpinion?: string | undefined,
+    wiseManName?: string | undefined,
   ) {
     this._date =
       date instanceof Date
@@ -65,6 +75,7 @@ export class GrowthWeekResponse {
     this._answerContent = answerContent;
     this._questionTitle = questionTitle;
     this._wiseManOpinion = wiseManOpinion;
+    this._wiseManName = wiseManName;
   }
 
   @Expose()
@@ -76,7 +87,13 @@ export class GrowthWeekResponse {
   @Expose()
   get item(): GrowthWeekItemResponse | null {
     return this._answerId
-      ? new GrowthWeekItemResponse(this._answerId, this._answerContent, this._questionTitle, this._wiseManOpinion)
+      ? new GrowthWeekItemResponse(
+          this._answerId,
+          this._answerContent,
+          this._questionTitle,
+          this._wiseManOpinion,
+          this._wiseManName,
+        )
       : null;
   }
 }

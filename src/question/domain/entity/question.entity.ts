@@ -16,6 +16,9 @@ export class Question extends BaseTimeEntity {
   @Column({ type: 'text', comment: '질문 내용' })
   public readonly content: string;
 
+  @Column({ type: 'varchar', length: 50, comment: '성인 이름' })
+  public readonly wiseManName: string;
+
   @Column({ type: 'text', comment: '성인의 생각' })
   public readonly wiseManOpinion: string;
 
