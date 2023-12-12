@@ -32,4 +32,7 @@ export function setNestApp<T extends INestApplication>(app: T) {
 
   //Graceful ShutDown
   app.enableShutdownHooks();
+
+  //CORS 설정
+  app.enableCors();
 }
