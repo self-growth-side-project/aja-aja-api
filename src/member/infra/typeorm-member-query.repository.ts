@@ -24,7 +24,13 @@ export class TypeormMemberQueryRepository implements MemberQueryRepository {
   async find(condition: MemberCondition): Promise<MemberResponse | null> {
     const queryBuilder = this.memberRepository
       .createQueryBuilder('member')
-      .select(['member.id as _id', 'member.email as _email', 'member.password as _password', 'member.role as _role']);
+      .select([
+        'member.id as _id',
+        'member.email as _email',
+        'member.password as _password',
+        'member.role as _role',
+        'member.createdAt as _createdAt',
+      ]);
 
     this.eqId(queryBuilder, condition.id);
     this.eqEmail(queryBuilder, condition.email);
@@ -37,7 +43,13 @@ export class TypeormMemberQueryRepository implements MemberQueryRepository {
   async findAll(condition: MemberCondition): Promise<MemberResponse[] | PagingResponse<MemberResponse> | []> {
     const queryBuilder = this.memberRepository
       .createQueryBuilder('member')
-      .select(['member.id as _id', 'member.email as _email', 'member.password as _password', 'member.role as _role']);
+      .select([
+        'member.id as _id',
+        'member.email as _email',
+        'member.password as _password',
+        'member.role as _role',
+        'member.createdAt as _createdAt',
+      ]);
 
     this.eqId(queryBuilder, condition.id);
     this.eqEmail(queryBuilder, condition.email);
