@@ -5,6 +5,8 @@ import { MemberRoleTransformer } from '../../infra/transformer/member-role.trans
 import { BigintTransformer } from '../../../global/common/infra/transformer/bigint.transformer';
 import { Member } from './member.entity';
 import { MemberCommandRepository } from '../repository/member-command.repository';
+import { LocalDateTimeTransformer } from '../../../global/common/infra/transformer/local-date-time.transformer';
+import { LocalDateTime } from '@js-joda/core';
 
 @Entity()
 export class WithdrawnMember extends BaseTimeEntity {
@@ -21,21 +23,30 @@ export class WithdrawnMember extends BaseTimeEntity {
   @Column({ type: 'varchar', length: 10, transformer: new MemberRoleTransformer(), comment: '회원 Role' })
   public readonly role: MemberRole;
 
-  private constructor(memberId: number, email: string, role: MemberRole) {
+  @Column({
+    type: 'timestamp',
+    transformer: new LocalDateTimeTransformer(),
+    precision: 3,
+    comment: '가입 일시',
+  })
+  public readonly joinedAt: LocalDateTime;
+
+  private constructor(memberId: number, email: string, role: MemberRole, joinedAt: LocalDateTime) {
     super();
     this.memberId = memberId;
     this.email = email;
     this.role = role;
+    this.joinedAt = joinedAt;
   }
-  public static of(memberId: number, email: string, role: MemberRole): WithdrawnMember {
-    return new WithdrawnMember(memberId, email, role);
+  public static of(memberId: number, email: string, role: MemberRole, joinedAt: LocalDateTime): WithdrawnMember {
+    return new WithdrawnMember(memberId, email, role, joinedAt);
   }
 
   public static async withdrawFromMember(
     member: Member,
     repository: MemberCommandRepository,
   ): Promise<WithdrawnMember> {
-    const withdrawnMember = WithdrawnMember.of(member.id, member.email, member.role);
+    const withdrawnMember = WithdrawnMember.of(member.id, member.email, member.role, member.createdAt);
 
     await repository.remove(member);
 
