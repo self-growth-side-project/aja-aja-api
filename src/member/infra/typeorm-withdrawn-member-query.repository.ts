@@ -31,6 +31,7 @@ export class TypeormWithdrawnMemberQueryRepository implements WithdrawnMemberQue
         'withdrawnMember.memberId as _memberId',
         'withdrawnMember.email as _email',
         'withdrawnMember.role as _role',
+        'withdrawnMember.joinedAt as _joinedAt',
         'withdrawnMember.createdAt as _createdAt',
       ]);
 

@@ -11,13 +11,15 @@ export class WithdrawnMemberResponse {
   @Exclude({ toPlainOnly: true }) public readonly _memberId: string;
   @Exclude({ toPlainOnly: true }) private readonly _email: string;
   @Exclude({ toPlainOnly: true }) private readonly _role: string;
+  @Exclude({ toPlainOnly: true }) private readonly _joinedAt: Date;
   @Exclude({ toPlainOnly: true }) private readonly _createdAt: Date;
 
-  constructor(id: string, memberId: string, email: string, role: string, createdAt: Date) {
+  constructor(id: string, memberId: string, email: string, role: string, joinedAt: Date, createdAt: Date) {
     this._id = id;
     this._memberId = memberId;
     this._email = email;
     this._role = role;
+    this._joinedAt = joinedAt;
     this._createdAt = createdAt;
   }
 
@@ -43,6 +45,12 @@ export class WithdrawnMemberResponse {
     }
 
     return EnumResponse.of(MemberRole.findCode(this._role));
+  }
+
+  @FromLocalDateTime()
+  @Expose()
+  get joinedAt(): LocalDateTime {
+    return TimeUtil.toLocalDateTime(this._joinedAt) as LocalDateTime;
   }
 
   @FromLocalDateTime()
