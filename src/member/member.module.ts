@@ -15,9 +15,12 @@ import { TypeormBackupRequestQueryRepository } from './infra/typeorm-backup-requ
 import { WithdrawnMemberCommandRepository } from './domain/repository/withdrawn-member-command.repository';
 import { TypeormWithdrawnMemberCommandRepository } from './infra/typeorm-withdrawn-member-command.repository';
 import { BackupService } from './application/service/backup.service';
+import { WithdrawnMemberQueryRepository } from './domain/repository/withdrawn-member-query.repository';
+import { TypeormWithdrawnMemberQueryRepository } from './infra/typeorm-withdrawn-member-query.repository';
+import { WithdrawnMember } from './domain/entity/withdrawn-member.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Member, BackupRequest])],
+  imports: [TypeOrmModule.forFeature([Member, BackupRequest, WithdrawnMember])],
   controllers: [MemberController],
   providers: [
     MemberService,
@@ -42,6 +45,10 @@ import { BackupService } from './application/service/backup.service';
       provide: WithdrawnMemberCommandRepository,
       useClass: TypeormWithdrawnMemberCommandRepository,
     },
+    {
+      provide: WithdrawnMemberQueryRepository,
+      useClass: TypeormWithdrawnMemberQueryRepository,
+    },
   ],
   exports: [
     MemberService,
@@ -53,6 +60,10 @@ import { BackupService } from './application/service/backup.service';
     {
       provide: MemberQueryRepository,
       useClass: TypeormMemberQueryRepository,
+    },
+    {
+      provide: WithdrawnMemberQueryRepository,
+      useClass: TypeormWithdrawnMemberQueryRepository,
     },
   ],
 })
