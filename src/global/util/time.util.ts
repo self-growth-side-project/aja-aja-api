@@ -10,13 +10,14 @@ import {
   nativeJs,
   ZonedDateTime,
   ZoneId,
+  ZoneOffset,
 } from '@js-joda/core';
 import '@js-joda/timezone';
 import { BadRequestException } from '../exception/bad-request.exception';
 
 export class TimeUtil {
   private static readonly DATE_FORMATTER = DateTimeFormatter.ofPattern('yyyy-MM-dd');
-  private static readonly DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern('yyyy-MM-dd HH:mm:ss');
+  private static readonly DATE_TIME_FORMATTER = DateTimeFormatter.ISO_ZONED_DATE_TIME;
   public static readonly YYYY_MM_FORMATTER = DateTimeFormatter.ofPattern('yyyy-MM');
   private static readonly UTC_ZONE_ID = ZoneId.of('UTC');
   private static readonly KST_ZONE_ID = ZoneId.of('Asia/Seoul');
@@ -29,18 +30,10 @@ export class TimeUtil {
     }
 
     if (value instanceof LocalDate) {
-      return this.format(value, this.DATE_FORMATTER);
+      return value.format(this.DATE_FORMATTER);
     }
 
-    return this.format(value, this.DATE_TIME_FORMATTER);
-  }
-
-  static format(target: LocalDate | LocalDateTime, formatter: DateTimeFormatter): string | null {
-    if (!target) {
-      return null;
-    }
-
-    return target.format(formatter);
+    return value.atOffset(ZoneOffset.UTC).format(this.DATE_TIME_FORMATTER);
   }
 
   static toDate(localDate: LocalDate | LocalDateTime): Date | null {

@@ -17,7 +17,7 @@ export class SearchMonthGrowthRequest {
 
   public toCondition(): GrowthCondition {
     if (!this.date) {
-      const todayDate = TimeUtil.format(TimeUtil.getLocalDateInKST(), TimeUtil.YYYY_MM_FORMATTER);
+      const todayDate = TimeUtil.getLocalDateInKST().format(TimeUtil.YYYY_MM_FORMATTER);
 
       if (!todayDate) {
         throw new InternalServerException(InternalServerException.ErrorCodes.FAILED_TO_GET_TODAY_LOCAL_DATE);
